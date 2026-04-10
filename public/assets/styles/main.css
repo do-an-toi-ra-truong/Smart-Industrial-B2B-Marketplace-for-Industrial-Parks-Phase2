@@ -4541,6 +4541,7 @@ section,
 # Category Header Section
 --------------------------------------------------------------*/
 .category-header {
+  padding-top: 0;
   padding-bottom: 0;
 }
 
@@ -5054,6 +5055,7 @@ section,
 --------------------------------------------------------------*/
 .category-pagination {
   padding-top: 0;
+  padding-bottom: 0;
 }
 
 .category-pagination nav {

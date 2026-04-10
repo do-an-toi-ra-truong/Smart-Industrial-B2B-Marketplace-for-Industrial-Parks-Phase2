@@ -18,7 +18,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   {/* Sorting */}
-                  <div className="product-filters isotope-filters mb-5">
+                  <div className="product-filters mb-5">
                     <ul className="d-flex flex-wrap gap-2 list-unstyled align-items-center">
                       <li
                         data-filter="*"
@@ -61,7 +61,7 @@ const HomePage = () => {
                       </li>
                     </ul>
                   </div>
-                  <div className="row g-4 isotope-container" id="company-grid">
+                  <div className="row g-4" id="company-grid">
                     <BlockProducts/>
                     <BlockProducts/>
                     <BlockProducts/>
