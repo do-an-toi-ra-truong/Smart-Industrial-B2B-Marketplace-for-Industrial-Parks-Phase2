@@ -323,7 +323,7 @@ const UserHeader = () => {
                         <NavLink to="/category">Category</NavLink>
                         </li>
                         <li>
-                        <a href="product-details.html">Product Details</a>
+                        <NavLink to="/product-detail">Product Details</NavLink>
                         </li>
                         <li>
                         <a href="cart.html">Cart</a>

@@ -1,7 +1,8 @@
-import { Routes, Route } from 'react-router-dom'
-import MainLayout from './UI/components/Users/UserLayout'
-import HomePage from './UI/pages/Users/HomePage'
-import Category from './UI/pages/Users/Category'
+import { Routes, Route } from 'react-router-dom';
+import MainLayout from './UI/components/Users/UserLayout';
+import HomePage from './UI/pages/Users/HomePage';
+import Category from './UI/pages/Users/Category';
+import ProductDetail from './UI/pages/Users/ProductDetail';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="category" element={<Category />} />
+        <Route path="product-detail" element={<ProductDetail />} />
       </Route>
     </Routes>
   )

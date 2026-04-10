@@ -1,4 +1,3 @@
-import React from "react"
 import BlockItem from "../../components/Users/BlockItem"
 
 const Category = () => {
