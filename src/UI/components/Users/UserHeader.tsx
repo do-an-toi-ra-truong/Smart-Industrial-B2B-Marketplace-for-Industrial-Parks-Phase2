@@ -314,9 +314,7 @@ const UserHeader = () => {
                     <nav id="navmenu" className="navmenu">
                     <ul>
                         <li>
-                        <a href="index.html" className="active">
-                            Home
-                        </a>
+                        <NavLink to="/">Home</NavLink>
                         </li>
                         <li>
                         <a href="about.html">About</a>
