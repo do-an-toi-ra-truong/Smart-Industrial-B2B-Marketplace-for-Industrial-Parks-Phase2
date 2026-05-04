@@ -6,7 +6,7 @@
 * License: https://bootstrapmade.com/license/
 */
 
-(function() {
+(function () {
   "use strict";
 
   /**
@@ -26,7 +26,7 @@
    * Init swiper sliders
    */
   function initSwiper() {
-    document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
+    document.querySelectorAll(".init-swiper").forEach(function (swiperElement) {
       let config = JSON.parse(
         swiperElement.querySelector(".swiper-config").innerHTML.trim()
       );
@@ -71,7 +71,7 @@
    * Toggle mobile nav dropdowns
    */
   document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
-    navmenu.addEventListener('click', function(e) {
+    navmenu.addEventListener('click', function (e) {
       e.preventDefault();
       this.parentNode.classList.toggle('active');
       this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
@@ -146,9 +146,9 @@
 
   }
 
-  document.querySelectorAll('.countdown').forEach(function(countDownItem) {
+  document.querySelectorAll('.countdown').forEach(function (countDownItem) {
     updateCountDown(countDownItem);
-    setInterval(function() {
+    setInterval(function () {
       updateCountDown(countDownItem);
     }, 1000);
   });
@@ -156,13 +156,13 @@
   /**
    * Init isotope layout and filters
    */
-  document.querySelectorAll('.isotope-layout').forEach(function(isotopeItem) {
+  document.querySelectorAll('.isotope-layout').forEach(function (isotopeItem) {
     let layout = isotopeItem.getAttribute('data-layout') ?? 'masonry';
     let filter = isotopeItem.getAttribute('data-default-filter') ?? '*';
     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
 
     let initIsotope;
-    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
+    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function () {
       initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
         itemSelector: '.isotope-item',
         layoutMode: layout,
@@ -171,8 +171,8 @@
       });
     });
 
-    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
-      filters.addEventListener('click', function() {
+    isotopeItem.querySelectorAll('.isotope-filters li').forEach(function (filters) {
+      filters.addEventListener('click', function () {
         isotopeItem.querySelector('.isotope-filters .filter-active').classList.remove('filter-active');
         this.classList.add('filter-active');
         initIsotope.arrange({
@@ -200,7 +200,7 @@
 
     // Decrease quantity buttons
     decreaseButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         const quantityInput = btn.closest('.quantity-selector').querySelector('.quantity-input');
         let currentValue = parseInt(quantityInput.value);
         if (currentValue > 1) {
@@ -211,7 +211,7 @@
 
     // Increase quantity buttons
     increaseButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         const quantityInput = btn.closest('.quantity-selector').querySelector('.quantity-input');
         let currentValue = parseInt(quantityInput.value);
         if (currentValue < parseInt(quantityInput.getAttribute('max'))) {
@@ -222,7 +222,7 @@
 
     // Manual quantity inputs
     quantityInputs.forEach(input => {
-      input.addEventListener('change', function() {
+      input.addEventListener('change', function () {
         let currentValue = parseInt(input.value);
         const min = parseInt(input.getAttribute('min'));
         const max = parseInt(input.getAttribute('max'));
@@ -238,7 +238,7 @@
 
     // Remove item buttons
     removeButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
+      btn.addEventListener('click', function () {
         btn.closest('.cart-item').remove();
       });
     });
@@ -291,7 +291,7 @@
       if (!thumbnails.length || !mainImage) return;
 
       thumbnails.forEach(thumbnail => {
-        thumbnail.addEventListener('click', function() {
+        thumbnail.addEventListener('click', function () {
           // Get image path from data attribute
           const imageSrc = this.getAttribute('data-image');
 
@@ -384,7 +384,7 @@
       updateDisplays();
 
       // Min range input event
-      minRange.addEventListener('input', function() {
+      minRange.addEventListener('input', function () {
         minValue = parseInt(this.value);
 
         // Ensure min doesn't exceed max
@@ -400,7 +400,7 @@
       });
 
       // Max range input event
-      maxRange.addEventListener('input', function() {
+      maxRange.addEventListener('input', function () {
         maxValue = parseInt(this.value);
 
         // Ensure max isn't less than min
@@ -416,7 +416,7 @@
       });
 
       // Min price input change
-      minPriceInput.addEventListener('change', function() {
+      minPriceInput.addEventListener('change', function () {
         let value = parseInt(this.value) || sliderMin;
 
         // Ensure value is within range
@@ -436,7 +436,7 @@
       });
 
       // Max price input change
-      maxPriceInput.addEventListener('change', function() {
+      maxPriceInput.addEventListener('change', function () {
         let value = parseInt(this.value) || sliderMax;
 
         // Ensure value is within range
@@ -457,7 +457,7 @@
 
       // Apply button click
       if (applyButton) {
-        applyButton.addEventListener('click', function() {
+        applyButton.addEventListener('click', function () {
           // This would typically trigger a form submission or AJAX request
           console.log(`Applying price filter: $${minValue} - $${maxValue}`);
 
@@ -527,21 +527,21 @@
 
     // Step Navigation
     nextButtons.forEach(button => {
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         const nextStep = parseInt(this.getAttribute('data-next'));
         navigateToStep(nextStep);
       });
     });
 
     prevButtons.forEach(button => {
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         const prevStep = parseInt(this.getAttribute('data-prev'));
         navigateToStep(prevStep);
       });
     });
 
     editButtons.forEach(button => {
-      button.addEventListener('click', function() {
+      button.addEventListener('click', function () {
         const editStep = parseInt(this.getAttribute('data-edit'));
         navigateToStep(editStep);
       });
@@ -549,7 +549,7 @@
 
     // Payment Method Selection for multi-step checkout
     paymentMethods.forEach(header => {
-      header.addEventListener('click', function() {
+      header.addEventListener('click', function () {
         // Get the radio input within this header
         const radio = this.querySelector('input[type="radio"]');
         if (radio) {
@@ -580,7 +580,7 @@
 
     // Order Summary Toggle (Mobile)
     if (summaryToggle) {
-      summaryToggle.addEventListener('click', function() {
+      summaryToggle.addEventListener('click', function () {
         this.classList.toggle('collapsed');
 
         if (orderSummaryContent) {
@@ -604,7 +604,7 @@
     // Form Validation for multi-step checkout
     const forms = document.querySelectorAll('.checkout-form-element');
     forms.forEach(form => {
-      form.addEventListener('submit', function(e) {
+      form.addEventListener('submit', function (e) {
         e.preventDefault();
 
         // Basic validation
@@ -704,7 +704,7 @@
     const paymentOptions = document.querySelectorAll('.payment-option input[type="radio"]');
 
     paymentOptions.forEach(option => {
-      option.addEventListener('change', function() {
+      option.addEventListener('change', function () {
         // Update active class on payment options
         document.querySelectorAll('.payment-option').forEach(opt => {
           opt.classList.remove('active');
@@ -726,7 +726,7 @@
     const checkoutForm = document.querySelector('.checkout-form');
 
     if (checkoutForm) {
-      checkoutForm.addEventListener('submit', function(e) {
+      checkoutForm.addEventListener('submit', function (e) {
         e.preventDefault();
 
         // Basic validation
@@ -796,7 +796,7 @@
       // Add input event listeners to clear validation styling when user types
       const formInputs = checkoutForm.querySelectorAll('input, select, textarea');
       formInputs.forEach(input => {
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
           if (this.value.trim()) {
             this.classList.remove('is-invalid');
           }
@@ -810,7 +810,7 @@
     // Card number input mask (format: XXXX XXXX XXXX XXXX)
     const cardNumberInput = document.getElementById('card-number');
     if (cardNumberInput) {
-      cardNumberInput.addEventListener('input', function(e) {
+      cardNumberInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 16) value = value.slice(0, 16);
 
@@ -830,7 +830,7 @@
     // Expiry date input mask (format: MM/YY)
     const expiryInput = document.getElementById('expiry');
     if (expiryInput) {
-      expiryInput.addEventListener('input', function(e) {
+      expiryInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 4) value = value.slice(0, 4);
 
@@ -846,7 +846,7 @@
     // CVV input mask (3-4 digits)
     const cvvInput = document.getElementById('cvv');
     if (cvvInput) {
-      cvvInput.addEventListener('input', function(e) {
+      cvvInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 4) value = value.slice(0, 4);
         e.target.value = value;
@@ -856,7 +856,7 @@
     // Phone number input mask
     const phoneInput = document.getElementById('phone');
     if (phoneInput) {
-      phoneInput.addEventListener('input', function(e) {
+      phoneInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 10) value = value.slice(0, 10);
 
@@ -878,7 +878,7 @@
     // ZIP code input mask (5 digits)
     const zipInput = document.getElementById('zip');
     if (zipInput) {
-      zipInput.addEventListener('input', function(e) {
+      zipInput.addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 5) value = value.slice(0, 5);
         e.target.value = value;
@@ -892,7 +892,7 @@
     const promoButton = document.querySelector('.promo-code button');
 
     if (promoInput && promoButton) {
-      promoButton.addEventListener('click', function() {
+      promoButton.addEventListener('click', function () {
         const promoCode = promoInput.value.trim();
 
         if (promoCode) {
@@ -964,12 +964,12 @@
       // Fallback for when Bootstrap JS is not loaded
       const cvvHint = document.querySelector('.cvv-hint');
       if (cvvHint) {
-        cvvHint.addEventListener('mouseenter', function() {
+        cvvHint.addEventListener('mouseenter', function () {
           this.setAttribute('data-original-title', this.getAttribute('title'));
           this.setAttribute('title', '');
         });
 
-        cvvHint.addEventListener('mouseleave', function() {
+        cvvHint.addEventListener('mouseleave', function () {
           this.setAttribute('title', this.getAttribute('data-original-title'));
         });
       }
@@ -1010,7 +1010,7 @@
       const gridTitle = document.getElementById('grid-title');
 
       zoneCards.forEach(card => {
-        card.addEventListener('click', function(e) {
+        card.addEventListener('click', function (e) {
           // Visuals
           zoneCards.forEach(b => b.classList.remove('border-primary', 'shadow-lg'));
           this.classList.add('border-primary', 'shadow-lg');
@@ -1043,7 +1043,7 @@
       // LOGIC B: Handle Quick Filter Buttons
       const filterButtons = document.querySelectorAll('.product-filters li[data-filter]');
       filterButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
           // Visuals
           filterButtons.forEach(b => b.classList.remove('filter-active', 'bg-primary', 'text-white'));
           this.classList.add('filter-active', 'bg-primary', 'text-white');
@@ -1062,7 +1062,7 @@
       // LOGIC C: Handle Modal "Apply" Button
       const applyBtn = document.getElementById('applyFilters');
       if (applyBtn) {
-        applyBtn.addEventListener('click', function() {
+        applyBtn.addEventListener('click', function () {
           const checkboxes = document.querySelectorAll('.filter-chk:checked');
           let filters = [];
 
@@ -1083,7 +1083,7 @@
       // LOGIC D: Handle Modal "Reset" Button
       const resetBtn = document.getElementById('resetFilters');
       if (resetBtn) {
-        resetBtn.addEventListener('click', function() {
+        resetBtn.addEventListener('click', function () {
           document.querySelectorAll('.filter-chk').forEach(chk => chk.checked = false);
           iso.arrange({
             filter: '*'
@@ -1154,7 +1154,6 @@
         },
       });
     }
-
   });
 
 })();

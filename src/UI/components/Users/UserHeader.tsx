@@ -1,1354 +1,994 @@
-import { NavLink } from "react-router-dom"
+import { Link } from 'react-router-dom'
 const UserHeader = () => {
+    const switchMegaCat = (_category: string) => {
+        // Handle category switching logic here
+    }
     return (
         <>
             <header id="header" className="header position-relative">
-                {/* Top Bar */}
-                <div className="top-bar py-2 d-none d-lg-block">
+            {/* Top Bar */}
+            <div className="top-bar py-2 d-none d-lg-block">
                 <div className="container-fluid container-xl">
-                    <div className="row align-items-center">
+                <div className="row align-items-center">
                     <div className="col-lg-6">
-                        <div className="d-flex align-items-center">
+                    <div className="d-flex align-items-center">
                         <div className="top-bar-item me-4">
-                            <i className="bi bi-telephone-fill me-2" />
-                            <span>Customer Support: </span>
-                            <a href="tel:+1234567890">+1 (234) 567-890</a>
+                        <i className="bi bi-telephone-fill me-2" />
+                        <span>
+                            Customer Support:
+                        </span>
+                        <a href="tel:+1234567890">
+                            0384235007
+                        </a>
                         </div>
                         <div className="top-bar-item">
-                            <i className="bi bi-envelope-fill me-2" />
-                            <a href="/cdn-cgi/l/email-protection#a1d2d4d1d1ced3d5e1c4d9c0ccd1cdc48fc2cecc">
-                            <span
-                                className="__cf_email__"
-                                data-cfemail="2e5d5b5e5e415c5a6e4b564f435e424b004d4143"
-                            >
-                                [email�protected]
-                            </span>
-                            </a>
+                        <i className="bi bi-envelope-fill me-2" />
+                        <a href="#">
+                            huy.vuquang.cit22@eiu.edu.vn
+                        </a>
                         </div>
-                        </div>
+                    </div>
                     </div>
                     <div className="col-lg-6">
-                        <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end">
                         <div className="top-bar-item me-4">
-                            <a href="track-order.html">
+                        <Link to="/track-order">
                             <i className="bi bi-truck me-2" />
                             Track Order
-                            </a>
-                        </div>
-                        <div className="top-bar-item dropdown me-4">
-                            <a
-                            href="#"
-                            className="dropdown-toggle"
-                            data-bs-toggle="dropdown"
-                            >
-                            <i className="bi bi-translate me-2" />
-                            English
-                            </a>
-                            <ul className="dropdown-menu">
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                <i className="bi bi-check2 me-2 selected-icon" />
-                                English
-                                </a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                Español
-                                </a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                Français
-                                </a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                Deutsch
-                                </a>
-                            </li>
-                            </ul>
-                        </div>
-                        <div className="top-bar-item dropdown">
-                            <a
-                            href="#"
-                            className="dropdown-toggle"
-                            data-bs-toggle="dropdown"
-                            >
-                            <i className="bi bi-currency-dollar me-2" />
-                            USD
-                            </a>
-                            <ul className="dropdown-menu">
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                <i className="bi bi-check2 me-2 selected-icon" />
-                                USD
-                                </a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                EUR
-                                </a>
-                            </li>
-                            <li>
-                                <a className="dropdown-item" href="#">
-                                GBP
-                                </a>
-                            </li>
-                            </ul>
-                        </div>
+                        </Link>
                         </div>
                     </div>
                     </div>
                 </div>
                 </div>
-                {/* Main Header */}
-                <div className="main-header">
+            </div>
+            {/* Main Header */}
+            <div className="main-header">
                 <div className="container-fluid container-xl">
-                    <div className="d-flex py-3 align-items-center justify-content-between">
+                <div className="d-flex py-3 align-items-center justify-content-between">
                     {/* Logo */}
-                    <a
-                        href="FashionStore.html"
-                        className="logo d-flex align-items-center"
-                    >
-                        {/* Uncomment the line below if you also wish to use an image logo */}
-                        {/* <img src="assets/img/logo.webp" alt=""> */}
-                        <h1 className="sitename">
-                        Fashion<span>Store</span>
-                        </h1>
-                    </a>
+                    <Link to="/" className="logo d-flex align-items-center">
+                    {/* Uncomment the line below if you also wish to use an image logo */}
+                    {/* <img src="assets/img/logo.webp" alt=""> */}
+                    <h1 className="sitename">
+                        <span>
+                        SIBMIP
+                        </span>
+                    </h1>
+                    </Link>
                     {/* Search */}
                     <form className="search-form desktop-search-form">
-                        <div className="input-group">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Search for products..."
-                        />
+                    <div className="input-group">
+                        <input type="text" className="form-control" placeholder="Search for products..." />
                         <button className="btn search-btn" type="submit">
-                            <i className="bi bi-search" />
+                        <i className="bi bi-search" />
                         </button>
-                        </div>
+                    </div>
                     </form>
                     {/* Actions */}
                     <div className="header-actions d-flex align-items-center justify-content-end">
-                        {/* Mobile Search Toggle */}
-                        <button
-                        className="header-action-btn mobile-search-toggle d-xl-none"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mobileSearch"
-                        aria-expanded="false"
-                        aria-controls="mobileSearch"
-                        >
+                    {/* Mobile Search Toggle */}
+                    <button className="header-action-btn mobile-search-toggle d-xl-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSearch" aria-expanded="false" aria-controls="mobileSearch">
                         <i className="bi bi-search" />
-                        </button>
-                        {/* Account */}
-                        <div className="dropdown account-dropdown">
+                    </button>
+                    {/* Account */}
+                    <div className="dropdown account-dropdown">
                         <button className="header-action-btn" data-bs-toggle="dropdown">
-                            <i className="bi bi-person" />
-                            <span className="action-text d-none d-md-inline-block">
+                        <i className="bi bi-person" />
+                        <span className="action-text d-none d-md-inline-block">
                             Account
-                            </span>
+                        </span>
                         </button>
                         <div className="dropdown-menu">
-                            <div className="dropdown-header">
+                        <div className="dropdown-header">
                             <h6>
-                                Welcome to <span className="sitename">FashionStore</span>
-                            </h6>
-                            <p className="mb-0">Access account &amp; manage orders</p>
-                            </div>
-                            <div className="dropdown-body">
-                            <a
-                                className="dropdown-item d-flex align-items-center"
-                                href="account.html"
-                            >
-                                <i className="bi bi-person-circle me-2" />
-                                <span>My Profile</span>
-                            </a>
-                            <a
-                                className="dropdown-item d-flex align-items-center"
-                                href="orders.html"
-                            >
-                                <i className="bi bi-bag-check me-2" />
-                                <span>My Orders</span>
-                            </a>
-                            <a
-                                className="dropdown-item d-flex align-items-center"
-                                href="wishlist.html"
-                            >
-                                <i className="bi bi-heart me-2" />
-                                <span>My Wishlist</span>
-                            </a>
-                            <a
-                                className="dropdown-item d-flex align-items-center"
-                                href="returns.html"
-                            >
-                                <i className="bi bi-arrow-return-left me-2" />
-                                <span>Returns &amp; Refunds</span>
-                            </a>
-                            <a
-                                className="dropdown-item d-flex align-items-center"
-                                href="settings.html"
-                            >
-                                <i className="bi bi-gear me-2" />
-                                <span>Settings</span>
-                            </a>
-                            </div>
-                            <div className="dropdown-footer">
-                            <a href="login.html" className="btn btn-primary w-100 mb-2">
-                                Sign In
-                            </a>
-                            <a
-                                href="register.html"
-                                className="btn btn-outline-primary w-100"
-                            >
-                                Register
-                            </a>
-                            </div>
-                        </div>
-                        </div>
-                        {/* Wishlist */}
-                        <a
-                        href="wishlist.html"
-                        className="header-action-btn d-none d-md-flex"
-                        >
-                        <i className="bi bi-heart" />
-                        <span className="action-text d-none d-md-inline-block">
-                            Wishlist
-                        </span>
-                        <span className="badge">0</span>
-                        </a>
-                        {/* Cart */}
-                        <div className="dropdown cart-dropdown">
-                        <button className="header-action-btn" data-bs-toggle="dropdown">
-                            <i className="bi bi-cart3" />
-                            <span className="action-text d-none d-md-inline-block">
-                            Cart
+                            Welcome to
+                            <span className="sitename">
+                                SIBMIP
                             </span>
-                            <span className="badge">3</span>
+                            </h6>
+                            <p className="mb-0">
+                            Access account & manage orders
+                            </p>
+                        </div>
+                        <div className="dropdown-body">
+                            <Link className="dropdown-item d-flex align-items-center" to="/account">
+                            <i className="bi bi-person-circle me-2" />
+                            <span>
+                                My Profile
+                            </span>
+                            </Link>
+                        </div>
+                        <div className="dropdown-footer">
+                            <Link to="/login" className="btn btn-primary w-100 mb-2">
+                            Sign In
+                            </Link>
+                            <Link to="/register" className="btn btn-outline-primary w-100">
+                            Register
+                            </Link>
+                        </div>
+                        </div>
+                    </div>
+                    {/* Wishlist */}
+                    {/* Cart */}
+                    <div className="dropdown cart-dropdown">
+                        <button className="header-action-btn" data-bs-toggle="dropdown">
+                        <i className="bi bi-cart3" />
+                        <span className="action-text d-none d-md-inline-block">
+                            Cart
+                        </span>
+                        <span className="badge">
+                            3
+                        </span>
                         </button>
                         <div className="dropdown-menu cart-dropdown-menu">
-                            <div className="dropdown-header">
-                            <h6>Shopping Cart (3)</h6>
-                            </div>
-                            <div className="dropdown-body">
+                        <div className="dropdown-header">
+                            <h6>
+                            Shopping Cart (3)
+                            </h6>
+                        </div>
+                        <div className="dropdown-body">
                             <div className="cart-items">
-                                {/* Cart Item 1 */}
-                                <div className="cart-item">
+                            {/* Cart Item 1 */}
+                            <div className="cart-item">
                                 <div className="cart-item-image">
-                                    <img
-                                    src="/assets/images/product-1.webp"
-                                    alt="Product"
-                                    className="img-fluid"
-                                    />
+                                <img src="assets/images/product-1.webp" alt="Product" className="img-fluid" />
                                 </div>
                                 <div className="cart-item-content">
-                                    <h6 className="cart-item-title">Wireless Headphones</h6>
-                                    <div className="cart-item-meta">1 × $89.99</div>
+                                <h6 className="cart-item-title">
+                                    Wireless Headphones
+                                </h6>
+                                <div className="cart-item-meta">
+                                    1 × $89.99
+                                </div>
                                 </div>
                                 <button className="cart-item-remove">
-                                    <i className="bi bi-x" />
+                                <i className="bi bi-x" />
                                 </button>
-                                </div>
-                                {/* Cart Item 2 */}
-                                <div className="cart-item">
+                            </div>
+                            {/* Cart Item 2 */}
+                            <div className="cart-item">
                                 <div className="cart-item-image">
-                                    <img
-                                    src="/assets/images/product-2.webp"
-                                    alt="Product"
-                                    className="img-fluid"
-                                    />
+                                <img src="assets/images/product-2.webp" alt="Product" className="img-fluid" />
                                 </div>
                                 <div className="cart-item-content">
-                                    <h6 className="cart-item-title">Smart Watch</h6>
-                                    <div className="cart-item-meta">1 × $129.99</div>
+                                <h6 className="cart-item-title">
+                                    Smart Watch
+                                </h6>
+                                <div className="cart-item-meta">
+                                    1 × $129.99
+                                </div>
                                 </div>
                                 <button className="cart-item-remove">
-                                    <i className="bi bi-x" />
+                                <i className="bi bi-x" />
                                 </button>
-                                </div>
-                                {/* Cart Item 3 */}
-                                <div className="cart-item">
+                            </div>
+                            {/* Cart Item 3 */}
+                            <div className="cart-item">
                                 <div className="cart-item-image">
-                                    <img
-                                    src="/assets/images/product-3.webp"
-                                    alt="Product"
-                                    className="img-fluid"
-                                    />
+                                <img src="assets/images/product-3.webp" alt="Product" className="img-fluid" />
                                 </div>
                                 <div className="cart-item-content">
-                                    <h6 className="cart-item-title">Bluetooth Speaker</h6>
-                                    <div className="cart-item-meta">1 × $59.99</div>
+                                <h6 className="cart-item-title">
+                                    Bluetooth Speaker
+                                </h6>
+                                <div className="cart-item-meta">
+                                    1 × $59.99
+                                </div>
                                 </div>
                                 <button className="cart-item-remove">
-                                    <i className="bi bi-x" />
+                                <i className="bi bi-x" />
                                 </button>
-                                </div>
                             </div>
                             </div>
-                            <div className="dropdown-footer">
+                        </div>
+                        <div className="dropdown-footer">
                             <div className="cart-total">
-                                <span>Total:</span>
-                                <span className="cart-total-price">$279.97</span>
+                            <span>
+                                Total:
+                            </span>
+                            <span className="cart-total-price">
+                                $279.97
+                            </span>
                             </div>
                             <div className="cart-actions">
-                                <a href="cart.html" className="btn btn-outline-primary">
+                            <Link to="/cart" className="btn btn-outline-primary">
                                 View Cart
-                                </a>
-                                <a href="checkout.html" className="btn btn-primary">
+                            </Link>
+                            <Link to="/checkout" className="btn btn-primary">
                                 Checkout
-                                </a>
-                            </div>
+                            </Link>
                             </div>
                         </div>
                         </div>
-                        {/* Mobile Navigation Toggle */}
-                        <i className="mobile-nav-toggle d-xl-none bi bi-list me-0" />
                     </div>
+                    {/* Mobile Navigation Toggle */}
+                    <i className="mobile-nav-toggle d-xl-none bi bi-list me-0" />
                     </div>
                 </div>
                 </div>
-                {/* Navigation */}
-                <div className="header-nav">
+            </div>
+            {/* Navigation */}
+            <div className="header-nav">
                 <div className="container-fluid container-xl position-relative">
-                    <nav id="navmenu" className="navmenu">
+                <nav id="navmenu" className="navmenu">
                     <ul>
-                        <li>
-                        <NavLink to="/">Home</NavLink>
-                        </li>
-                        <li>
-                        <a href="about.html">About</a>
-                        </li>
-                        <li>
-                        <NavLink to="/category">Category</NavLink>
-                        </li>
-                        <li>
-                        <a href="product-details.html">Product Details</a>
-                        </li>
-                        <li>
-                        <a href="cart.html">Cart</a>
-                        </li>
-                        <li>
-                        <a href="checkout.html">Checkout</a>
-                        </li>
-                        <li className="dropdown">
-                        <a href="#">
-                            <span>Dropdown</span>{" "}
-                            <i className="bi bi-chevron-down toggle-dropdown" />
+                    <li>
+                        <Link to="/">
+                        Home
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/about">
+                        About
+                        </Link>
+                    </li>
+                    <li className="megamenu-trigger" id="nav-categories">
+                        <a href="#" className="megamenu-toggle">
+                        <i className="bi bi-grid-3x3-gap-fill me-1" />
+                        <span>
+                            Category
+                        </span>
+                        <i className="bi bi-chevron-down ms-1 toggle-dropdown" />
                         </a>
-                        <ul>
-                            <li>
-                            <a href="#">Dropdown 1</a>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Deep Dropdown</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Deep Dropdown 1</a>
-                                </li>
-                                <li>
-                                <a href="#">Deep Dropdown 2</a>
-                                </li>
-                                <li>
-                                <a href="#">Deep Dropdown 3</a>
-                                </li>
-                                <li>
-                                <a href="#">Deep Dropdown 4</a>
-                                </li>
-                                <li>
-                                <a href="#">Deep Dropdown 5</a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li>
-                            <a href="#">Dropdown 2</a>
-                            </li>
-                            <li>
-                            <a href="#">Dropdown 3</a>
-                            </li>
-                            <li>
-                            <a href="#">Dropdown 4</a>
-                            </li>
-                        </ul>
-                        </li>
-                        {/* Products Mega Menu 1 */}
-                        <li className="products-megamenu-1">
-                        <a href="#">
-                            <span>Megamenu 1</span>{" "}
-                            <i className="bi bi-chevron-down toggle-dropdown" />
-                        </a>
-                        {/* Products Mega Menu 1 Mobile View */}
-                        <ul className="mobile-megamenu">
-                            <li>
-                            <a href="#">Featured Products</a>
-                            </li>
-                            <li>
-                            <a href="#">New Arrivals</a>
-                            </li>
-                            <li>
-                            <a href="#">Sale Items</a>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Clothing</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Men's Wear</a>
-                                </li>
-                                <li>
-                                <a href="#">Women's Wear</a>
-                                </li>
-                                <li>
-                                <a href="#">Kids Collection</a>
-                                </li>
-                                <li>
-                                <a href="#">Sportswear</a>
-                                </li>
-                                <li>
-                                <a href="#">Accessories</a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Electronics</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Smartphones</a>
-                                </li>
-                                <li>
-                                <a href="#">Laptops</a>
-                                </li>
-                                <li>
-                                <a href="#">Audio Devices</a>
-                                </li>
-                                <li>
-                                <a href="#">Smart Home</a>
-                                </li>
-                                <li>
-                                <a href="#">Accessories</a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Home &amp; Living</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Furniture</a>
-                                </li>
-                                <li>
-                                <a href="#">Decor</a>
-                                </li>
-                                <li>
-                                <a href="#">Kitchen</a>
-                                </li>
-                                <li>
-                                <a href="#">Bedding</a>
-                                </li>
-                                <li>
-                                <a href="#">Lighting</a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Beauty</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Skincare</a>
-                                </li>
-                                <li>
-                                <a href="#">Makeup</a>
-                                </li>
-                                <li>
-                                <a href="#">Haircare</a>
-                                </li>
-                                <li>
-                                <a href="#">Fragrances</a>
-                                </li>
-                                <li>
-                                <a href="#">Personal Care</a>
-                                </li>
-                            </ul>
-                            </li>
-                        </ul>
-                        {/* End Products Mega Menu 1 Mobile View */}
-                        {/* Products Mega Menu 1 Desktop View */}
-                        <div className="desktop-megamenu">
-                            <div className="megamenu-tabs">
-                            <ul
-                                className="nav nav-tabs"
-                                id="productMegaMenuTabs"
-                                role="tablist"
-                            >
-                                <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link active"
-                                    id="featured-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#featured-content-1862"
-                                    type="button"
-                                    aria-selected="true"
-                                    role="tab"
-                                >
-                                    Featured
-                                </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="new-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#new-content-1862"
-                                    type="button"
-                                    aria-selected="false"
-                                    tabIndex={-1}
-                                    role="tab"
-                                >
-                                    New Arrivals
-                                </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="sale-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#sale-content-1862"
-                                    type="button"
-                                    aria-selected="false"
-                                    tabIndex={-1}
-                                    role="tab"
-                                >
-                                    Sale
-                                </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="category-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#category-content-1862"
-                                    type="button"
-                                    aria-selected="false"
-                                    tabIndex={-1}
-                                    role="tab"
-                                >
-                                    Categories
-                                </button>
-                                </li>
-                            </ul>
+                        {/* Mega Panel */}
+                        <div className="category-megapanel" id="categoryMegaPanel">
+                        <div className="megapanel-inner">
+                            {/* LEFT: Category sidebar */}
+                            <div className="megapanel-sidebar">
+                            <div className="mgs-item active" data-cat="electronics" onMouseEnter={() => switchMegaCat('electronics')}>
+                                <i className="bi bi-cpu-fill" />
+                                <span>
+                                Electronics & Components
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
                             </div>
-                            {/* Tabs Content */}
-                            <div className="megamenu-content tab-content">
-                            {/* Featured Tab */}
-                            <div
-                                className="tab-pane fade show active"
-                                id="featured-content-1862"
-                                role="tabpanel"
-                                aria-labelledby="featured-tab"
-                            >
-                                <div className="product-grid">
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-1.webp"
-                                        alt="Featured Product"
-                                        loading="lazy"
-                                    />
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Premium Headphones</h5>
-                                    <p className="price">$129.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-2.webp"
-                                        alt="Featured Product"
-                                        loading="lazy"
-                                    />
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Smart Watch</h5>
-                                    <p className="price">$199.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-3.webp"
-                                        alt="Featured Product"
-                                        loading="lazy"
-                                    />
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Wireless Earbuds</h5>
-                                    <p className="price">$89.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-4.webp"
-                                        alt="Featured Product"
-                                        loading="lazy"
-                                    />
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Bluetooth Speaker</h5>
-                                    <p className="price">$79.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
+                            <div className="mgs-item" data-cat="raw-materials" onMouseEnter={() => switchMegaCat('raw-materials')}>
+                                <i className="bi bi-layers-fill" />
+                                <span>
+                                Raw Materials
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
                             </div>
-                            {/* New Arrivals Tab */}
-                            <div
-                                className="tab-pane fade"
-                                id="new-content-1862"
-                                role="tabpanel"
-                                aria-labelledby="new-tab"
-                            >
-                                <div className="product-grid">
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-5.webp"
-                                        alt="New Arrival"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-new">New</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Fitness Tracker</h5>
-                                    <p className="price">$69.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-6.webp"
-                                        alt="New Arrival"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-new">New</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Wireless Charger</h5>
-                                    <p className="price">$39.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-7.webp"
-                                        alt="New Arrival"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-new">New</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Smart Bulb Set</h5>
-                                    <p className="price">$49.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-8.webp"
-                                        alt="New Arrival"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-new">New</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Portable Power Bank</h5>
-                                    <p className="price">$59.99</p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
+                            <div className="mgs-item" data-cat="chemicals" onMouseEnter={() => switchMegaCat('chemicals')}>
+                                <i className="bi bi-droplet-fill" />
+                                <span>
+                                Chemicals
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
                             </div>
-                            {/* Sale Tab */}
-                            <div
-                                className="tab-pane fade"
-                                id="sale-content-1862"
-                                role="tabpanel"
-                                aria-labelledby="sale-tab"
-                            >
-                                <div className="product-grid">
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-9.webp"
-                                        alt="Sale Product"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-sale">-30%</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Wireless Keyboard</h5>
-                                    <p className="price">
-                                        <span className="original-price">$89.99</span>{" "}
-                                        $62.99
-                                    </p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-10.webp"
-                                        alt="Sale Product"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-sale">-25%</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Gaming Mouse</h5>
-                                    <p className="price">
-                                        <span className="original-price">$59.99</span>{" "}
-                                        $44.99
-                                    </p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-11.webp"
-                                        alt="Sale Product"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-sale">-40%</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>Desk Lamp</h5>
-                                    <p className="price">
-                                        <span className="original-price">$49.99</span>{" "}
-                                        $29.99
-                                    </p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                <div className="product-card">
-                                    <div className="product-image">
-                                    <img
-                                        src="/assets/images/product-12.webp"
-                                        alt="Sale Product"
-                                        loading="lazy"
-                                    />
-                                    <span className="badge-sale">-20%</span>
-                                    </div>
-                                    <div className="product-info">
-                                    <h5>USB-C Hub</h5>
-                                    <p className="price">
-                                        <span className="original-price">$39.99</span>{" "}
-                                        $31.99
-                                    </p>
-                                    <a href="#" className="btn-view">
-                                        View Product
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
+                            <div className="mgs-item" data-cat="machinery" onMouseEnter={() => switchMegaCat('machinery')}>
+                                <i className="bi bi-gear-wide-connected" />
+                                <span>
+                                Machinery & Equipment
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
                             </div>
-                            {/* Categories Tab */}
-                            <div
-                                className="tab-pane fade"
-                                id="category-content-1862"
-                                role="tabpanel"
-                                aria-labelledby="category-tab"
-                            >
-                                <div className="category-grid">
-                                <div className="category-column">
-                                    <h4>Clothing</h4>
-                                    <ul>
-                                    <li>
-                                        <a href="#">Men's Wear</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Women's Wear</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Kids Collection</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Sportswear</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Accessories</a>
-                                    </li>
-                                    </ul>
-                                </div>
-                                <div className="category-column">
-                                    <h4>Electronics</h4>
-                                    <ul>
-                                    <li>
-                                        <a href="#">Smartphones</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Laptops</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Audio Devices</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Smart Home</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Accessories</a>
-                                    </li>
-                                    </ul>
-                                </div>
-                                <div className="category-column">
-                                    <h4>Home &amp; Living</h4>
-                                    <ul>
-                                    <li>
-                                        <a href="#">Furniture</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Decor</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Kitchen</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Bedding</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Lighting</a>
-                                    </li>
-                                    </ul>
-                                </div>
-                                <div className="category-column">
-                                    <h4>Beauty</h4>
-                                    <ul>
-                                    <li>
-                                        <a href="#">Skincare</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Makeup</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Haircare</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fragrances</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Personal Care</a>
-                                    </li>
-                                    </ul>
-                                </div>
-                                </div>
+                            <div className="mgs-item" data-cat="automotive" onMouseEnter={() => switchMegaCat('automotive')}>
+                                <i className="bi bi-car-front-fill" />
+                                <span>
+                                Automotive
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
+                            </div>
+                            <div className="mgs-item" data-cat="textiles" onMouseEnter={() => switchMegaCat('textiles')}>
+                                <i className="bi bi-scissors" />
+                                <span>
+                                Textiles & Fabrics
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
+                            </div>
+                            <div className="mgs-item" data-cat="food-agri" onMouseEnter={() => switchMegaCat('food-agri')}>
+                                <i className="bi bi-basket-fill" />
+                                <span>
+                                Food & Agriculture
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
+                            </div>
+                            <div className="mgs-item" data-cat="packaging" onMouseEnter={() => switchMegaCat('packaging')}>
+                                <i className="bi bi-box-fill" />
+                                <span>
+                                Packaging & Logistics
+                                </span>
+                                <i className="bi bi-chevron-right ms-auto" />
                             </div>
                             </div>
+                            {/* RIGHT: Sub-content panels */}
+                            <div className="megapanel-content">
+                            {/* Electronics Panel */}
+                            <div className="mgc-panel active" data-panel="electronics">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Loại sản phẩm
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-phone" />
+                                    Smartphones & Tablets
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-laptop" />
+                                    Laptops & Computers
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-headphones" />
+                                    Audio & Wearables
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-camera" />
+                                    Cameras & Optics
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-house-gear" />
+                                    Smart Home Devices
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-plug" />
+                                    Power Supplies & UPS
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Linh kiện điện tử
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-cpu" />
+                                    IC & Microcontrollers
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-broadcast" />
+                                    Sensors & Modules
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-lightning-charge" />
+                                    Capacitors & Resistors
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-usb-drive" />
+                                    Connectors & Cables
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-motherboard" />
+                                    PCB & Assemblies
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Thương hiệu phổ biến
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    Siemens
+                                    </span>
+                                    <span className="brand-tag">
+                                    ABB
+                                    </span>
+                                    <span className="brand-tag">
+                                    Schneider
+                                    </span>
+                                    <span className="brand-tag">
+                                    Mitsubishi
+                                    </span>
+                                    <span className="brand-tag">
+                                    Omron
+                                    </span>
+                                    <span className="brand-tag">
+                                    Samsung
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Electronics
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            {/* Raw Materials Panel */}
+                            <div className="mgc-panel" data-panel="raw-materials">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Kim loại
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-layers" />
+                                    Thép & Sắt
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-brightness-high" />
+                                    Nhôm & Hợp kim
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-gem" />
+                                    Đồng & Inox
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-circle-half" />
+                                    Kim loại màu
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Phi kim loại
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-circle-half" />
+                                    Nhựa & Polymer
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-tree" />
+                                    Gỗ & Giấy
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-droplet" />
+                                    Cao su & Silicone
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-gem" />
+                                    Khoáng sản & Quặng
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-moisture" />
+                                    Sợi Carbon & Composite
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Tiêu chuẩn phổ biến
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    ASTM A36
+                                    </span>
+                                    <span className="brand-tag">
+                                    SUS304
+                                    </span>
+                                    <span className="brand-tag">
+                                    6061-T6
+                                    </span>
+                                    <span className="brand-tag">
+                                    SS400
+                                    </span>
+                                    <span className="brand-tag">
+                                    JIS G3101
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Raw Materials
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            {/* Chemicals Panel */}
+                            <div className="mgc-panel" data-panel="chemicals">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Hóa chất CN
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-moisture" />
+                                    Hóa chất công nghiệp
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-cup-hot" />
+                                    Sơn & Keo dán
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-recycle" />
+                                    Dung môi & Tẩy rửa
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-shield-check" />
+                                    Hóa chất an toàn
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Chuyên ngành
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-flower1" />
+                                    Nông hóa phẩm
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-capsule" />
+                                    Hóa chất đặc biệt
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-droplet-half" />
+                                    Chất xúc tác
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-thermometer" />
+                                    Chất bôi trơn
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Chứng nhận
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    ISO 9001
+                                    </span>
+                                    <span className="brand-tag">
+                                    REACH
+                                    </span>
+                                    <span className="brand-tag">
+                                    FDA
+                                    </span>
+                                    <span className="brand-tag">
+                                    RoHS
+                                    </span>
+                                    <span className="brand-tag">
+                                    GHS
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Chemicals
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            {/* Machinery Panel */}
+                            <div className="mgc-panel" data-panel="machinery">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Máy gia công
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-gear" />
+                                    Máy CNC
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-robot" />
+                                    Robot công nghiệp
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-tools" />
+                                    Thiết bị gia công kim loại
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-wrench" />
+                                    Dụng cụ bảo trì
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Thiết bị năng lượng
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-lightning-charge" />
+                                    Máy phát điện
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-wind" />
+                                    Bơm & Máy nén khí
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-fan" />
+                                    Hệ thống HVAC
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-water" />
+                                    Máy bơm thủy lực
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Thương hiệu
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    Fanuc
+                                    </span>
+                                    <span className="brand-tag">
+                                    Yaskawa
+                                    </span>
+                                    <span className="brand-tag">
+                                    KUKA
+                                    </span>
+                                    <span className="brand-tag">
+                                    Haas
+                                    </span>
+                                    <span className="brand-tag">
+                                    Grundfos
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Machinery
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            {/* Automotive Panel */}
+                            <div className="mgc-panel" data-panel="automotive">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Phụ tùng xe
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-gear-wide" />
+                                    Phụ tùng & Linh kiện
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-car-front" />
+                                    Phụ kiện xe hơi
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-fuel-pump" />
+                                    Động cơ & Hộp số
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-cone-striped" />
+                                    Lốp & Cao su
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Xe điện (EV)
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-battery-charging" />
+                                    Pin & BMS
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-lightning" />
+                                    Motor điện
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-ev-station" />
+                                    Sạc EV
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-cpu" />
+                                    ECU & điều khiển
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Thương hiệu
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    Bosch
+                                    </span>
+                                    <span className="brand-tag">
+                                    Denso
+                                    </span>
+                                    <span className="brand-tag">
+                                    Continental
+                                    </span>
+                                    <span className="brand-tag">
+                                    ZF
+                                    </span>
+                                    <span className="brand-tag">
+                                    NGK
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Automotive
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            {/* Textiles Panel */}
+                            <div className="mgc-panel" data-panel="textiles">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Sợi & Vải
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-threads" />
+                                    Sợi & Chỉ
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-grid-3x3-gap" />
+                                    Vải dệt & đan
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-scissors" />
+                                    Quần áo may mặc
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-bag-fill" />
+                                    Vải kỹ thuật
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Vải chuyên dụng
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-shield" />
+                                    Vải bảo hộ
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-stars" />
+                                    Vải kỹ thuật cao
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-water" />
+                                    Vải chống thấm
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-thermometer-half" />
+                                    Vải chịu nhiệt
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Nguyên liệu
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    Cotton
+                                    </span>
+                                    <span className="brand-tag">
+                                    Polyester
+                                    </span>
+                                    <span className="brand-tag">
+                                    Nylon
+                                    </span>
+                                    <span className="brand-tag">
+                                    Viscose
+                                    </span>
+                                    <span className="brand-tag">
+                                    Spandex
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Textiles
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            {/* Food & Agri Panel */}
+                            <div className="mgc-panel" data-panel="food-agri">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Thực phẩm
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-basket" />
+                                    Lúa gạo & Ngũ cốc
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-flower2" />
+                                    Rau củ quả tươi
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-egg-fried" />
+                                    Thực phẩm chế biến
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-water" />
+                                    Thủy hải sản
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Nông nghiệp
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-bug" />
+                                    Vật tư nông nghiệp
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-tree" />
+                                    Cây giống & Hạt giống
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-droplet" />
+                                    Phân bón & Thuốc BVTV
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-gear" />
+                                    Máy nông nghiệp
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Chứng nhận
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    HACCP
+                                    </span>
+                                    <span className="brand-tag">
+                                    VietGAP
+                                    </span>
+                                    <span className="brand-tag">
+                                    GlobalGAP
+                                    </span>
+                                    <span className="brand-tag">
+                                    Organic
+                                    </span>
+                                    <span className="brand-tag">
+                                    Halal
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Food & Agri
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            {/* Packaging Panel */}
+                            <div className="mgc-panel" data-panel="packaging">
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Bao bì cứng
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-box-seam" />
+                                    Thùng & Hộp carton
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-cup" />
+                                    Chai & Lọ nhựa
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-grid" />
+                                    Pallet & Khung gỗ
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-shield" />
+                                    Bảo vệ & Chèn lót
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Bao bì mềm
+                                </div>
+                                <div className="mgc-links">
+                                    <a href="#">
+                                    <i className="bi bi-bag" />
+                                    Túi & Bao linh hoạt
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-tag" />
+                                    Nhãn & In ấn
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-layers" />
+                                    Màng & Cuộn co
+                                    </a>
+                                    <a href="#">
+                                    <i className="bi bi-recycle" />
+                                    Bao bì thân thiện MT
+                                    </a>
+                                </div>
+                                </div>
+                                <div className="mgc-group">
+                                <div className="mgc-group-title">
+                                    Vật liệu
+                                </div>
+                                <div className="mgc-brands">
+                                    <span className="brand-tag">
+                                    PE/PP
+                                    </span>
+                                    <span className="brand-tag">
+                                    PET
+                                    </span>
+                                    <span className="brand-tag">
+                                    Kraft
+                                    </span>
+                                    <span className="brand-tag">
+                                    Corrugated
+                                    </span>
+                                    <span className="brand-tag">
+                                    Biodegradable
+                                    </span>
+                                </div>
+                                </div>
+                                <Link to="/category" className="mgc-view-all">
+                                Xem tất cả Packaging
+                                <i className="bi bi-arrow-right" />
+                                </Link>
+                            </div>
+                            </div>
+                            {/* end megapanel-content */}
                         </div>
-                        {/* End Products Mega Menu 1 Desktop View */}
-                        </li>
-                        {/* End Products Mega Menu 1 */}
-                        {/* Products Mega Menu 2 */}
-                        <li className="products-megamenu-2">
-                        <a href="#">
-                            <span>Megamenu 2</span>{" "}
-                            <i className="bi bi-chevron-down toggle-dropdown" />
-                        </a>
-                        {/* Products Mega Menu 2 Mobile View */}
-                        <ul className="mobile-megamenu">
-                            <li>
-                            <a href="#">Women</a>
-                            </li>
-                            <li>
-                            <a href="#">Men</a>
-                            </li>
-                            <li>
-                            <a href="#">Kids'</a>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Clothing</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Shirts &amp; Tops</a>
-                                </li>
-                                <li>
-                                <a href="#">Coats &amp; Outerwear</a>
-                                </li>
-                                <li>
-                                <a href="#">Underwear</a>
-                                </li>
-                                <li>
-                                <a href="#">Sweatshirts</a>
-                                </li>
-                                <li>
-                                <a href="#">Dresses</a>
-                                </li>
-                                <li>
-                                <a href="#">Swimwear</a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Shoes</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Boots</a>
-                                </li>
-                                <li>
-                                <a href="#">Sandals</a>
-                                </li>
-                                <li>
-                                <a href="#">Heels</a>
-                                </li>
-                                <li>
-                                <a href="#">Loafers</a>
-                                </li>
-                                <li>
-                                <a href="#">Slippers</a>
-                                </li>
-                                <li>
-                                <a href="#">Oxfords</a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Accessories</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Handbags</a>
-                                </li>
-                                <li>
-                                <a href="#">Eyewear</a>
-                                </li>
-                                <li>
-                                <a href="#">Hats</a>
-                                </li>
-                                <li>
-                                <a href="#">Watches</a>
-                                </li>
-                                <li>
-                                <a href="#">Jewelry</a>
-                                </li>
-                                <li>
-                                <a href="#">Belts</a>
-                                </li>
-                            </ul>
-                            </li>
-                            <li className="dropdown">
-                            <a href="#">
-                                <span>Specialty Sizes</span>{" "}
-                                <i className="bi bi-chevron-down toggle-dropdown" />
-                            </a>
-                            <ul>
-                                <li>
-                                <a href="#">Plus Size</a>
-                                </li>
-                                <li>
-                                <a href="#">Petite</a>
-                                </li>
-                                <li>
-                                <a href="#">Wide Shoes</a>
-                                </li>
-                                <li>
-                                <a href="#">Narrow Shoes</a>
-                                </li>
-                            </ul>
-                            </li>
-                        </ul>
-                        {/* End Products Mega Menu 2 Mobile View */}
-                        {/* Products Mega Menu 2 Desktop View */}
-                        <div className="desktop-megamenu">
-                            <div className="megamenu-tabs">
-                            <ul className="nav nav-tabs" role="tablist">
-                                <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link active"
-                                    id="womens-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#womens-content-1883"
-                                    type="button"
-                                    aria-selected="true"
-                                    role="tab"
-                                >
-                                    WOMEN
-                                </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="mens-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#mens-content-1883"
-                                    type="button"
-                                    aria-selected="false"
-                                    tabIndex={-1}
-                                    role="tab"
-                                >
-                                    MEN
-                                </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="kids-tab"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#kids-content-1883"
-                                    type="button"
-                                    aria-selected="false"
-                                    tabIndex={-1}
-                                    role="tab"
-                                >
-                                    KIDS
-                                </button>
-                                </li>
-                            </ul>
-                            </div>
-                            {/* Tabs Content */}
-                            <div className="megamenu-content tab-content">
-                            {/* Women Tab */}
-                            <div
-                                className="tab-pane fade show active"
-                                id="womens-content-1883"
-                                role="tabpanel"
-                                aria-labelledby="womens-tab"
-                            >
-                                <div className="category-layout">
-                                <div className="categories-section">
-                                    <div className="category-headers">
-                                    <h4>Clothing</h4>
-                                    <h4>Shoes</h4>
-                                    <h4>Accessories</h4>
-                                    <h4>Specialty Sizes</h4>
-                                    </div>
-                                    <div className="category-links">
-                                    <div className="link-row">
-                                        <a href="#">Shirts &amp; Tops</a>
-                                        <a href="#">Boots</a>
-                                        <a href="#">Handbags</a>
-                                        <a href="#">Plus Size</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Coats &amp; Outerwear</a>
-                                        <a href="#">Sandals</a>
-                                        <a href="#">Eyewear</a>
-                                        <a href="#">Petite</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Underwear</a>
-                                        <a href="#">Heels</a>
-                                        <a href="#">Hats</a>
-                                        <a href="#">Wide Shoes</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Sweatshirts</a>
-                                        <a href="#">Loafers</a>
-                                        <a href="#">Watches</a>
-                                        <a href="#">Narrow Shoes</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Dresses</a>
-                                        <a href="#">Slippers</a>
-                                        <a href="#">Jewelry</a>
-                                        <a href="#" />
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Swimwear</a>
-                                        <a href="#">Oxfords</a>
-                                        <a href="#">Belts</a>
-                                        <a href="#" />
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">View all</a>
-                                        <a href="#">View all</a>
-                                        <a href="#">View all</a>
-                                        <a href="#" />
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="featured-section">
-                                    <div className="featured-image">
-                                    <img
-                                        src="/assets/images/product-f-1.webp"
-                                        alt="Women's Heels Collection"
-                                    />
-                                    <div className="featured-content">
-                                        <h3>
-                                        Women's
-                                        <br />
-                                        Bags
-                                        <br />
-                                        Collection
-                                        </h3>
-                                        <a href="#" className="btn-shop">
-                                        Shop now
-                                        </a>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            {/* Men Tab */}
-                            <div
-                                className="tab-pane fade"
-                                id="mens-content-1883"
-                                role="tabpanel"
-                                aria-labelledby="mens-tab"
-                            >
-                                <div className="category-layout">
-                                <div className="categories-section">
-                                    <div className="category-headers">
-                                    <h4>Clothing</h4>
-                                    <h4>Shoes</h4>
-                                    <h4>Accessories</h4>
-                                    <h4>Specialty Sizes</h4>
-                                    </div>
-                                    <div className="category-links">
-                                    <div className="link-row">
-                                        <a href="#">Shirts &amp; Polos</a>
-                                        <a href="#">Sneakers</a>
-                                        <a href="#">Watches</a>
-                                        <a href="#">Big &amp; Tall</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Jackets &amp; Coats</a>
-                                        <a href="#">Boots</a>
-                                        <a href="#">Belts</a>
-                                        <a href="#">Slim Fit</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Underwear</a>
-                                        <a href="#">Loafers</a>
-                                        <a href="#">Ties</a>
-                                        <a href="#">Wide Shoes</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Hoodies</a>
-                                        <a href="#">Dress Shoes</a>
-                                        <a href="#">Wallets</a>
-                                        <a href="#">Extended Sizes</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Suits</a>
-                                        <a href="#">Sandals</a>
-                                        <a href="#">Sunglasses</a>
-                                        <a href="#" />
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Activewear</a>
-                                        <a href="#">Slippers</a>
-                                        <a href="#">Hats</a>
-                                        <a href="#" />
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">View all</a>
-                                        <a href="#">View all</a>
-                                        <a href="#">View all</a>
-                                        <a href="#" />
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="featured-section">
-                                    <div className="featured-image">
-                                    <img
-                                        src="/assets/images/product-m-4.webp"
-                                        alt="Men's Footwear Collection"
-                                    />
-                                    <div className="featured-content">
-                                        <h3>
-                                        Men's
-                                        <br />
-                                        Footwear
-                                        <br />
-                                        Collection
-                                        </h3>
-                                        <a href="#" className="btn-shop">
-                                        Shop now
-                                        </a>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            {/* Kids Tab */}
-                            <div
-                                className="tab-pane fade"
-                                id="kids-content-1883"
-                                role="tabpanel"
-                                aria-labelledby="kids-tab"
-                            >
-                                <div className="category-layout">
-                                <div className="categories-section">
-                                    <div className="category-headers">
-                                    <h4>Clothing</h4>
-                                    <h4>Shoes</h4>
-                                    <h4>Accessories</h4>
-                                    <h4>By Age</h4>
-                                    </div>
-                                    <div className="category-links">
-                                    <div className="link-row">
-                                        <a href="#">T-shirts &amp; Tops</a>
-                                        <a href="#">Sneakers</a>
-                                        <a href="#">Backpacks</a>
-                                        <a href="#">Babies (0-24 months)</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Outerwear</a>
-                                        <a href="#">Boots</a>
-                                        <a href="#">Hats &amp; Caps</a>
-                                        <a href="#">Toddlers (2-4 years)</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Pajamas</a>
-                                        <a href="#">Sandals</a>
-                                        <a href="#">Socks</a>
-                                        <a href="#">Kids (4-7 years)</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Sweatshirts</a>
-                                        <a href="#">Slippers</a>
-                                        <a href="#">Gloves</a>
-                                        <a href="#">Older Kids (8-14 years)</a>
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Dresses</a>
-                                        <a href="#">School Shoes</a>
-                                        <a href="#">Scarves</a>
-                                        <a href="#" />
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">Swimwear</a>
-                                        <a href="#">Sports Shoes</a>
-                                        <a href="#">Hair Accessories</a>
-                                        <a href="#" />
-                                    </div>
-                                    <div className="link-row">
-                                        <a href="#">View all</a>
-                                        <a href="#">View all</a>
-                                        <a href="#">View all</a>
-                                        <a href="#" />
-                                    </div>
-                                    </div>
-                                </div>
-                                <div className="featured-section">
-                                    <div className="featured-image">
-                                    <img
-                                        src="/assets/images/product-9.webp"
-                                        alt="Kids' New Arrivals"
-                                    />
-                                    <div className="featured-content">
-                                        <h3>
-                                        Kids
-                                        <br />
-                                        New
-                                        <br />
-                                        Arrivals
-                                        </h3>
-                                        <a href="#" className="btn-shop">
-                                        Shop now
-                                        </a>
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
+                        {/* end megapanel-inner */}
                         </div>
-                        {/* End Products Mega Menu 2 Desktop View */}
-                        </li>
-                        {/* End Products Mega Menu 2 */}
-                        <li>
-                        <a href="contact.html">Contact</a>
-                        </li>
+                        {/* end category-megapanel */}
+                    </li>
+                    <li>
+                        <Link to="/product-details">
+                        Product Details
+                        </Link>
+                    </li>
+                    {/* Product type */}
+                    {/* Products Mega Menu 1 */}
+                    <li>
+                        <Link to="/contact">
+                        Contact
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/rfq">
+                        Request for Quotation
+                        </Link>
+                    </li>
                     </ul>
-                    </nav>
+                </nav>
                 </div>
-                </div>
-                {/* Announcement Bar */}
-                <div className="announcement-bar py-2">
+            </div>
+            {/* Announcement Bar */}
+            <div className="announcement-bar py-2">
                 <div className="container-fluid container-xl">
-                    <div className="announcement-slider swiper init-swiper">
+                <div className="announcement-slider swiper init-swiper">
+                    <script data-cfasync="false" src="assets/libs/js/email-decode.min.js" />
+                    <script type="application/json" className="swiper-config">
+                    {`{
+                        "loop": true,
+                        "speed": 600,
+                        "autoplay": {
+                            "delay": 5000
+                        },
+                        "slidesPerView": 1,
+                        "effect": "slide",
+                        "direction": "vertical"
+                    }`}
+                    </script>
                     <div className="swiper-wrapper">
-                        <div className="swiper-slide">
+                    <div className="swiper-slide">
                         🚚 Free shipping on orders over $50
-                        </div>
-                        <div className="swiper-slide">💰 30 days money back guarantee</div>
-                        <div className="swiper-slide">
+                    </div>
+                    <div className="swiper-slide">
+                        💰 30 days money back guarantee
+                    </div>
+                    <div className="swiper-slide">
                         🎁 20% off on your first order - Use code: FIRST20
-                        </div>
-                        <div className="swiper-slide">
+                    </div>
+                    <div className="swiper-slide">
                         ⚡ Flash Sale! Up to 70% off on selected items
-                        </div>
                     </div>
                     </div>
                 </div>
                 </div>
-                {/* Mobile Search Form */}
-                <div className="collapse" id="mobileSearch">
+            </div>
+            {/* Mobile Search Form */}
+            <div className="collapse" id="mobileSearch">
                 <div className="container">
-                    <form className="search-form">
+                <form className="search-form">
                     <div className="input-group">
-                        <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search for products..."
-                        />
-                        <button className="btn search-btn" type="submit">
+                    <input type="text" className="form-control" placeholder="Search for products..." />
+                    <button className="btn search-btn" type="submit">
                         <i className="bi bi-search" />
-                        </button>
+                    </button>
                     </div>
-                    </form>
+                </form>
                 </div>
-                </div>
+            </div>
             </header>
         </>
     )
