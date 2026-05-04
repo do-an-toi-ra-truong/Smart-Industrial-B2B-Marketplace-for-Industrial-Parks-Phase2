@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const BlockItem = () => {
     return (
         <div className="col-lg-4 col-md-6">
@@ -6,14 +8,14 @@ const BlockItem = () => {
                 <span className="badge bg-success position-absolute top-0 start-0 m-3">
                     Sẵn kho
                 </span>
-                <a href="product_detail.html">
+                <Link to="/productDetails">
                     <img
                     src="/assets/images/product-1.webp"
                     alt="Bosch GSB 550"
                     className="img-fluid"
                     style={{ height: 200, objectFit: "contain" }}
                     />
-                </a>
+                </Link>
                 <div
                     className="product-overlay position-absolute bottom-0 start-0 end-0 p-2 bg-light bg-opacity-75 d-flex justify-content-center gap-2"
                     style={{
@@ -43,13 +45,13 @@ const BlockItem = () => {
                     </span>
                 </div>
                 <h5 className="product-title mb-2">
-                    <a
-                    href="product_detail.html"
+                    <Link
+                    to="/productDetails"
                     className="text-decoration-none fw-bold"
                     style={{ color: "#353535" }}
                     >
                     Máy Khoan Động Lực Bosch GSB 550 (Vali Nhựa)
-                    </a>
+                    </Link>
                 </h5>
                 <ul className="list-unstyled small text-muted mb-3">
                     <li>
