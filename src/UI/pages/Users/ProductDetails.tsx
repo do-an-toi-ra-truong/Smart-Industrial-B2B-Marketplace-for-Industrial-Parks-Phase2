@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 const ProductDetails = () => {
     return (
         <>
@@ -9,9 +9,9 @@ const ProductDetails = () => {
                 <nav className="breadcrumbs">
                     <ol>
                     <li>
-                        <a href="index.html">
+                        <NavLink to="/">
                         Home
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="current">
                         Product Details
@@ -121,10 +121,10 @@ const ProductDetails = () => {
                         {/* Product Price */}
                         <div className="product-price-container">
                         <div className="price-wrapper align-items-center d-flex">
-                            <Link to="/rfq" className="btn btn-outline-danger fw-bold py-2 px-3 shadow-sm" style={{ 'borderWidth': '2px', 'borderRadius': '8px' }}>
+                            <NavLink to="/rfq" className="btn btn-outline-danger fw-bold py-2 px-3 shadow-sm" style={{ 'borderWidth': '2px', 'borderRadius': '8px' }}>
                             <i className="bi bi-telephone-inbound-fill me-2" />
                             Bấm để nhận báo giá
-                            </Link>
+                            </NavLink>
                             <span className="ms-3 text-muted fst-italic" style={{ 'fontSize': '0.9rem' }}>
                             (Giá sỉ cho Doanh nghiệp)
                             </span>

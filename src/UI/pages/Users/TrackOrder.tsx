@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 const TrackOrder = () => {
     return (
         <>
@@ -25,10 +26,10 @@ const TrackOrder = () => {
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb mb-0">
                         <li className="breadcrumb-item">
-                            <a href="index.html">
+                            <NavLink to="/">
                             <i className="bi bi-house-fill me-1" />
                             Home
-                            </a>
+                            </NavLink>
                         </li>
                         <li className="breadcrumb-item active" aria-current="page">
                             Track Order
