@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 const UserHeader = () => {
     const switchMegaCat = (_category: string) => {
         // Handle category switching logic here
@@ -32,10 +32,10 @@ const UserHeader = () => {
                     <div className="col-lg-6">
                     <div className="d-flex justify-content-end">
                         <div className="top-bar-item me-4">
-                        <Link to="/track-order">
+                        <NavLink to="/track-order">
                             <i className="bi bi-truck me-2" />
                             Track Order
-                        </Link>
+                        </NavLink>
                         </div>
                     </div>
                     </div>
@@ -47,7 +47,7 @@ const UserHeader = () => {
                 <div className="container-fluid container-xl">
                 <div className="d-flex py-3 align-items-center justify-content-between">
                     {/* Logo */}
-                    <Link to="/" className="logo d-flex align-items-center">
+                    <NavLink to="/" className="logo d-flex align-items-center">
                     {/* Uncomment the line below if you also wish to use an image logo */}
                     {/* <img src="assets/img/logo.webp" alt=""> */}
                     <h1 className="sitename">
@@ -55,7 +55,7 @@ const UserHeader = () => {
                         SIBMIP
                         </span>
                     </h1>
-                    </Link>
+                    </NavLink>
                     {/* Search */}
                     <form className="search-form desktop-search-form">
                     <div className="input-group">
@@ -92,20 +92,20 @@ const UserHeader = () => {
                             </p>
                         </div>
                         <div className="dropdown-body">
-                            <Link className="dropdown-item d-flex align-items-center" to="/account">
+                            <NavLink className="dropdown-item d-flex align-items-center" to="/account">
                             <i className="bi bi-person-circle me-2" />
                             <span>
                                 My Profile
                             </span>
-                            </Link>
+                            </NavLink>
                         </div>
                         <div className="dropdown-footer">
-                            <Link to="/login" className="btn btn-primary w-100 mb-2">
+                            <NavLink to="/login" className="btn btn-primary w-100 mb-2">
                             Sign In
-                            </Link>
-                            <Link to="/register" className="btn btn-outline-primary w-100">
+                            </NavLink>
+                            <NavLink to="/register" className="btn btn-outline-primary w-100">
                             Register
-                            </Link>
+                            </NavLink>
                         </div>
                         </div>
                     </div>
@@ -192,12 +192,12 @@ const UserHeader = () => {
                             </span>
                             </div>
                             <div className="cart-actions">
-                            <Link to="/cart" className="btn btn-outline-primary">
+                            <NavLink to="/cart" className="btn btn-outline-primary">
                                 View Cart
-                            </Link>
-                            <Link to="/checkout" className="btn btn-primary">
+                            </NavLink>
+                            <NavLink to="/checkout" className="btn btn-primary">
                                 Checkout
-                            </Link>
+                            </NavLink>
                             </div>
                         </div>
                         </div>
@@ -214,14 +214,14 @@ const UserHeader = () => {
                 <nav id="navmenu" className="navmenu">
                     <ul>
                     <li>
-                        <Link to="/">
+                        <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
                         Home
-                        </Link>
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to="/about">
+                        <NavLink to="/about" className={({ isActive }) => isActive ? "active" : ""}>
                         About
-                        </Link>
+                        </NavLink>
                     </li>
                     <li className="megamenu-trigger" id="nav-categories">
                         <a href="#" className="megamenu-toggle">
@@ -380,10 +380,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Electronics
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             {/* Raw Materials Panel */}
                             <div className="mgc-panel" data-panel="raw-materials">
@@ -459,10 +459,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Raw Materials
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             {/* Chemicals Panel */}
                             <div className="mgc-panel" data-panel="chemicals">
@@ -534,10 +534,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Chemicals
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             {/* Machinery Panel */}
                             <div className="mgc-panel" data-panel="machinery">
@@ -609,10 +609,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Machinery
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             {/* Automotive Panel */}
                             <div className="mgc-panel" data-panel="automotive">
@@ -684,10 +684,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Automotive
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             {/* Textiles Panel */}
                             <div className="mgc-panel" data-panel="textiles">
@@ -759,10 +759,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Textiles
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             {/* Food & Agri Panel */}
                             <div className="mgc-panel" data-panel="food-agri">
@@ -834,10 +834,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Food & Agri
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             {/* Packaging Panel */}
                             <div className="mgc-panel" data-panel="packaging">
@@ -909,10 +909,10 @@ const UserHeader = () => {
                                     </span>
                                 </div>
                                 </div>
-                                <Link to="/category" className="mgc-view-all">
+                                <NavLink to="/category" className="mgc-view-all">
                                 Xem tất cả Packaging
                                 <i className="bi bi-arrow-right" />
-                                </Link>
+                                </NavLink>
                             </div>
                             </div>
                             {/* end megapanel-content */}
@@ -922,21 +922,21 @@ const UserHeader = () => {
                         {/* end category-megapanel */}
                     </li>
                     <li>
-                        <Link to="/product-details">
+                        <NavLink to="/product-details" className={({ isActive }) => isActive ? "active" : ""}>
                         Product Details
-                        </Link>
+                        </NavLink>
                     </li>
                     {/* Product type */}
                     {/* Products Mega Menu 1 */}
                     <li>
-                        <Link to="/contact">
+                        <NavLink to="/contact" className={({ isActive }) => isActive ? "active" : ""}>
                         Contact
-                        </Link>
+                        </NavLink>
                     </li>
                     <li>
-                        <Link to="/rfq">
+                        <NavLink to="/rfq" className={({ isActive }) => isActive ? "active" : ""}>
                         Request for Quotation
-                        </Link>
+                        </NavLink>
                     </li>
                     </ul>
                 </nav>

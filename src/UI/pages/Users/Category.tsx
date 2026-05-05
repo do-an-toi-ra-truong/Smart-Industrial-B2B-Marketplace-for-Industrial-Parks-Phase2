@@ -1,4 +1,5 @@
 import React from "react"
+import { NavLink } from "react-router-dom"
 import BlockItem from "../../components/Users/BlockItem"
 
 const Category = () => {
@@ -11,7 +12,7 @@ const Category = () => {
                     <nav className="breadcrumbs">
                     <ol>
                         <li>
-                        <a href="index.html">Home</a>
+                        <NavLink to="/">Home</NavLink>
                         </li>
                         <li className="current">Category</li>
                     </ol>

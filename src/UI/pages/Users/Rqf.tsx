@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Rqf = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -106,10 +107,10 @@ const Rqf = () => {
                                     báo giá trong vòng 24–48 giờ làm việc.
                                 </p>
                                 <div className="rfq-breadcrumb">
-                                    <a href="index.html">
+                                    <NavLink to="/">
                                         <i className="bi bi-house-fill me-1" />
                                         Trang chủ
-                                    </a>
+                                    </NavLink>
                                     <span className="sep">
                                         /
                                     </span>

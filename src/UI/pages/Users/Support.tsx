@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom'
 const Support = () => {
     return (
         <>
@@ -8,9 +9,9 @@ const Support = () => {
                     <nav className="breadcrumbs">
                         <ol>
                         <li>
-                            <a href="index.html">
+                            <NavLink to="/">
                             Home
-                            </a>
+                            </NavLink>
                         </li>
                         <li className="current">
                             Support
