@@ -4,6 +4,7 @@ import UserFooter from "./UserFooter"
 const UserLayout = () => {
     return (
         <>
+        
             <UserHeader />
             <main className="main">
                 <Outlet />

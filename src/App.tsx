@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, } from 'react-router-dom'
 import MainLayout from './UI/components/Users/UserLayout'
 import HomePage from './UI/pages/Users/HomePage'
 import About from './UI/pages/Users/About'
@@ -17,9 +17,14 @@ import Support from './UI/pages/Users/Support'
 import Privacy from './UI/pages/Users/Privacy'
 import ReturnPolicy from './UI/pages/Users/ReturnPolicy'
 import TermOfService from './UI/pages/Users/TermOfService'
-
+import AdminLayout from './UI/components/Admin/AdminLayout'
+import UserView from './UI/pages/Admin/UserView'
+import UserEdit from './UI/pages/Admin/UserEdit'
+import UserList from './UI/pages/Admin/UserList'
+import UserProfile from './UI/pages/Admin/UserProfile'
+import CompanyAdminDashboard from './UI/pages/Admin/CompanyAdminDashboard'
 const router = createBrowserRouter([
-  {
+{
     path: '/',
     element: <MainLayout />,
     children: [
@@ -42,6 +47,18 @@ const router = createBrowserRouter([
       { path: 'terms', element: <TermOfService /> },
     ],
   },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      { path: 'cadashboard', element: <CompanyAdminDashboard /> },
+      { path: 'users-view', element: <UserView /> },
+      { path: 'users-edit', element: <UserEdit /> },
+      { path: 'users-list', element: <UserList /> },
+      {path: 'users-profile', element: <UserProfile /> },
+       
+    ],
+  }
 ])
 
 function App() {
