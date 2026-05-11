@@ -50,9 +50,9 @@ const Login = () => {
                                 <label htmlFor="password" className="form-label">
                                     Password
                                 </label>
-                                <a href="./change-password.html" className="forgot-link">
+                                <Link to="/forgot-password" className="forgot-link">
                                     Forgot password?
-                                </a>
+                                </Link>
                                 </div>
                                 <input type="password" className="form-control" id="password" placeholder="Enter your password" required={true} autoComplete="current-password" />
                             </div>
