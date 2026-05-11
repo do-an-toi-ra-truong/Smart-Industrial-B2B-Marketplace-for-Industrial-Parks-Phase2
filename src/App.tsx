@@ -7,10 +7,10 @@ import ProductDetails from './UI/pages/Users/ProductDetails'
 import Cart from './UI/pages/Users/Cart'
 import Checkout from './UI/pages/Users/Checkout'
 import Login from './UI/pages/Users/Login'
+import ForgotPassword from './UI/pages/Users/ForgotPassword'
 import Register from './UI/pages/Users/Register'
 import Account from './UI/pages/Users/Account'
 import CompanyDetail from './UI/pages/Users/CompanyDetail'
-import TrackOrder from './UI/pages/Users/TrackOrder'
 import Rqf from './UI/pages/Users/Rqf'
 import Contact from './UI/pages/Users/Contact'
 import Support from './UI/pages/Users/Support'
@@ -30,10 +30,10 @@ const router = createBrowserRouter([
       { path: 'cart', element: <Cart /> },
       { path: 'checkout', element: <Checkout /> },
       { path: 'login', element: <Login /> },
+      { path: 'forgot-password', element: <ForgotPassword /> },
       { path: 'register', element: <Register /> },
       { path: 'account', element: <Account /> },
       { path: 'company-detail', element: <CompanyDetail /> },
-      { path: 'track-order', element: <TrackOrder /> },
       { path: 'rfq', element: <Rqf /> },
       { path: 'contact', element: <Contact /> },
       { path: 'support', element: <Support /> },
