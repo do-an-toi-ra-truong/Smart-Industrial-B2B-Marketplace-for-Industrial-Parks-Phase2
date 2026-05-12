@@ -718,7 +718,7 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            <div className="row g-4 justify-content-center">
+            <div className="row g-4 justify-content-center mt-3" style={{ marginTop: '1.5rem' }}>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
                   <div className="position-relative zone-btn" data-filter=".zone-vsip" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const BlockItem = () => {
     return (
-        <div className="col-lg-4 col-md-6">
+        <div className="col-lg-3 col-md-6">
             <div className="product-box border rounded shadow-sm h-100 bg-white">
                 <div className="product-thumb position-relative overflow-hidden p-3 text-center">
                 <span className="badge bg-success position-absolute top-0 start-0 m-3">

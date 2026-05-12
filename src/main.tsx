@@ -14,6 +14,7 @@ import './assets/styles/all.min.css'       // Font Awesome
 import './assets/styles/main.css'
 
 
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
