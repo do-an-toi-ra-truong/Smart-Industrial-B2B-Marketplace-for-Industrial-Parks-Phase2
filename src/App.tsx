@@ -30,6 +30,9 @@ import InvoiceOfSellerOrder from './UI/pages/Admin/InvoiceOfSellerOrder'
 import ReturnOrder from './UI/pages/Admin/ReturnOrder'
 import ReturnOrderDetails from './UI/pages/Admin/ReturnOrderDetails'
 import UserView from './UI/pages/Admin/UserView'
+import SAAdminLayout from './UI/components/Admin/SAAdminLayout'
+import SuperAdminDashboard from './UI/pages/Admin/SuperAdminDashboard'
+import SuperAdminAccountManagement from './UI/pages/Admin/SuperAdminAccountManagement'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -72,21 +75,13 @@ const router = createBrowserRouter([
       { path: 'return-order-details', element: <ReturnOrderDetails /> }
     ],
   },
+  // Super Admin  
   {
-    path: '/admin',
-    element: <AdminLayout />,
+    path: '/saadmin',
+    element: <SAAdminLayout />,
     children: [
-      { path: 'dashboard', element: <CompanyAdminDashboard /> },
-      { path: 'users-edit', element: <UserEdit /> },
-      { path: 'users-list', element: <UserList /> },
-      { path: 'users-profile', element: <UserProfile /> },
-      { path: 'approval-orders', element: <ApprovalOrders /> },
-      { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
-      { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
-      { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
-      { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
-      { path: 'return-orders', element: <ReturnOrder /> },
-      { path: 'return-order-details', element: <ReturnOrderDetails /> }
+      { path: 'sa-dashboard', element: <SuperAdminDashboard /> },
+      { path: 'sa-accounts', element: < SuperAdminAccountManagement /> },
     ],
   }
 ])
