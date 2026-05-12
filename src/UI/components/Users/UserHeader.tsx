@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 const UserHeader = () => {
-    const switchMegaCat = (_category: string) => {
-        // Handle category switching logic here
+    const [activeMegaCat, setActiveMegaCat] = useState('electronics');
+    const switchMegaCat = (category: string) => {
+        setActiveMegaCat(category);
     }
     return (
         <>
@@ -227,7 +229,7 @@ const UserHeader = () => {
                                         <div className="megapanel-inner">
                                             {/* LEFT: Category sidebar */}
                                             <div className="megapanel-sidebar">
-                                                <div className="mgs-item active d-flex align-items-center gap-2" data-cat="electronics" onMouseEnter={() => switchMegaCat('electronics')}>
+                                                <div className={`mgs-item${activeMegaCat === 'electronics' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="electronics" onMouseEnter={() => switchMegaCat('electronics')}>
                                                     <i className="bi bi-cpu-fill" />
                                                     <span className="text-truncate">
                                                         Electronics & Components
@@ -235,7 +237,7 @@ const UserHeader = () => {
                                                     <i className="bi bi-chevron-right ms-auto" />
                                                 </div>
 
-                                                <div className="mgs-item d-flex align-items-center gap-2" data-cat="raw-materials" onMouseEnter={() => switchMegaCat('raw-materials')}>
+                                                <div className={`mgs-item${activeMegaCat === 'raw-materials' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="raw-materials" onMouseEnter={() => switchMegaCat('raw-materials')}>
                                                     <i className="bi bi-layers-fill" />
                                                     <span className="text-truncate">
                                                         Raw Materials
@@ -243,7 +245,7 @@ const UserHeader = () => {
                                                     <i className="bi bi-chevron-right ms-auto" />
                                                 </div>
 
-                                                <div className="mgs-item d-flex align-items-center gap-2" data-cat="chemicals" onMouseEnter={() => switchMegaCat('chemicals')}>
+                                                <div className={`mgs-item${activeMegaCat === 'chemicals' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="chemicals" onMouseEnter={() => switchMegaCat('chemicals')}>
                                                     <i className="bi bi-droplet-fill" />
                                                     <span className="text-truncate">
                                                         Chemicals
@@ -251,7 +253,7 @@ const UserHeader = () => {
                                                     <i className="bi bi-chevron-right ms-auto" />
                                                 </div>
 
-                                                <div className="mgs-item d-flex align-items-center gap-2" data-cat="machinery" onMouseEnter={() => switchMegaCat('machinery')}>
+                                                <div className={`mgs-item${activeMegaCat === 'machinery' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="machinery" onMouseEnter={() => switchMegaCat('machinery')}>
                                                     <i className="bi bi-gear-wide-connected" />
                                                     <span className="text-truncate">
                                                         Machinery & Equipment
@@ -259,7 +261,7 @@ const UserHeader = () => {
                                                     <i className="bi bi-chevron-right ms-auto" />
                                                 </div>
 
-                                                <div className="mgs-item d-flex align-items-center gap-2" data-cat="automotive" onMouseEnter={() => switchMegaCat('automotive')}>
+                                                <div className={`mgs-item${activeMegaCat === 'automotive' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="automotive" onMouseEnter={() => switchMegaCat('automotive')}>
                                                     <i className="bi bi-car-front-fill" />
                                                     <span className="text-truncate">
                                                         Automotive
@@ -267,7 +269,7 @@ const UserHeader = () => {
                                                     <i className="bi bi-chevron-right ms-auto" />
                                                 </div>
 
-                                                <div className="mgs-item d-flex align-items-center gap-2" data-cat="textiles" onMouseEnter={() => switchMegaCat('textiles')}>
+                                                <div className={`mgs-item${activeMegaCat === 'textiles' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="textiles" onMouseEnter={() => switchMegaCat('textiles')}>
                                                     <i className="bi bi-scissors" />
                                                     <span className="text-truncate">
                                                         Textiles & Fabrics
@@ -275,7 +277,7 @@ const UserHeader = () => {
                                                     <i className="bi bi-chevron-right ms-auto" />
                                                 </div>
 
-                                                <div className="mgs-item d-flex align-items-center gap-2" data-cat="food-agri" onMouseEnter={() => switchMegaCat('food-agri')}>
+                                                <div className={`mgs-item${activeMegaCat === 'food-agri' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="food-agri" onMouseEnter={() => switchMegaCat('food-agri')}>
                                                     <i className="bi bi-basket-fill" />
                                                     <span className="text-truncate">
                                                         Food & Agriculture
@@ -283,7 +285,7 @@ const UserHeader = () => {
                                                     <i className="bi bi-chevron-right ms-auto" />
                                                 </div>
 
-                                                <div className="mgs-item d-flex align-items-center gap-2" data-cat="packaging" onMouseEnter={() => switchMegaCat('packaging')}>
+                                                <div className={`mgs-item${activeMegaCat === 'packaging' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="packaging" onMouseEnter={() => switchMegaCat('packaging')}>
                                                     <i className="bi bi-box-fill" />
                                                     <span className="text-truncate">
                                                         Packaging & Logistics
@@ -294,36 +296,36 @@ const UserHeader = () => {
                                             {/* RIGHT: Sub-content panels */}
                                             <div className="megapanel-content">
                                                 {/* Electronics Panel */}
-                                                <div className="mgc-panel active" data-panel="electronics">
+                                                <div className={`mgc-panel${activeMegaCat === 'electronics' ? ' active' : ''}`} data-panel="electronics">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Loại sản phẩm
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-phone" />
                                                                 Smartphones & Tablets
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-laptop" />
                                                                 Laptops & Computers
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-headphones" />
                                                                 Audio & Wearables
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-camera" />
                                                                 Cameras & Optics
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-house-gear" />
                                                                 Smart Home Devices
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-plug" />
                                                                 Power Supplies & UPS
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -331,26 +333,26 @@ const UserHeader = () => {
                                                             Linh kiện điện tử
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-cpu" />
                                                                 IC & Microcontrollers
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-broadcast" />
                                                                 Sensors & Modules
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-lightning-charge" />
                                                                 Capacitors & Resistors
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-usb-drive" />
                                                                 Connectors & Cables
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-motherboard" />
                                                                 PCB & Assemblies
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -384,28 +386,28 @@ const UserHeader = () => {
                                                     </NavLink>
                                                 </div>
                                                 {/* Raw Materials Panel */}
-                                                <div className="mgc-panel" data-panel="raw-materials">
+                                                <div className={`mgc-panel${activeMegaCat === 'raw-materials' ? ' active' : ''}`} data-panel="raw-materials">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Kim loại
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-layers" />
                                                                 Thép & Sắt
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-brightness-high" />
                                                                 Nhôm & Hợp kim
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-gem" />
                                                                 Đồng & Inox
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-circle-half" />
                                                                 Kim loại màu
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -413,26 +415,26 @@ const UserHeader = () => {
                                                             Phi kim loại
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-circle-half" />
                                                                 Nhựa & Polymer
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-tree" />
                                                                 Gỗ & Giấy
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-droplet" />
                                                                 Cao su & Silicone
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-gem" />
                                                                 Khoáng sản & Quặng
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-moisture" />
                                                                 Sợi Carbon & Composite
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -463,28 +465,28 @@ const UserHeader = () => {
                                                     </NavLink>
                                                 </div>
                                                 {/* Chemicals Panel */}
-                                                <div className="mgc-panel" data-panel="chemicals">
+                                                <div className={`mgc-panel${activeMegaCat === 'chemicals' ? ' active' : ''}`} data-panel="chemicals">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Hóa chất CN
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-moisture" />
                                                                 Hóa chất công nghiệp
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-cup-hot" />
                                                                 Sơn & Keo dán
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-recycle" />
                                                                 Dung môi & Tẩy rửa
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-shield-check" />
                                                                 Hóa chất an toàn
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -492,22 +494,22 @@ const UserHeader = () => {
                                                             Chuyên ngành
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-flower1" />
                                                                 Nông hóa phẩm
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-capsule" />
                                                                 Hóa chất đặc biệt
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-droplet-half" />
                                                                 Chất xúc tác
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-thermometer" />
                                                                 Chất bôi trơn
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -538,28 +540,28 @@ const UserHeader = () => {
                                                     </NavLink>
                                                 </div>
                                                 {/* Machinery Panel */}
-                                                <div className="mgc-panel" data-panel="machinery">
+                                                <div className={`mgc-panel${activeMegaCat === 'machinery' ? ' active' : ''}`} data-panel="machinery">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Máy gia công
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-gear" />
                                                                 Máy CNC
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-robot" />
                                                                 Robot công nghiệp
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-tools" />
                                                                 Thiết bị gia công kim loại
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-wrench" />
                                                                 Dụng cụ bảo trì
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -567,22 +569,22 @@ const UserHeader = () => {
                                                             Thiết bị năng lượng
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-lightning-charge" />
                                                                 Máy phát điện
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-wind" />
                                                                 Bơm & Máy nén khí
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-fan" />
                                                                 Hệ thống HVAC
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-water" />
                                                                 Máy bơm thủy lực
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -613,28 +615,28 @@ const UserHeader = () => {
                                                     </NavLink>
                                                 </div>
                                                 {/* Automotive Panel */}
-                                                <div className="mgc-panel" data-panel="automotive">
+                                                <div className={`mgc-panel${activeMegaCat === 'automotive' ? ' active' : ''}`} data-panel="automotive">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Phụ tùng xe
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-gear-wide" />
                                                                 Phụ tùng & Linh kiện
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-car-front" />
                                                                 Phụ kiện xe hơi
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-fuel-pump" />
                                                                 Động cơ & Hộp số
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-cone-striped" />
                                                                 Lốp & Cao su
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -642,22 +644,22 @@ const UserHeader = () => {
                                                             Xe điện (EV)
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-battery-charging" />
                                                                 Pin & BMS
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-lightning" />
                                                                 Motor điện
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-ev-station" />
                                                                 Sạc EV
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-cpu" />
                                                                 ECU & điều khiển
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -688,28 +690,28 @@ const UserHeader = () => {
                                                     </NavLink>
                                                 </div>
                                                 {/* Textiles Panel */}
-                                                <div className="mgc-panel" data-panel="textiles">
+                                                <div className={`mgc-panel${activeMegaCat === 'textiles' ? ' active' : ''}`} data-panel="textiles">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Sợi & Vải
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-threads" />
                                                                 Sợi & Chỉ
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-grid-3x3-gap" />
                                                                 Vải dệt & đan
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-scissors" />
                                                                 Quần áo may mặc
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-bag-fill" />
                                                                 Vải kỹ thuật
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -717,22 +719,22 @@ const UserHeader = () => {
                                                             Vải chuyên dụng
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-shield" />
                                                                 Vải bảo hộ
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-stars" />
                                                                 Vải kỹ thuật cao
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-water" />
                                                                 Vải chống thấm
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-thermometer-half" />
                                                                 Vải chịu nhiệt
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -763,28 +765,28 @@ const UserHeader = () => {
                                                     </NavLink>
                                                 </div>
                                                 {/* Food & Agri Panel */}
-                                                <div className="mgc-panel" data-panel="food-agri">
+                                                <div className={`mgc-panel${activeMegaCat === 'food-agri' ? ' active' : ''}`} data-panel="food-agri">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Thực phẩm
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-basket" />
                                                                 Lúa gạo & Ngũ cốc
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-flower2" />
                                                                 Rau củ quả tươi
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-egg-fried" />
                                                                 Thực phẩm chế biến
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-water" />
                                                                 Thủy hải sản
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -792,22 +794,22 @@ const UserHeader = () => {
                                                             Nông nghiệp
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-bug" />
                                                                 Vật tư nông nghiệp
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-tree" />
                                                                 Cây giống & Hạt giống
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-droplet" />
                                                                 Phân bón & Thuốc BVTV
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-gear" />
                                                                 Máy nông nghiệp
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -838,28 +840,28 @@ const UserHeader = () => {
                                                     </NavLink>
                                                 </div>
                                                 {/* Packaging Panel */}
-                                                <div className="mgc-panel" data-panel="packaging">
+                                                <div className={`mgc-panel${activeMegaCat === 'packaging' ? ' active' : ''}`} data-panel="packaging">
                                                     <div className="mgc-group">
                                                         <div className="mgc-group-title">
                                                             Bao bì cứng
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-box-seam" />
                                                                 Thùng & Hộp carton
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-cup" />
                                                                 Chai & Lọ nhựa
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-grid" />
                                                                 Pallet & Khung gỗ
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-shield" />
                                                                 Bảo vệ & Chèn lót
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
@@ -867,22 +869,22 @@ const UserHeader = () => {
                                                             Bao bì mềm
                                                         </div>
                                                         <div className="mgc-links">
-                                                            <a href="#">
+                                                            <Link to="/category">
                                                                 <i className="bi bi-bag" />
                                                                 Túi & Bao linh hoạt
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-tag" />
                                                                 Nhãn & In ấn
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-layers" />
                                                                 Màng & Cuộn co
-                                                            </a>
-                                                            <a href="#">
+                                                            </Link>
+                                                            <Link to="/category">
                                                                 <i className="bi bi-recycle" />
                                                                 Bao bì thân thiện MT
-                                                            </a>
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mgc-group">
