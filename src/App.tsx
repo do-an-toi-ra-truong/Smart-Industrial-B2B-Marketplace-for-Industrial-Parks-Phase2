@@ -29,6 +29,7 @@ import SellerStaffOrder from './UI/pages/Admin/SellerStaffOrder'
 import InvoiceOfSellerOrder from './UI/pages/Admin/InvoiceOfSellerOrder'
 import ReturnOrder from './UI/pages/Admin/ReturnOrder'
 import ReturnOrderDetails from './UI/pages/Admin/ReturnOrderDetails'
+import UserView from './UI/pages/Admin/UserView'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -59,6 +60,7 @@ const router = createBrowserRouter([
     children: [
       { path: 'dashboard', element: <CompanyAdminDashboard /> },
       { path: 'users-edit', element: <UserEdit /> },
+      { path: 'users-view', element: <UserView /> },
       { path: 'users-list', element: <UserList /> },
       { path: 'users-profile', element: <UserProfile /> },
       { path: 'approval-orders', element: <ApprovalOrders /> },
