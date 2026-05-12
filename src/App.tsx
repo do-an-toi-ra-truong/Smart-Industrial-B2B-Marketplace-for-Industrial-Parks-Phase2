@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, } from 'react-router-dom'
 import MainLayout from './UI/components/Users/UserLayout'
 import HomePage from './UI/pages/Users/HomePage'
 import About from './UI/pages/Users/About'
@@ -17,7 +17,19 @@ import Support from './UI/pages/Users/Support'
 import Privacy from './UI/pages/Users/Privacy'
 import ReturnPolicy from './UI/pages/Users/ReturnPolicy'
 import TermOfService from './UI/pages/Users/TermOfService'
-
+import AdminLayout from './UI/components/Admin/AdminLayout'
+import UserEdit from './UI/pages/Admin/UserEdit'
+import UserList from './UI/pages/Admin/UserList'
+import UserProfile from './UI/pages/Admin/UserProfile'
+import CompanyAdminDashboard from './UI/pages/Admin/CompanyAdminDashboard'
+import ApprovalOrders from './UI/pages/Admin/ApprovalOrders'
+import BuyerStaffOrder from './UI/pages/Admin/BuyerStaffOrder'
+import BuyerStaffOrderDetails from './UI/pages/Admin/BuyerStaffOrderDetails'
+import SellerStaffOrder from './UI/pages/Admin/SellerStaffOrder'
+import InvoiceOfSellerOrder from './UI/pages/Admin/InvoiceOfSellerOrder'
+import ReturnOrder from './UI/pages/Admin/ReturnOrder'
+import ReturnOrderDetails from './UI/pages/Admin/ReturnOrderDetails'
+import UserView from './UI/pages/Admin/UserView'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -42,6 +54,41 @@ const router = createBrowserRouter([
       { path: 'terms', element: <TermOfService /> },
     ],
   },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      { path: 'dashboard', element: <CompanyAdminDashboard /> },
+      { path: 'users-edit', element: <UserEdit /> },
+      { path: 'users-view', element: <UserView /> },
+      { path: 'users-list', element: <UserList /> },
+      { path: 'users-profile', element: <UserProfile /> },
+      { path: 'approval-orders', element: <ApprovalOrders /> },
+      { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
+      { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
+      { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
+      { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
+      { path: 'return-orders', element: <ReturnOrder /> },
+      { path: 'return-order-details', element: <ReturnOrderDetails /> }
+    ],
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      { path: 'dashboard', element: <CompanyAdminDashboard /> },
+      { path: 'users-edit', element: <UserEdit /> },
+      { path: 'users-list', element: <UserList /> },
+      { path: 'users-profile', element: <UserProfile /> },
+      { path: 'approval-orders', element: <ApprovalOrders /> },
+      { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
+      { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
+      { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
+      { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
+      { path: 'return-orders', element: <ReturnOrder /> },
+      { path: 'return-order-details', element: <ReturnOrderDetails /> }
+    ],
+  }
 ])
 
 function App() {
