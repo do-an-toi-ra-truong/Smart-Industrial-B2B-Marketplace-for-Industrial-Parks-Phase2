@@ -1,10 +1,73 @@
+import { useEffect, useRef } from 'react';
+
 const CompanyAdminDashboard = () => {
+    const chartRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        let chartInstance: any = null;
+
+        const initChart = () => {
+            if (typeof (window as any).ApexCharts === 'undefined') {
+                setTimeout(initChart, 200);
+                return;
+            }
+            if (!chartRef.current) return;
+
+            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark'
+                || document.body.classList.contains('dark-theme');
+            const textColor = isDark ? '#a0aec0' : '#718096';
+            const gridColor = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+
+            chartInstance = new (window as any).ApexCharts(chartRef.current, {
+                series: [
+                    { name: 'Participated', data: [5, 8, 6, 12, 9, 14, 11] },
+                    { name: 'Won', data: [2, 4, 3, 7, 5, 9, 6] }
+                ],
+                chart: {
+                    type: 'area', height: 280,
+                    toolbar: { show: false },
+                    background: 'transparent',
+                    fontFamily: 'Nunito Sans, sans-serif',
+                },
+                theme: { mode: isDark ? 'dark' : 'light' },
+                colors: ['#0d9488', '#3b82f6'],
+                fill: {
+                    type: 'gradient',
+                    gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.05, stops: [0, 100] }
+                },
+                stroke: { curve: 'smooth', width: 2.5 },
+                dataLabels: { enabled: false },
+                xaxis: {
+                    categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    labels: { style: { colors: textColor, fontSize: '11px' } },
+                    axisBorder: { show: false }, axisTicks: { show: false }
+                },
+                yaxis: {
+                    labels: {
+                        style: { colors: textColor, fontSize: '11px' },
+                        formatter: (v: number) => v.toFixed(0)
+                    }
+                },
+                grid: { borderColor: gridColor, strokeDashArray: 4 },
+                legend: { position: 'top', horizontalAlign: 'right', labels: { colors: textColor } },
+                tooltip: { y: { formatter: (v: number) => v + ' RFQs' } }
+            });
+            chartInstance.render();
+        };
+
+        initChart();
+
+        return () => {
+            if (chartInstance) chartInstance.destroy();
+        };
+    }, []);
+
     return (
         <>
-            <main className="main">
+        
                 <div className="main-content page-dashboard">
                     <div className="page-dashboard nd-dashboard">
-                    <section className="nd-topbar">
+                    <div className="nd-topbar" style={{ marginBottom: '0.5rem' }}>
                         <div>
                         <h1 className="nd-title">
                             Company Dashboard
@@ -13,8 +76,8 @@ const CompanyAdminDashboard = () => {
                             Overview of marketplace activity and company administration.
                         </p>
                         </div>
-                    </section>
-                    <section className="row g-3 mb-3 nd-kpi-rail">
+                    </div>
+                    <div className="row g-2 mb-2 nd-kpi-rail">
                         <div className="col-xl-3 col-md-6">
                         <article className="nd-kpi-card nd-kpi-revenue">
                             <span className="nd-kpi-icon">
@@ -79,8 +142,8 @@ const CompanyAdminDashboard = () => {
                             </span>
                         </article>
                         </div>
-                    </section>
-                    <section className="row g-3 mb-3">
+                    </div>
+                    <div className="row g-2 mb-2">
                         <div className="col-xl-6">
                         <div className="card">
                             <div className="card-header">
@@ -105,7 +168,7 @@ const CompanyAdminDashboard = () => {
                             </div>
                             </div>
                             <div className="card-body">
-                            <div className="chart-container" id="revenueExpensesChart" />
+                            <div className="chart-container" ref={chartRef} />
                             </div>
                         </div>
                         </div>
@@ -584,10 +647,9 @@ const CompanyAdminDashboard = () => {
                             </div>
                         </div>
                         </div>
-                    </section>
+                    </div>
                     </div>
                 </div>
-                </main>
         </>
     );
 }

@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom"
 import { useEffect } from "react"
-import SidebarCA from "./SidebarCA"
+import SidebarSA from "./SidebarCA"
 import HeaderCA from "./HeaderCA"
 
-const AdminLayout = () => {
+const SAAdminLayout = () => {
 
     useEffect(() => {
         // Thêm CSS
@@ -18,8 +18,8 @@ const AdminLayout = () => {
             '/Admin/assets/styles/quill.snow.css',
             '/Admin/assets/styles/quill.bubble.css',
             '/Admin/assets/styles/choices.min.css',
-            '/Admin/assets/styles/flatpickr.min.css',    
-            '/Admin/assets/styles/main.css',     
+            '/Admin/assets/styles/flatpickr.min.css',
+            '/Admin/assets/styles/main.css',
         ]
         const links = cssFiles.map(href => {
             const link = document.createElement('link')
@@ -31,7 +31,7 @@ const AdminLayout = () => {
 
         // Thêm JS tuần tự — cái sau đợi cái trước load xong
         const jsFiles = [
-            
+
             '/Admin/assets/libs/js/email-decode.min.js',  // phải load đầu tiên
             '/Admin/assets/libs/js/bootstrap.bundle.min.js',
             '/Admin/assets/libs/js/apexcharts.min.js',
@@ -42,7 +42,7 @@ const AdminLayout = () => {
             '/Admin/assets/libs/js/tinymce.min.js',
             '/Admin/assets/libs/js/choices.min.js',
             '/Admin/assets/libs/js/flatpickr.min.js',
-            
+
             '/Admin/assets/libs/js/validate.js',
             '/Admin/assets/libs/js/apps-sidebar-toggle.js',
             '/Admin/assets/libs/js/theme.js',
@@ -72,7 +72,7 @@ const AdminLayout = () => {
     return (
         <>
             <HeaderCA />
-            <SidebarCA />
+            <SidebarSA />
             <main id="main" className="main">
                 <Outlet />
             </main>
@@ -80,4 +80,4 @@ const AdminLayout = () => {
     )
 }
 
-export default AdminLayout
+export default SAAdminLayout

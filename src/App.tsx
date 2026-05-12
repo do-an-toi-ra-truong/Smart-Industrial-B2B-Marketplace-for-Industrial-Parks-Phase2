@@ -23,8 +23,15 @@ import UserEdit from './UI/pages/Admin/UserEdit'
 import UserList from './UI/pages/Admin/UserList'
 import UserProfile from './UI/pages/Admin/UserProfile'
 import CompanyAdminDashboard from './UI/pages/Admin/CompanyAdminDashboard'
+import ApprovalOrders from './UI/pages/Admin/ApprovalOrders'
+import BuyerStaffOrder from './UI/pages/Admin/BuyerStaffOrder'
+import BuyerStaffOrderDetails from './UI/pages/Admin/BuyerStaffOrderDetails'
+import SellerStaffOrder from './UI/pages/Admin/SellerStaffOrder'
+import InvoiceOfSellerOrder from './UI/pages/Admin/InvoiceOfSellerOrder'
+import ReturnOrder from './UI/pages/Admin/ReturnOrder'
+import ReturnOrderDetails from './UI/pages/Admin/ReturnOrderDetails'
 const router = createBrowserRouter([
-{
+  {
     path: '/',
     element: <MainLayout />,
     children: [
@@ -51,12 +58,36 @@ const router = createBrowserRouter([
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      { path: 'cadashboard', element: <CompanyAdminDashboard /> },
+      { path: 'dashboard', element: <CompanyAdminDashboard /> },
       { path: 'users-view', element: <UserView /> },
       { path: 'users-edit', element: <UserEdit /> },
       { path: 'users-list', element: <UserList /> },
-      {path: 'users-profile', element: <UserProfile /> },
-       
+      { path: 'users-profile', element: <UserProfile /> },
+      { path: 'approval-orders', element: <ApprovalOrders /> },
+      { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
+      { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
+      { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
+      { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
+      { path: 'return-orders', element: <ReturnOrder /> },
+      { path: 'return-order-details', element: <ReturnOrderDetails /> }
+    ],
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      { path: 'dashboard', element: <CompanyAdminDashboard /> },
+      { path: 'users-view', element: <UserView /> },
+      { path: 'users-edit', element: <UserEdit /> },
+      { path: 'users-list', element: <UserList /> },
+      { path: 'users-profile', element: <UserProfile /> },
+      { path: 'approval-orders', element: <ApprovalOrders /> },
+      { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
+      { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
+      { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
+      { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
+      { path: 'return-orders', element: <ReturnOrder /> },
+      { path: 'return-order-details', element: <ReturnOrderDetails /> }
     ],
   }
 ])
