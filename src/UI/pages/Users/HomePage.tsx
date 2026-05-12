@@ -1,68 +1,111 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
+  // ── Hero Slider ──
+  const [heroIndex, setHeroIndex] = useState(0);
+  const heroSlides = 2; // total slides
+  useEffect(() => {
+    const timer = setInterval(() => setHeroIndex(prev => (prev + 1) % heroSlides), 5000);
+    return () => clearInterval(timer);
+  }, []);
+  const heroNext = () => setHeroIndex(prev => (prev + 1) % heroSlides);
+  const heroPrev = () => setHeroIndex(prev => (prev - 1 + heroSlides) % heroSlides);
+
+  // ── Product filter (New Products) ──
+  const [newProdFilter, setNewProdFilter] = useState('all');
+
+  // ── Product filter (Most Buy Products) ──
+  const [mostBuyFilter, setMostBuyFilter] = useState('all');
+
+  // ── Zone filter for companies ──
+  const [zoneFilter, setZoneFilter] = useState('*');
+
+  // ── Brand Carousel ──
+  const [brandOffset, setBrandOffset] = useState(0);
+  const brandCount = 8;
+  const brandsVisible = 5;
+  useEffect(() => {
+    const timer = setInterval(() => setBrandOffset(prev => (prev + 1) % brandCount), 2500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const brandItems = [
+    { src: 'assets/images/boge-logo.png', alt: 'BOGE' },
+    { src: 'assets/images/leica-logo.png', alt: 'Leica' },
+    { src: 'assets/images/specim-logo.png', alt: 'Specim' },
+    { src: 'assets/images/smalley-logo.png', alt: 'Smalley' },
+    { src: 'assets/images/topsolid-logo.png', alt: 'TopSolid' },
+    { src: 'assets/images/turck-logo.png', alt: 'Turck' },
+    { src: 'assets/images/evident-logo.png', alt: 'Evident' },
+    { src: 'assets/images/lmao-logo.png', alt: 'Imao' },
+  ];
+
   return (
     <>
       <main className="main">
-        <section id="hero" className="hero section p-0">
-          <div className="swiper hero-swiper">
-            <div className="swiper-wrapper bg-black">
-              <div className="swiper-slide">
-                <div className="hero-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1920')` }}>
-                </div>
-                <div className="container h-100">
-                  <div className="row h-100 align-items-center">
-                    <div className="col-lg-7 col-md-9 hero-content">
-                      <span className="badge bg-primary rounded-pill mb-3 px-3 py-2">
-                        Vietnam's #1 B2B Platform
-                      </span>
-                      <h1 className="display-3 fw-bold text-white mb-4">
-                        Connect with Verified Industrial Suppliers
-                      </h1>
-                      <p className="lead text-white-50 mb-5 w-75">
-                        Access a network of 5,000+ audited factories in VSIP, Amata,
-                        and My Phuoc industrial zones.
-                      </p>
-                      <div className="d-flex gap-3">
-                        <a href="#company-results" className="btn btn-primary rounded-pill px-5 py-3 fw-bold">
-                          Find Suppliers
-                        </a>
-                        <a href="#" className="btn btn-outline-light rounded-pill px-5 py-3 fw-bold">
-                          Join as Supplier
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        <section id="hero" className="hero section" style={{ padding: 0 }}>
+          <div className="hero-swiper" style={{ position: 'relative', overflow: 'hidden' }}>
+            {/* Slide 1 */}
+            <div style={{ display: heroIndex === 0 ? 'block' : 'none', position: 'relative', minHeight: '75vh' }}>
+              <div className="hero-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=1920')` }}>
               </div>
-              <div className="swiper-slide">
-                <div className="hero-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1920')` }}>
-                </div>
-                <div className="container h-100">
-                  <div className="row h-100 align-items-center">
-                    <div className="col-lg-7 col-md-9 hero-content">
-                      <span className="badge bg-warning text-dark rounded-pill mb-3 px-3 py-2">
-                        Global Logistics
-                      </span>
-                      <h1 className="display-3 fw-bold text-white mb-4">
-                        Seamless Export from Vietnam to the World
-                      </h1>
-                      <p className="lead text-white-50 mb-5 w-75">
-                        Integrated logistics solutions, customs clearance, and freight
-                        forwarding for industrial goods.
-                      </p>
-                      <a href="#" className="btn btn-warning rounded-pill px-5 py-3 fw-bold text-dark">
-                        Explore Services
+              <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+                <div className="row align-items-center" style={{ minHeight: '85vh', padding: '80px 0' }}>
+                  <div className="col-lg-7 col-md-9 hero-content" style={{ opacity: 1, transform: 'none' }}>
+                    <span className="badge bg-primary rounded-pill mb-3 px-3 py-2">
+                      Vietnam's #1 B2B Platform
+                    </span>
+                    <h1 className="display-3 fw-bold text-white mb-4">
+                      Connect with Verified Industrial Suppliers
+                    </h1>
+                    <p className="lead text-white-50 mb-5 w-75">
+                      Access a network of 5,000+ audited factories in VSIP, Amata,
+                      and My Phuoc industrial zones.
+                    </p>
+                    <div className="d-flex gap-3">
+                      <a href="#company-results" className="btn btn-primary rounded-pill px-5 py-3 fw-bold">
+                        Find Suppliers
+                      </a>
+                      <a href="#" className="btn btn-outline-light rounded-pill px-5 py-3 fw-bold">
+                        Join as Supplier
                       </a>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="swiper-button-next text-white" />
-            <div className="swiper-button-prev text-white" />
-            <div className="swiper-pagination" />
+            {/* Slide 2 */}
+            <div style={{ display: heroIndex === 1 ? 'block' : 'none', position: 'relative', minHeight: '75vh' }}>
+              <div className="hero-bg" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1920')` }}>
+              </div>
+              <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+                <div className="row align-items-center" style={{ minHeight: '85vh', padding: '80px 0' }}>
+                  <div className="col-lg-7 col-md-9 hero-content" style={{ opacity: 1, transform: 'none' }}>
+                    <span className="badge bg-warning text-dark rounded-pill mb-3 px-3 py-2">
+                      Global Logistics
+                    </span>
+                    <h1 className="display-3 fw-bold text-white mb-4">
+                      Seamless Export from Vietnam to the World
+                    </h1>
+                    <p className="lead text-white-50 mb-5 w-75">
+                      Integrated logistics solutions, customs clearance, and freight
+                      forwarding for industrial goods.
+                    </p>
+                    <a href="#" className="btn btn-warning rounded-pill px-5 py-3 fw-bold text-dark">
+                      Explore Services
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="swiper-button-next text-white" onClick={heroNext} style={{ cursor: 'pointer', position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10 }} />
+            <div className="swiper-button-prev text-white" onClick={heroPrev} style={{ cursor: 'pointer', position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10 }} />
+            <div style={{ position: 'absolute', bottom: '20px', left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: '8px', zIndex: 10 }}>
+              {[0, 1].map(i => (
+                <span key={i} onClick={() => setHeroIndex(i)} style={{ width: 12, height: 12, borderRadius: '50%', background: heroIndex === i ? '#0d6efd' : 'rgba(255,255,255,0.5)', cursor: 'pointer', display: 'inline-block', transition: 'background 0.3s' }} />
+              ))}
+            </div>
           </div>
         </section >
         {/* ===== Top Buy Products ===== */}
@@ -77,28 +120,18 @@ const HomePage = () => {
               </div>
               <div className="tbp-header-right">
                 <div className="tbp-filter-tabs" id="tbpFilterTabs">
-                  <button className="tbp-tab active" data-cat="all">
-                    All
-                  </button>
-                  <button className="tbp-tab" data-cat="electronics">
-                    Electronics
-                  </button>
-                  <button className="tbp-tab" data-cat="machinery">
-                    Machinery
-                  </button>
-                  <button className="tbp-tab" data-cat="raw-materials">
-                    Raw Materials
-                  </button>
-                  <button className="tbp-tab" data-cat="chemicals">
-                    Chemicals
-                  </button>
+                  {['all', 'electronics', 'machinery', 'raw-materials', 'chemicals'].map(cat => (
+                    <button key={cat} className={`tbp-tab${newProdFilter === cat ? ' active' : ''}`} onClick={() => setNewProdFilter(cat)}>
+                      {cat === 'all' ? 'All' : cat === 'raw-materials' ? 'Raw Materials' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
             {/* Products Grid */}
-            <div className="tbp-grid" id="tbpGrid">
+            <div className="tbp-grid" id="tbpGridNew">
               {/* Card 1 */}
-              <div className="tbp-card" data-cat="electronics">
+              <div className="tbp-card" data-cat="electronics" style={{ display: newProdFilter === 'all' || newProdFilter === 'electronics' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-1.webp" alt="Siemens S7-1200 PLC" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--hot">
@@ -129,7 +162,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 2 */}
-              <div className="tbp-card" data-cat="machinery">
+              <div className="tbp-card" data-cat="machinery" style={{ display: newProdFilter === 'all' || newProdFilter === 'machinery' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-2.webp" alt="Grundfos Industrial Pump" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--top">
@@ -160,7 +193,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 3 */}
-              <div className="tbp-card" data-cat="electronics">
+              <div className="tbp-card" data-cat="electronics" style={{ display: newProdFilter === 'all' || newProdFilter === 'electronics' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-3.webp" alt="ABB VFD Drive" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -187,7 +220,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 4 */}
-              <div className="tbp-card" data-cat="raw-materials">
+              <div className="tbp-card" data-cat="raw-materials" style={{ display: newProdFilter === 'all' || newProdFilter === 'raw-materials' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-4.webp" alt="Stainless Steel Pipe" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -214,7 +247,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 5 */}
-              <div className="tbp-card" data-cat="chemicals">
+              <div className="tbp-card" data-cat="chemicals" style={{ display: newProdFilter === 'all' || newProdFilter === 'chemicals' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1616628188859-7a11abb6fcc9?auto=format&fit=crop&q=80&w=600" alt="Industrial Lubricant" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--new">
@@ -245,7 +278,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 6 */}
-              <div className="tbp-card" data-cat="electronics">
+              <div className="tbp-card" data-cat="electronics" style={{ display: newProdFilter === 'all' || newProdFilter === 'electronics' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=600" alt="Schneider Breaker" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -272,7 +305,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 7 */}
-              <div className="tbp-card" data-cat="machinery">
+              <div className="tbp-card" data-cat="machinery" style={{ display: newProdFilter === 'all' || newProdFilter === 'machinery' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=600" alt="Omron Sensor" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--hot">
@@ -303,7 +336,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 8 */}
-              <div className="tbp-card" data-cat="raw-materials">
+              <div className="tbp-card" data-cat="raw-materials" style={{ display: newProdFilter === 'all' || newProdFilter === 'raw-materials' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600" alt="Aluminium Profile" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -354,29 +387,19 @@ const HomePage = () => {
                 </h2>
               </div>
               <div className="tbp-header-right">
-                <div className="tbp-filter-tabs" id="tbpFilterTabs">
-                  <button className="tbp-tab active" data-cat="all">
-                    All
-                  </button>
-                  <button className="tbp-tab" data-cat="electronics">
-                    Electronics
-                  </button>
-                  <button className="tbp-tab" data-cat="machinery">
-                    Machinery
-                  </button>
-                  <button className="tbp-tab" data-cat="raw-materials">
-                    Raw Materials
-                  </button>
-                  <button className="tbp-tab" data-cat="chemicals">
-                    Chemicals
-                  </button>
+                <div className="tbp-filter-tabs" id="tbpFilterTabsMostBuy">
+                  {['all', 'electronics', 'machinery', 'raw-materials', 'chemicals'].map(cat => (
+                    <button key={cat} className={`tbp-tab${mostBuyFilter === cat ? ' active' : ''}`} onClick={() => setMostBuyFilter(cat)}>
+                      {cat === 'all' ? 'All' : cat === 'raw-materials' ? 'Raw Materials' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
             {/* Products Grid */}
-            <div className="tbp-grid" id="tbpGrid">
+            <div className="tbp-grid" id="tbpGridMostBuy">
               {/* Card 1 */}
-              <div className="tbp-card" data-cat="electronics">
+              <div className="tbp-card" data-cat="electronics" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'electronics' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-1.webp" alt="Siemens S7-1200 PLC" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--hot">
@@ -407,7 +430,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 2 */}
-              <div className="tbp-card" data-cat="machinery">
+              <div className="tbp-card" data-cat="machinery" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'machinery' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-2.webp" alt="Grundfos Industrial Pump" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--top">
@@ -438,7 +461,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 3 */}
-              <div className="tbp-card" data-cat="electronics">
+              <div className="tbp-card" data-cat="electronics" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'electronics' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-3.webp" alt="ABB VFD Drive" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -465,7 +488,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 4 */}
-              <div className="tbp-card" data-cat="raw-materials">
+              <div className="tbp-card" data-cat="raw-materials" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'raw-materials' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="assets/images/product-4.webp" alt="Stainless Steel Pipe" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -492,7 +515,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 5 */}
-              <div className="tbp-card" data-cat="chemicals">
+              <div className="tbp-card" data-cat="chemicals" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'chemicals' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1616628188859-7a11abb6fcc9?auto=format&fit=crop&q=80&w=600" alt="Industrial Lubricant" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--new">
@@ -523,7 +546,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 6 */}
-              <div className="tbp-card" data-cat="electronics">
+              <div className="tbp-card" data-cat="electronics" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'electronics' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=600" alt="Schneider Breaker" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -550,7 +573,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 7 */}
-              <div className="tbp-card" data-cat="machinery">
+              <div className="tbp-card" data-cat="machinery" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'machinery' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=600" alt="Omron Sensor" className="tbp-card-img" loading="lazy" />
                   <span className="tbp-badge tbp-badge--hot">
@@ -581,7 +604,7 @@ const HomePage = () => {
                 </div>
               </div>
               {/* Card 8 */}
-              <div className="tbp-card" data-cat="raw-materials">
+              <div className="tbp-card" data-cat="raw-materials" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'raw-materials' ? '' : 'none' }}>
                 <div className="tbp-card-img-wrap">
                   <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600" alt="Aluminium Profile" className="tbp-card-img" loading="lazy" />
                   <div className="tbp-card-actions">
@@ -631,7 +654,7 @@ const HomePage = () => {
             <div className="row g-4 justify-content-center">
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-vsip" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnVsipBD.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -644,7 +667,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-vsip">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip">
                       View
                       Companies
                     </button>
@@ -653,7 +676,7 @@ const HomePage = () => {
               </div>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-myphuoc" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnMyPhuoc.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="My Phuoc" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -666,7 +689,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-myphuoc">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc">
                       View
                       Companies
                     </button>
@@ -675,7 +698,7 @@ const HomePage = () => {
               </div>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-amata" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnAmataCity.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="Amata" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -688,7 +711,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-amata">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata">
                       View
                       Companies
                     </button>
@@ -697,7 +720,7 @@ const HomePage = () => {
               </div>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-hp" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnVsipHP.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -710,7 +733,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-hp">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp">
                       View
                       Companies
                     </button>
@@ -721,7 +744,7 @@ const HomePage = () => {
             <div className="row g-4 justify-content-center mt-3" style={{ marginTop: '1.5rem' }}>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-vsip" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnVsipBD.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -734,7 +757,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-vsip">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip">
                       View
                       Companies
                     </button>
@@ -743,7 +766,7 @@ const HomePage = () => {
               </div>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-myphuoc" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnMyPhuoc.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="My Phuoc" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -756,7 +779,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-myphuoc">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc">
                       View
                       Companies
                     </button>
@@ -765,7 +788,7 @@ const HomePage = () => {
               </div>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-amata" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnAmataCity.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="Amata" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -778,7 +801,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-amata">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata">
                       View
                       Companies
                     </button>
@@ -787,7 +810,7 @@ const HomePage = () => {
               </div>
               <div className="col-lg-3 col-md-6">
                 <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" data-filter=".zone-hp" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
+                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
                     <img src="assets/images/kcnVsipHP.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
                     <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                       <h3 className="text-white fw-bold mb-0">
@@ -800,7 +823,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" data-filter=".zone-hp">
+                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp">
                       View
                       Companies
                     </button>
@@ -825,13 +848,13 @@ const HomePage = () => {
             {/* Sorting */}
             <div className="product-filters isotope-filters mb-5">
               <ul className="d-flex flex-wrap gap-2 list-unstyled align-items-center">
-                <li data-filter="*" className="filter-active btn btn-light rounded-3 px-3 border">
+                <li onClick={() => setZoneFilter('*')} data-filter="*" className={`${zoneFilter === '*' ? 'filter-active' : ''} btn btn-light rounded-3 px-3 border`} style={{ cursor: 'pointer' }}>
                   All
                 </li>
               </ul>
             </div>
             <div className="row g-4 isotope-container" id="company-grid">
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip">
+              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1655876726270-2caec425d0cd?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Precision" />
@@ -853,15 +876,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.8 (124)
                       </div>
-                      <a href="company-detail.html" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip">
+              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Chemicals" />
@@ -883,15 +906,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.5 (89)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip">
+              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Estec" />
@@ -913,15 +936,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.9 (210)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip">
+              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Esquel" />
@@ -943,15 +966,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.7 (156)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc">
+              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="TechVina" />
@@ -973,15 +996,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.9 (256)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc">
+              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Kumho" />
@@ -1003,15 +1026,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.6 (300)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc">
+              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1580983218765-f663bec07b37?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Tatung" />
@@ -1033,15 +1056,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.5 (112)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc">
+              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Orion" />
@@ -1063,15 +1086,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.9 (500)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata">
+              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Steel" />
@@ -1093,15 +1116,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.6 (178)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata">
+              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Schaeffler" />
@@ -1123,15 +1146,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.8 (210)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata">
+              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Toshiba" />
@@ -1153,15 +1176,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.7 (190)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata">
+              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Hyosung" />
@@ -1183,15 +1206,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.8 (310)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp">
+              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1574689211272-bc14e289e223?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Chemicals" />
@@ -1213,15 +1236,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.7 (89)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp">
+              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="LG" />
@@ -1243,15 +1266,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.9 (500)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp">
+              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1558486012-817176f84c6d?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Bridgestone" />
@@ -1273,15 +1296,15 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.8 (220)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp">
+              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
                 <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                   <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
                     <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Regina" />
@@ -1303,10 +1326,10 @@ const HomePage = () => {
                         <i className="bi bi-star-fill" />
                         4.6 (150)
                       </div>
-                      <a href="#" className="text-primary small fw-bold text-decoration-none">
+                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
                         Chi tiết
                         <i className="bi bi-arrow-right" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -1740,32 +1763,13 @@ const HomePage = () => {
                 Our most purchased partners and manufacturers.
               </p>
             </div>
-            <div className="swiper brand-swiper">
-              <div className="swiper-wrapper align-items-center">
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/boge-logo.png" className="img-fluid brand-img" alt="BOGE" />
-                </div>
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/leica-logo.png" className="img-fluid brand-img" alt="Leica" />
-                </div>
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/specim-logo.png" className="img-fluid brand-img" alt="Specim" />
-                </div>
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/smalley-logo.png" className="img-fluid brand-img" alt="Smalley" />
-                </div>
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/topsolid-logo.png" className="img-fluid brand-img" alt="TopSolid" />
-                </div>
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/turck-logo.png" className="img-fluid brand-img" alt="Turck" />
-                </div>
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/evident-logo.png" className="img-fluid brand-img" alt="Evident" />
-                </div>
-                <div className="swiper-slide d-flex justify-content-center">
-                  <img src="assets/images/lmao-logo.png" className="img-fluid brand-img" alt="Imao" />
-                </div>
+            <div style={{ overflow: 'hidden', position: 'relative' }}>
+              <div className="d-flex align-items-center" style={{ transition: 'transform 0.6s ease', transform: `translateX(-${brandOffset * (100 / brandsVisible)}%)` }}>
+                {brandItems.concat(brandItems).map((brand, i) => (
+                  <div key={i} className="d-flex justify-content-center flex-shrink-0" style={{ width: `${100 / brandsVisible}%`, padding: '0 15px' }}>
+                    <img src={brand.src} className="img-fluid brand-img" alt={brand.alt} style={{ maxHeight: '60px', objectFit: 'contain', filter: 'grayscale(40%)', transition: 'filter 0.3s' }} />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
