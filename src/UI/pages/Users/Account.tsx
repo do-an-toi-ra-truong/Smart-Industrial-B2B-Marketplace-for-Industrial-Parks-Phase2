@@ -95,14 +95,6 @@ const Account = () => {
                                                 </span>
                                             </button>
                                         </li>
-                                        <li className="nav-item" role="presentation">
-                                            <button className="nav-link" id="logistics-tab" data-bs-toggle="tab" data-bs-target="#logistics" type="button" role="tab" aria-controls="logistics" aria-selected="false">
-                                                <i className="bi bi-truck" />
-                                                <span>
-                                                    Logistics Request
-                                                </span>
-                                            </button>
-                                        </li>
                                     </ul>
                                     <h6 className="nav-section-title">
                                         Account
@@ -138,205 +130,7 @@ const Account = () => {
                             {/* Profile Content */}
                             <div className="col-lg-9 profile-content">
                                 <div className="tab-content" id="profileTabsContent">
-                                    {/* ===== TAB 5: LOGISTICS REQUEST ===== */}
-                                    <div className="tab-pane fade" id="logistics" role="tabpanel" aria-labelledby="logistics-tab">
-                                        <div className="tab-header">
-                                            <h2>
-                                                Logistics Request
-                                            </h2>
-                                        </div>
-                                        <p style={{ 'fontSize': '0.85rem', 'color': '#64748b', 'marginBottom': '20px' }}>
-                                            Submit a freight or
-                                            delivery request. Our logistics team will contact you with a quote within 24 hours.
-                                        </p>
-                                        <div className="personal-info-form">
-                                            <form className="php-email-form" onSubmit={(e) => { e.preventDefault(); }}>
-                                                {/* Route */}
-                                                <h6 className="nav-section-title" style={{ 'marginBottom': '12px' }}>
-                                                    Route Information
-                                                </h6>
-                                                <div className="row">
-                                                    <div className="col-md-6 mb-3">
-                                                        <label htmlFor="lg-origin" className="form-label">
-                                                            Origin (Pickup
-                                                            Location)
-                                                        </label>
-                                                        <select className="form-control" id="lg-origin" name="origin" required={true}>
-                                                            <option value="">
-                                                                -- Select Industrial Zone --
-                                                            </option>
-                                                            <option>
-                                                                VSIP I – Binh Duong
-                                                            </option>
-                                                            <option>
-                                                                VSIP II – Binh Duong
-                                                            </option>
-                                                            <option>
-                                                                Long Thanh – Dong Nai
-                                                            </option>
-                                                            <option>
-                                                                Tan Binh – Ho Chi Minh City
-                                                            </option>
-                                                            <option>
-                                                                Phu My – Ba Ria Vung Tau
-                                                            </option>
-                                                            <option>
-                                                                My Phuoc – Binh Duong
-                                                            </option>
-                                                            <option>
-                                                                Other (specify in notes)
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                    <div className="col-md-6 mb-3">
-                                                        <label htmlFor="lg-dest" className="form-label">
-                                                            Destination
-                                                        </label>
-                                                        <input type="text" className="form-control" id="lg-dest" name="destination" placeholder="City, Country" required={true} />
-                                                    </div>
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-md-6 mb-3">
-                                                        <label htmlFor="lg-date" className="form-label">
-                                                            Requested Pickup Date
-                                                        </label>
-                                                        <input type="date" className="form-control" id="lg-date" name="pickupDate" />
-                                                    </div>
-                                                    <div className="col-md-6 mb-3">
-                                                        <label htmlFor="lg-mode" className="form-label">
-                                                            Transport Mode
-                                                        </label>
-                                                        <select className="form-control" id="lg-mode" name="mode" required={true}>
-                                                            <option value="">
-                                                                -- Select mode --
-                                                            </option>
-                                                            <option>
-                                                                Sea – FCL (Full Container Load)
-                                                            </option>
-                                                            <option>
-                                                                Sea – LCL (Less than Container Load)
-                                                            </option>
-                                                            <option>
-                                                                Air Freight
-                                                            </option>
-                                                            <option>
-                                                                Road – FTL (Full Truck Load)
-                                                            </option>
-                                                            <option>
-                                                                Road – LTL (Partial Truck Load)
-                                                            </option>
-                                                            <option>
-                                                                Rail Freight
-                                                            </option>
-                                                            <option>
-                                                                Multimodal
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                {/* Cargo */}
-                                                <h6 className="nav-section-title" style={{ 'margin': '18px 0 12px' }}>
-                                                    Cargo Details
-                                                </h6>
-                                                <div className="row">
-                                                    <div className="col-md-4 mb-3">
-                                                        <label htmlFor="lg-weight" className="form-label">
-                                                            Total Weight (kg)
-                                                        </label>
-                                                        <input type="number" className="form-control" id="lg-weight" name="weight" placeholder="e.g. 1500" min="1" />
-                                                    </div>
-                                                    <div className="col-md-4 mb-3">
-                                                        <label htmlFor="lg-volume" className="form-label">
-                                                            Volume (m³)
-                                                            <small className="text-muted">
-                                                                optional
-                                                            </small>
-                                                        </label>
-                                                        <input type="number" className="form-control" id="lg-volume" name="volume" placeholder="e.g. 10" min="0" step="0.1" />
-                                                    </div>
-                                                    <div className="col-md-4 mb-3">
-                                                        <label htmlFor="lg-pkg" className="form-label">
-                                                            Packaging Type
-                                                        </label>
-                                                        <select className="form-control" id="lg-pkg" name="packaging">
-                                                            <option>
-                                                                Pallet
-                                                            </option>
-                                                            <option>
-                                                                Carton / Box
-                                                            </option>
-                                                            <option>
-                                                                Drum / Barrel
-                                                            </option>
-                                                            <option>
-                                                                Bulk / Loose
-                                                            </option>
-                                                            <option>
-                                                                Container
-                                                            </option>
-                                                            <option>
-                                                                Other
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                {/* Additional Services */}
-                                                <div className="mb-3">
-                                                    <label className="form-label">
-                                                        Additional Services
-                                                        <small className="text-muted">
-                                                            (optional)
-                                                        </small>
-                                                    </label>
-                                                    <div className="d-flex flex-wrap gap-2">
-                                                        <div className="form-check me-3">
-                                                            <input className="form-check-input" type="checkbox" id="svc-customs" />
-                                                            <label className="form-check-label" htmlFor="svc-customs">
-                                                                Customs Clearance
-                                                            </label>
-                                                        </div>
-                                                        <div className="form-check me-3">
-                                                            <input className="form-check-input" type="checkbox" id="svc-ins" />
-                                                            <label className="form-check-label" htmlFor="svc-ins">
-                                                                Cargo Insurance
-                                                            </label>
-                                                        </div>
-                                                        <div className="form-check me-3">
-                                                            <input className="form-check-input" type="checkbox" id="svc-wh" />
-                                                            <label className="form-check-label" htmlFor="svc-wh">
-                                                                Warehousing
-                                                            </label>
-                                                        </div>
-                                                        <div className="form-check">
-                                                            <input className="form-check-input" type="checkbox" id="svc-track" />
-                                                            <label className="form-check-label" htmlFor="svc-track">
-                                                                Real-time Tracking
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="mb-4">
-                                                    <label htmlFor="lg-notes" className="form-label">
-                                                        Additional Notes
-                                                    </label>
-                                                    <textarea className="form-control" id="lg-notes" name="notes" rows={3} placeholder="Describe cargo type, special handling requirements, hazardous materials, etc." />
-                                                </div>
-                                                <div id="lg-success" className="sent-message" style={{ 'display': 'none' }}>
-                                                    ✅ Your logistics
-                                                    request has been submitted! Reference:
-                                                    <strong id="lg-ref" />
-                                                    . Our
-                                                    team will contact you within 24 hours.
-                                                </div>
-                                                <div className="text-end">
-                                                    <button type="submit" className="btn btn-save">
-                                                        Submit Logistics Request
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    {/* /Logistics Request */}
+
                                     {/* ===== TAB 1: GENERAL INFORMATION ===== */}
                                     <div className="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
                                         <div className="tab-header">
@@ -395,20 +189,37 @@ const Account = () => {
                                                 {/* Company Details */}
                                                 <h6 className="nav-section-title" style={{ 'margin': '18px 0 12px' }}>
                                                     Company Details
+                                                    <span className="company-managed-badge">
+                                                        <i className="bi bi-lock-fill" /> Managed by Company
+                                                    </span>
                                                 </h6>
+                                                {/* Company Managed Toast Notification */}
+                                                <div id="company-managed-toast" className="company-managed-toast">
+                                                    <div className="company-managed-toast-icon">
+                                                        <i className="bi bi-building-lock" />
+                                                    </div>
+                                                    <div className="company-managed-toast-content">
+                                                        <strong>Company-Managed Information</strong>
+                                                        <p>These details are managed at the organization level. Please contact your company administrator to request changes.</p>
+                                                    </div>
+                                                    <button type="button" className="company-managed-toast-close" onClick={() => { const t = document.getElementById('company-managed-toast'); if (t) t.classList.remove('show'); }}>
+                                                        <i className="bi bi-x-lg" />
+                                                    </button>
+                                                </div>
+                                                <div className="company-managed-fields" onClick={() => { const t = document.getElementById('company-managed-toast'); if (t) { t.classList.add('show'); clearTimeout((window as any)._companyToastTimer); (window as any)._companyToastTimer = setTimeout(() => t.classList.remove('show'), 4000); } }}>
                                                 <div className="row">
                                                     <div className="col-md-6 mb-3">
                                                         <label htmlFor="gi-company" className="form-label">
                                                             Company Name
                                                         </label>
-                                                        <input type="text" className="form-control" id="gi-company" name="company" value="ABC Manufacturing Co., Ltd" required={true} />
+                                                        <input type="text" className="form-control" id="gi-company" name="company" defaultValue="ABC Manufacturing Co., Ltd" readOnly />
                                                     </div>
                                                     <div className="col-md-6 mb-3">
                                                         <label htmlFor="gi-taxid" className="form-label">
                                                             Tax ID / Business Registration
                                                             No.
                                                         </label>
-                                                        <input type="text" className="form-control" id="gi-taxid" name="taxid" value="0123456789" />
+                                                        <input type="text" className="form-control" id="gi-taxid" name="taxid" defaultValue="0123456789" readOnly />
                                                     </div>
                                                 </div>
                                                 <div className="row">
@@ -416,7 +227,7 @@ const Account = () => {
                                                         <label htmlFor="gi-industry" className="form-label">
                                                             Industry / Sector
                                                         </label>
-                                                        <select className="form-control" id="gi-industry" name="industry">
+                                                        <select className="form-control" id="gi-industry" name="industry" disabled>
                                                             <option value="electronics" selected={true}>
                                                                 Electronics & Components
                                                             </option>
@@ -444,7 +255,7 @@ const Account = () => {
                                                         <label htmlFor="gi-zone" className="form-label">
                                                             Industrial Zone
                                                         </label>
-                                                        <select className="form-control" id="gi-zone" name="zone">
+                                                        <select className="form-control" id="gi-zone" name="zone" disabled>
                                                             <option>
                                                                 VSIP I – Binh Duong
                                                             </option>
@@ -470,13 +281,14 @@ const Account = () => {
                                                     <label htmlFor="gi-address" className="form-label">
                                                         Company Address
                                                     </label>
-                                                    <input type="text" className="form-control" id="gi-address" name="address" value="Lot B-12, VSIP II, Binh Duong Province, Vietnam" />
+                                                    <input type="text" className="form-control" id="gi-address" name="address" defaultValue="Lot B-12, VSIP II, Binh Duong Province, Vietnam" readOnly />
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="gi-website" className="form-label">
                                                         Company Website
                                                     </label>
-                                                    <input type="url" className="form-control" id="gi-website" name="website" value="https://www.abcmanufacturing.vn" placeholder="https://" />
+                                                    <input type="url" className="form-control" id="gi-website" name="website" defaultValue="https://www.abcmanufacturing.vn" readOnly />
+                                                </div>
                                                 </div>
                                                 <div id="gi-success" className="sent-message" style={{ 'display': 'none' }}>
                                                     Your information
@@ -510,7 +322,7 @@ const Account = () => {
                                                     <label htmlFor="pw-new" className="form-label">
                                                         New Password
                                                     </label>
-                                                    <input type="password" className="form-control" id="pw-new" placeholder="At least 8 characters" required={true} onInput={() => {}} />
+                                                    <input type="password" className="form-control" id="pw-new" placeholder="At least 8 characters" required={true} onInput={() => { }} />
                                                     {/* Strength bar */}
                                                     <div style={{ 'marginTop': '8px' }}>
                                                         <div style={{ 'height': '5px', 'borderRadius': '4px', 'background': '#e2e8f0', 'overflow': 'hidden' }}>
@@ -568,7 +380,7 @@ const Account = () => {
                                             <h2>
                                                 Purchase History
                                             </h2>
-                                            <button className="btn btn-add-payment" type="button" onClick={() => {}}>
+                                            <button className="btn btn-add-payment" type="button" onClick={() => { }}>
                                                 <i className="bi bi-file-earmark-excel me-1" />
                                                 Export Excel
                                             </button>
@@ -901,27 +713,35 @@ const Account = () => {
                                             {/* /order-items */}
                                         </div>
                                         {/* /orders-table */}
-                                        <div className="pagination-container">
-                                            <nav aria-label="Purchase history pagination">
-                                                <ul className="pagination">
-                                                    <li className="page-item active">
-                                                        <a className="page-link" href="#">
-                                                            1
-                                                        </a>
-                                                    </li>
-                                                    <li className="page-item">
-                                                        <a className="page-link" href="#">
-                                                            2
-                                                        </a>
-                                                    </li>
-                                                    <li className="page-item">
-                                                        <a className="page-link" href="#">
-                                                            3
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
+                                        <section className="category-pagination section">
+                                            <div className="container">
+                                                <nav className="d-flex justify-content-center" aria-label="Purchase history pagination">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" aria-label="Previous page">
+                                                                <i className="bi bi-arrow-left" />
+                                                                <span className="d-none d-sm-inline">Previous</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" className="active">1</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">2</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">3</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" aria-label="Next page">
+                                                                <span className="d-none d-sm-inline">Next</span>
+                                                                <i className="bi bi-arrow-right" />
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </section>
                                     </div>
                                     {/* /Purchase History */}
                                     {/* ===== TAB 4: QUOTATION / RFQ HISTORY ===== */}
@@ -930,7 +750,7 @@ const Account = () => {
                                             <h2>
                                                 Quotation Submission History
                                             </h2>
-                                            <button className="btn btn-add-payment" type="button" onClick={() => {}}>
+                                            <button className="btn btn-add-payment" type="button" onClick={() => { }}>
                                                 <i className="bi bi-file-earmark-excel me-1" />
                                                 Export Excel
                                             </button>
@@ -1157,22 +977,32 @@ const Account = () => {
                                             {/* /order-items */}
                                         </div>
                                         {/* /orders-table */}
-                                        <div className="pagination-container">
-                                            <nav aria-label="Quotation history pagination">
-                                                <ul className="pagination">
-                                                    <li className="page-item active">
-                                                        <a className="page-link" href="#">
-                                                            1
-                                                        </a>
-                                                    </li>
-                                                    <li className="page-item">
-                                                        <a className="page-link" href="#">
-                                                            2
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </nav>
-                                        </div>
+                                        <section className="category-pagination section">
+                                            <div className="container">
+                                                <nav className="d-flex justify-content-center" aria-label="Quotation history pagination">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#" aria-label="Previous page">
+                                                                <i className="bi bi-arrow-left" />
+                                                                <span className="d-none d-sm-inline">Previous</span>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" className="active">1</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">2</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#" aria-label="Next page">
+                                                                <span className="d-none d-sm-inline">Next</span>
+                                                                <i className="bi bi-arrow-right" />
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </section>
                                     </div>
                                     {/* /Quotation History */}
                                     {/* Orders Tab */}

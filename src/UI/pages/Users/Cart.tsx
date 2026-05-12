@@ -59,7 +59,10 @@ const Cart = () => {
                             <div className="row align-items-center">
                                 <div className="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                                 <div className="product-info d-flex align-items-center">
-                                    <div className="product-image">
+                                    <div className="product-image" style={{ position: 'relative' }}>
+                                    <button className="remove-item-x" type="button" aria-label="Remove item">
+                                        <i className="bi bi-x-lg" />
+                                    </button>
                                     <img src="assets/images/product-1.webp" alt="Product" className="img-fluid" loading="lazy" />
                                     </div>
                                     <div className="product-details">
@@ -74,10 +77,6 @@ const Cart = () => {
                                         Size: M
                                         </span>
                                     </div>
-                                    <button className="remove-item" type="button">
-                                        <i className="bi bi-trash" />
-                                        Remove
-                                    </button>
                                     </div>
                                 </div>
                                 </div>
@@ -114,7 +113,10 @@ const Cart = () => {
                             <div className="row align-items-center">
                                 <div className="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                                 <div className="product-info d-flex align-items-center">
-                                    <div className="product-image">
+                                    <div className="product-image" style={{ position: 'relative' }}>
+                                    <button className="remove-item-x" type="button" aria-label="Remove item">
+                                        <i className="bi bi-x-lg" />
+                                    </button>
                                     <img src="assets/images/product-3.webp" alt="Product" className="img-fluid" loading="lazy" />
                                     </div>
                                     <div className="product-details">
@@ -129,10 +131,6 @@ const Cart = () => {
                                         Size: L
                                         </span>
                                     </div>
-                                    <button className="remove-item" type="button">
-                                        <i className="bi bi-trash" />
-                                        Remove
-                                    </button>
                                     </div>
                                 </div>
                                 </div>
@@ -172,8 +170,11 @@ const Cart = () => {
                             <div className="row align-items-center">
                                 <div className="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                                 <div className="product-info d-flex align-items-center">
-                                    <div className="product-image">
-                                    <img src="assets/images/product-5.webp" alt="Product" className="img-fluid" loading="lazy" />
+                                    <div className="product-image" style={{ position: 'relative' }}>
+                                    <button className="remove-item-x" type="button" aria-label="Remove item">
+                                        <i className="bi bi-x-lg" />
+                                    </button>
+                                    <img src="assets/images/product-2.webp" alt="Product" className="img-fluid" loading="lazy" />
                                     </div>
                                     <div className="product-details">
                                     <h6 className="product-title">
@@ -187,10 +188,6 @@ const Cart = () => {
                                         Size: S
                                         </span>
                                     </div>
-                                    <button className="remove-item" type="button">
-                                        <i className="bi bi-trash" />
-                                        Remove
-                                    </button>
                                     </div>
                                 </div>
                                 </div>
@@ -315,6 +312,12 @@ const Cart = () => {
                                 Proceed to Checkout
                                 <i className="bi bi-arrow-right" />
                             </a>
+                            </div>
+                            <div className="rfq-button">
+                            <NavLink to="/rfq" className="btn btn-outline-accent w-100">
+                                <i className="bi bi-file-earmark-text" />
+                                Request for Quote
+                            </NavLink>
                             </div>
                             <div className="continue-shopping">
                             <a href="#" className="btn btn-link w-100">

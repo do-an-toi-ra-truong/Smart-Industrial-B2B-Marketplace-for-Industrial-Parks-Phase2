@@ -13334,6 +13334,9 @@ section,
   border-radius: 8px;
   transition: all 0.15s;
   font-weight: 500;
+  justify-content: flex-start; 
+  gap: 10px;                   
+  text-align: left;
 }
 
 .mgc-links a i {
@@ -15352,7 +15355,7 @@ input[type="date"] {
   }
 }
 
-}
+
 
 /*--------------------------------------------------------------
 # Track Order Page

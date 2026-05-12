@@ -29,7 +29,7 @@ const ProductDetails = () => {
                 <div className="container">
                 <div className="row g-5">
                     {/* Product Images Column */}
-                    <div className="col-lg-6 mb-5 mb-lg-0">
+                    <div className="col-lg-5 mb-5 mb-lg-0">
                     <div className="product-gallery">
                         {/* Vertical Thumbnails */}
                         <div className="thumbnails-vertical">
@@ -71,7 +71,7 @@ const ProductDetails = () => {
                     </div>
                     </div>
                     {/* Product Info Column */}
-                    <div className="col-lg-6">
+                    <div className="col-lg-7">
                     <div className="product-info-wrapper" id="product-info-sticky">
                         {/* Product Meta */}
                         <div className="product-meta">
@@ -121,13 +121,9 @@ const ProductDetails = () => {
                         {/* Product Price */}
                         <div className="product-price-container">
                         <div className="price-wrapper align-items-center d-flex">
-                            <NavLink to="/rfq" className="btn btn-outline-danger fw-bold py-2 px-3 shadow-sm" style={{ 'borderWidth': '2px', 'borderRadius': '8px' }}>
-                            <i className="bi bi-telephone-inbound-fill me-2" />
-                            Bấm để nhận báo giá
+                            <NavLink to="/cart" className="btn btn-outline-danger fw-bold py-2 px-3 shadow-sm" style={{ 'borderWidth': '2px', 'borderRadius': '8px' }}>
+                            Thêm vào giỏ hàng
                             </NavLink>
-                            <span className="ms-3 text-muted fst-italic" style={{ 'fontSize': '0.9rem' }}>
-                            (Giá sỉ cho Doanh nghiệp)
-                            </span>
                         </div>
                         <div className="stock-info mt-3 text-success d-flex align-items-center">
                             <i className="bi bi-box-seam-fill me-2 fs-5" />
