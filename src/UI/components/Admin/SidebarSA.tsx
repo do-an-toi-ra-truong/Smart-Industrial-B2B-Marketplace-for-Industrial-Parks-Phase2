@@ -1,4 +1,9 @@
+
+import { Link, useLocation } from 'react-router-dom';
 const SidebarSA = () => {
+
+    const location = useLocation();
+    const isActive = (path: string) => location.pathname === path;
     return (
         <>
             <aside className="sidebar">
@@ -9,27 +14,24 @@ const SidebarSA = () => {
                     <nav className="sidebar-nav">
                         <ul className="nav-menu">
                             <li className="nav-item">
-                                <a className="nav-link active" href="super-admin-dashboard.html">
+                                <Link className={`nav-link${isActive('/saadmin/sa-dashboard') ? ' active' : ''}`} to="/saadmin/sa-dashboard">
                                     <span className="nav-icon">
                                         <i className="ph-light ph-squares-four" />
                                     </span>
                                     <span className="nav-text">
                                         Dashboard
                                     </span>
-                                </a>
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="super-admin-accounts.html">
+                                <Link className={`nav-link${isActive('/saadmin/sa-accounts') ? ' active' : ''}`} to="/saadmin/sa-accounts">
                                     <span className="nav-icon">
-                                        <i className="ph-light ph-users-three" />
+                                        <i className="ph-light ph-squares-four" />
                                     </span>
                                     <span className="nav-text">
                                         Account Management
                                     </span>
-                                    <span className="nav-badge">
-                                        3
-                                    </span>
-                                </a>
+                                </Link>
                             </li>
                             {/* Industrial Park Clusters */}
                             <li className="nav-item has-submenu">
@@ -72,7 +74,7 @@ const SidebarSA = () => {
                                 </ul>
                             </li>
                             <li className="nav-item has-submenu open">
-                                <a className="nav-link active" href="#" aria-expanded="true">
+                                <a className="nav-link active" href="#">
                                     <span className="nav-icon">
                                         <i className="ph-light ph-stack" />
                                     </span>

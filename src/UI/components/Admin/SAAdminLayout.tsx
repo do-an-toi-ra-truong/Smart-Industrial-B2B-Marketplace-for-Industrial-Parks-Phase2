@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 import { useEffect } from "react"
-import SidebarSA from "./SidebarCA"
+import SidebarSA from "./SidebarSA"
 import HeaderCA from "./HeaderCA"
 
 const SAAdminLayout = () => {
@@ -20,6 +20,7 @@ const SAAdminLayout = () => {
             '/Admin/assets/styles/choices.min.css',
             '/Admin/assets/styles/flatpickr.min.css',
             '/Admin/assets/styles/main.css',
+            '/Admin/assets/styles/superadmin.css',
         ]
         const links = cssFiles.map(href => {
             const link = document.createElement('link')
@@ -42,7 +43,10 @@ const SAAdminLayout = () => {
             '/Admin/assets/libs/js/tinymce.min.js',
             '/Admin/assets/libs/js/choices.min.js',
             '/Admin/assets/libs/js/flatpickr.min.js',
-
+            '/Admin/assets/libs/js/super-admin-accounts.js',
+            '/Admin/assets/libs/js/super-admin-catalog.js',
+            '/Admin/assets/libs/js/super-admin-dashboard.js',
+            '/Admin/assets/libs/js/super-admin-login.js',
             '/Admin/assets/libs/js/validate.js',
             '/Admin/assets/libs/js/apps-sidebar-toggle.js',
             '/Admin/assets/libs/js/theme.js',
