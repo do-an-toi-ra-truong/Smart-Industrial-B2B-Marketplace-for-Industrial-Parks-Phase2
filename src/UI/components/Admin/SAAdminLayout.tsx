@@ -77,7 +77,7 @@ const SAAdminLayout = () => {
         <>
             <HeaderCA />
             <SidebarSA />
-            <main id="main" className="main">
+            <main className="main">
                 <Outlet />
             </main>
         </>
