@@ -33,6 +33,9 @@ import UserView from './UI/pages/Admin/UserView'
 import SAAdminLayout from './UI/components/Admin/SAAdminLayout'
 import SuperAdminDashboard from './UI/pages/Admin/SuperAdminDashboard'
 import SuperAdminAccountManagement from './UI/pages/Admin/SuperAdminAccountManagement'
+import SuperAdminCatalog from './UI/pages/Admin/SuperAdminCatalog'
+import SuperAdminIndustryProducts from './UI/pages/Admin/SuperAdminIndustryProducts'
+import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -62,9 +65,9 @@ const router = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       { path: 'dashboard', element: <CompanyAdminDashboard /> },
-      { path: 'users-edit', element: <UserEdit /> },
-      { path: 'users-view', element: <UserView /> },
       { path: 'users-list', element: <UserList /> },
+      { path: 'users-view/:id', element: <UserView /> },
+      { path: 'users-edit/:id', element: <UserEdit /> },
       { path: 'users-profile', element: <UserProfile /> },
       { path: 'approval-orders', element: <ApprovalOrders /> },
       { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
@@ -82,7 +85,13 @@ const router = createBrowserRouter([
     children: [
       { path: 'sa-dashboard', element: <SuperAdminDashboard /> },
       { path: 'sa-accounts', element: < SuperAdminAccountManagement /> },
+      { path: 'sa-catalog', element: <SuperAdminCatalog /> },
+      { path: 'sa-catalog/:id/products', element: <SuperAdminIndustryProducts /> },
     ],
+  },
+  {
+    path: '/saadmin/sa-login',
+    element: <SuperAdminLogin />
   }
 ])
 
