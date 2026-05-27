@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import MainLayout from './UI/components/Users/UserLayout'
 import HomePage from './UI/pages/Users/HomePage'
 import About from './UI/pages/Users/About'
@@ -36,6 +36,16 @@ import SuperAdminAccountManagement from './UI/pages/Admin/SuperAdminAccountManag
 import SuperAdminCatalog from './UI/pages/Admin/SuperAdminCatalog'
 import SuperAdminIndustryProducts from './UI/pages/Admin/SuperAdminIndustryProducts'
 import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
+import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
+
+// Industrial Park Admin Imports
+import IPAdminLayout from './UI/components/Admin/IPAdminLayout'
+import IPADashboard from './UI/pages/Admin/IPADashboard'
+import IPACompanyManagement from './UI/pages/Admin/IPACompanyManagement'
+import IPAAccountManager from './UI/pages/Admin/IPAAccountManager'
+import IPAVerification from './UI/pages/Admin/IPAVerification'
+
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -87,6 +97,24 @@ const router = createBrowserRouter([
       { path: 'sa-accounts', element: < SuperAdminAccountManagement /> },
       { path: 'sa-catalog', element: <SuperAdminCatalog /> },
       { path: 'sa-catalog/:id/products', element: <SuperAdminIndustryProducts /> },
+      { path: 'sa-catalog', element: <SuperAdminCatalog /> }, 
+    ],
+  },
+  {
+    path: '/saadmin/sa-login',
+    element: <SuperAdminLogin />
+  },
+  // Industrial Park Admin
+  {
+    path: '/ipadmin',
+    element: <IPAdminLayout />,
+    children: [
+      { index: true, element: <Navigate to="/ipadmin/dashboard" replace /> },
+      { path: 'dashboard', element: <IPADashboard /> },
+      { path: 'companies', element: <IPACompanyManagement /> },
+      { path: 'accounts', element: <IPAAccountManager /> },
+      { path: 'verification', element: <IPAVerification /> },
+
     ],
   },
   {

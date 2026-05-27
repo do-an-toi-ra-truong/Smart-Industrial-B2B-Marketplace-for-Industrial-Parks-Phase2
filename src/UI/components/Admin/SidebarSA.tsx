@@ -37,7 +37,7 @@ const SidebarSA = () => {
                             <li className="nav-item">
                                 <Link className={`nav-link${isActive('/saadmin/sa-catalog') ? ' active' : ''}`} to="/saadmin/sa-catalog">
                                     <span className="nav-icon">
-                                        <i className="ph-light ph-stack" />
+                                        <i className="ph-light ph-squares-four" />
                                     </span>
                                     <span className="nav-text">
                                         System Catalog
