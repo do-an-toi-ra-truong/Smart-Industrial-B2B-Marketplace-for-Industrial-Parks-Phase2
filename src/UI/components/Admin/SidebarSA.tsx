@@ -74,17 +74,14 @@ const SidebarSA = () => {
                                 </ul>
                             </li>
                             <li className="nav-item has-submenu open">
-                                <a className="nav-link active" href="#">
+                                <Link className={`nav-link${isActive('/saadmin/sa-catalog') ? ' active' : ''}`} to="/saadmin/sa-catalog">
                                     <span className="nav-icon">
-                                        <i className="ph-light ph-stack" />
+                                        <i className="ph-light ph-squares-four" />
                                     </span>
                                     <span className="nav-text">
                                         System Catalog
                                     </span>
-                                    <span className="nav-arrow">
-                                        <i className="bi bi-chevron-right" />
-                                    </span>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </nav>

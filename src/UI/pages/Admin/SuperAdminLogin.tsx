@@ -1,0 +1,200 @@
+import { useEffect } from 'react'
+
+const SuperAdminLogin = () => {
+  useEffect(() => {
+    // Add body-login class for dark gradient background
+    document.body.classList.add('body-login')
+
+    const cssFiles = [
+      '/Admin/assets/styles/bootstrap.min.css',
+      '/Admin/assets/styles/bootstrap-icons.css',
+      '/Admin/assets/styles/remixicon.css',
+      '/Admin/assets/styles/all.min.css',
+      '/Admin/assets/styles/style.css',
+      '/Admin/assets/styles/superadmin.css',
+    ]
+
+    const links = cssFiles.map(href => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = href
+      document.head.appendChild(link)
+      return link
+    })
+
+    return () => {
+      document.body.classList.remove('body-login')
+      links.forEach(link => document.head.removeChild(link))
+    }
+  }, [])
+  return (
+    <>
+      {/* Particles */}
+      <div className="particles" id="particles" />
+
+      <div className="login-wrapper">
+        <div className="login-card">
+          {/* Brand */}
+          <div className="login-brand">
+            <div className="login-brand-icon">
+              <i className="bi bi-shield-lock-fill" />
+            </div>
+            <div className="login-brand-title">SIBMIP</div>
+            <span className="login-brand-badge">
+              <i className="bi bi-star-fill" />
+              Super Admin Portal
+            </span>
+          </div>
+
+          {/* Step 1: Credentials */}
+          <div id="step-credentials">
+            <h1 className="login-heading">Welcome Back</h1>
+            <p className="login-subtext">
+              Sign in to access the system management console
+            </p>
+
+            {/* Alert */}
+            <div className="alert-sa" id="login-alert" role="alert">
+              <i className="bi bi-exclamation-circle-fill" />
+              <span id="login-alert-text">
+                Invalid credentials. Please try again.
+              </span>
+            </div>
+
+            <form id="login-form" noValidate>
+              {/* Username */}
+              <div className="form-group">
+                <label className="form-label" htmlFor="admin-username">
+                  Username or Email
+                </label>
+                <div className="input-wrapper">
+                  <input
+                    id="admin-username"
+                    type="text"
+                    className="form-control-sa"
+                    placeholder="superadmin@sibmip.vn"
+                    autoComplete="username"
+                    required
+                  />
+                  <i className="bi bi-person input-icon" />
+                </div>
+              </div>
+
+              {/* Password */}
+              <div className="form-group">
+                <label className="form-label" htmlFor="admin-password">
+                  Password
+                </label>
+                <div className="input-wrapper">
+                  <input
+                    id="admin-password"
+                    type="password"
+                    className="form-control-sa"
+                    placeholder="••••••••••••"
+                    autoComplete="current-password"
+                    required
+                  />
+                  <i className="bi bi-lock input-icon" />
+                  <button
+                    type="button"
+                    className="toggle-password"
+                    id="toggle-pwd"
+                    title="Show/Hide Password"
+                    aria-label="Toggle password visibility"
+                  >
+                    <i className="bi bi-eye" id="toggle-pwd-icon" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Options */}
+              <div className="form-options">
+                <label className="form-check-custom">
+                  <input type="checkbox" id="remember-me" />
+                  <span>Keep me signed in</span>
+                </label>
+                <a href="#" className="forgot-link">
+                  Forgot password?
+                </a>
+              </div>
+
+              {/* Submit */}
+              <button type="submit" className="btn-login" id="btn-login">
+                <span className="btn-icon">
+                  <i className="bi bi-box-arrow-in-right" />
+                </span>
+                <span className="btn-text">Sign In to Console</span>
+                <span className="spinner" />
+              </button>
+            </form>
+
+            <div className="security-note">
+              <i className="bi bi-shield-check" />
+              <span>256-bit SSL encrypted · Session expires in 8h</span>
+            </div>
+          </div>
+
+          {/* Step 2: 2FA */}
+          <div className="twofa-section" id="step-2fa">
+            <div style={{ fontSize: "40px", marginBottom: "12px" }}>🔐</div>
+            <h2 className="login-heading">Two-Factor Authentication</h2>
+            <p className="login-subtext">
+              Enter the 6-digit code sent to your registered authenticator app.
+            </p>
+
+            <div className="otp-inputs">
+              {/* FIX: maxLength="1" (string) → maxLength={1} (number) — áp dụng cho cả 6 input */}
+              <input className="otp-input" id="otp1" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 1" />
+              <input className="otp-input" id="otp2" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 2" />
+              <input className="otp-input" id="otp3" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 3" />
+              <input className="otp-input" id="otp4" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 4" />
+              <input className="otp-input" id="otp5" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 5" />
+              <input className="otp-input" id="otp6" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 6" />
+            </div>
+
+            <button
+              className="btn-login"
+              id="btn-verify"
+              style={{ marginBottom: "16px" }}
+            >
+              <span className="btn-icon">
+                <i className="bi bi-shield-check" />
+              </span>
+              <span className="btn-text">Verify & Enter</span>
+              <span className="spinner" />
+            </button>
+
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)" }}>
+              Didn't receive a code?{" "}
+              <a href="#" className="resend-link">
+                Resend
+              </a>
+            </p>
+
+            <button
+              type="button"
+              id="btn-back"
+              style={{
+                background: "none",
+                border: "none",
+                color: "rgba(255,255,255,0.4)",
+                fontSize: "13px",
+                cursor: "pointer",
+                marginTop: "8px",
+                fontFamily: "inherit",
+              }}
+            >
+              ← Back to sign in
+            </button>
+          </div>
+        </div>
+
+        <div className="login-footer">
+          © 2026 SIBMIP · <a href="#">Privacy Policy</a> · <a href="#">Support</a>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default SuperAdminLogin;

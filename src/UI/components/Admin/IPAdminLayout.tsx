@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom"
 import { useEffect } from "react"
-import SidebarSA from "./SidebarSA"
+import SidebarIPA from "./SidebarIPA"
 import HeaderCA from "./HeaderCA"
 
-const SAAdminLayout = () => {
+const IPAdminLayout = () => {
 
     useEffect(() => {
         // Thêm CSS
@@ -20,7 +20,7 @@ const SAAdminLayout = () => {
             '/Admin/assets/styles/choices.min.css',
             '/Admin/assets/styles/flatpickr.min.css',
             '/Admin/assets/styles/main.css',
-            '/Admin/assets/styles/superadmin.css',
+            '/Admin/assets/styles/indusAdmin.css',
         ]
         const links = cssFiles.map(href => {
             const link = document.createElement('link')
@@ -32,7 +32,6 @@ const SAAdminLayout = () => {
 
         // Thêm JS tuần tự — cái sau đợi cái trước load xong
         const jsFiles = [
-
             '/Admin/assets/libs/js/email-decode.min.js',  // phải load đầu tiên
             '/Admin/assets/libs/js/bootstrap.bundle.min.js',
             '/Admin/assets/libs/js/apexcharts.min.js',
@@ -43,10 +42,7 @@ const SAAdminLayout = () => {
             '/Admin/assets/libs/js/tinymce.min.js',
             '/Admin/assets/libs/js/choices.min.js',
             '/Admin/assets/libs/js/flatpickr.min.js',
-            '/Admin/assets/libs/js/super-admin-accounts.js',
-            '/Admin/assets/libs/js/super-admin-catalog.js',
-            '/Admin/assets/libs/js/super-admin-dashboard.js',
-            '/Admin/assets/libs/js/super-admin-login.js',
+            '/Admin/assets/libs/js/industrial-admin-dashboard.js',
             '/Admin/assets/libs/js/validate.js',
             '/Admin/assets/libs/js/apps-sidebar-toggle.js',
             '/Admin/assets/libs/js/theme.js',
@@ -76,12 +72,12 @@ const SAAdminLayout = () => {
     return (
         <>
             <HeaderCA />
-            <SidebarSA />
-            <main className="main">
+            <SidebarIPA />
+            <main id="main" className="main">
                 <Outlet />
             </main>
         </>
     )
 }
 
-export default SAAdminLayout
+export default IPAdminLayout
