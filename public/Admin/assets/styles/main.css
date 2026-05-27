@@ -3024,6 +3024,7 @@ button {
 
 .sidebar-nav .has-submenu.open>.nav-submenu,
 .sidebar-nav .nav-submenu.show {
+  max-height: 500px;
   margin-top: 5px;
 }
 
