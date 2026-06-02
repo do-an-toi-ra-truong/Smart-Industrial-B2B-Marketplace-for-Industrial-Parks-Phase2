@@ -1897,6 +1897,13 @@ h6 {
 /*--------------------------------------------------------------
 # Global Page Titles & Breadcrumbs
 --------------------------------------------------------------*/
+.page-admin-order-title{
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  margin: 0 0 var(--spacing-sm);
+}
+
 .page-title {
   color: var(--default-color);
   background-color: var(--background-color);
@@ -1943,6 +1950,17 @@ section,
   overflow: clip;
 }
 
+.section-admin-order {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-admin-order-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  margin: 0;
+}
+
 @media (max-width: 1199px) {
 
   section,
@@ -1969,6 +1987,7 @@ section,
 .section-title p {
   margin-bottom: 0;
 }
+
 
 /*--------------------------------------------------------------
 # Hero Section
