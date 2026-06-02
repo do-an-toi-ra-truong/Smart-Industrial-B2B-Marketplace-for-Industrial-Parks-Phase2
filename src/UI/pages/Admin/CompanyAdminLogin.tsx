@@ -50,7 +50,6 @@ const AdminLogin = () => {
     setLoading(true)
     try {
       await login(email.trim(), password)
-      await login(email.trim(), password)
       navigate('/admin/dashboard')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed'
