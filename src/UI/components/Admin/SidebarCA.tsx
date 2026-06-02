@@ -12,7 +12,7 @@ const SidebarCA = () => {
         setOpenMenus(prev => ({ ...prev, [menu]: !prev[menu] }));
     };
 
-    const isActive = (path: string) => location.pathname === path;
+    const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
     return (
         <>
@@ -51,18 +51,6 @@ const SidebarCA = () => {
                                         <Link className={`nav-link${isActive('/admin/users-list') ? ' active' : ''}`} to="/admin/users-list">
                                             <span className="nav-dot" />
                                             Users List
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link className={`nav-link${isActive('/admin/users-view') ? ' active' : ''}`} to="/admin/users-view">
-                                            <span className="nav-dot" />
-                                            User View
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link className={`nav-link${isActive('/admin/users-edit') ? ' active' : ''}`} to="/admin/users-edit">
-                                            <span className="nav-dot" />
-                                            User Edit
                                         </Link>
                                     </li>
                                     <li>
@@ -120,7 +108,7 @@ const SidebarCA = () => {
                     {/* Sidebar Footer */}
                     <div className="sidebar-footer">
                         <div className="sidebar-account">
-                            <a href="profile.html" className="sidebar-account-main">
+                            <Link to="/admin/users-profile" className="sidebar-account-main">
                                 <img src="/Admin/assets/images/profile-img.webp" alt="User" className="sidebar-account-avatar" />
                                 <div className="sidebar-account-meta">
                                     <div className="sidebar-account-name">
@@ -130,7 +118,7 @@ const SidebarCA = () => {
                                         Company Admin
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                             <div className="sidebar-account-actions">
                                 <a href="settings.html" className="sidebar-account-action" title="Settings">
                                     <i className="bi bi-gear" />

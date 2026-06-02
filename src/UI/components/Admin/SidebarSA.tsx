@@ -33,58 +33,16 @@ const SidebarSA = () => {
                                     </span>
                                 </Link>
                             </li>
-                            {/* Industrial Park Clusters */}
-                            <li className="nav-item has-submenu">
-                                <a className="nav-link" href="#" aria-expanded="false">
+
+                            <li className="nav-item">
+                                <Link className={`nav-link${isActive('/saadmin/sa-catalog') ? ' active' : ''}`} to="/saadmin/sa-catalog">
                                     <span className="nav-icon">
-                                        <i className="bi bi-building" />
-                                    </span>
-                                    <span className="nav-text">
-                                        Park Clusters
-                                    </span>
-                                    <span className="nav-arrow">
-                                        <i className="bi bi-chevron-right" />
-                                    </span>
-                                </a>
-                                <ul className="nav-submenu">
-                                    <li>
-                                        <a className="nav-link" href="#">
-                                            <span className="nav-dot" />
-                                            VSIP Group
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="nav-link" href="#">
-                                            <span className="nav-dot" />
-                                            My Phuoc Group
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="nav-link" href="#">
-                                            <span className="nav-dot" />
-                                            Amata Group
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="nav-link" href="#">
-                                            <span className="nav-dot" />
-                                            + Add Cluster
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className="nav-item has-submenu open">
-                                <a className="nav-link active" href="#">
-                                    <span className="nav-icon">
-                                        <i className="ph-light ph-stack" />
+                                        <i className="ph-light ph-squares-four" />
                                     </span>
                                     <span className="nav-text">
                                         System Catalog
                                     </span>
-                                    <span className="nav-arrow">
-                                        <i className="bi bi-chevron-right" />
-                                    </span>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </nav>
