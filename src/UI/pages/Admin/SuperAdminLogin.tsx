@@ -1,10 +1,18 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../../context/AuthContext'
 
 const SuperAdminLogin = () => {
-  useEffect(() => {
-    // Add body-login class for dark gradient background
-    document.body.classList.add('body-login')
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    document.body.classList.add('body-login')
     const cssFiles = [
       '/Admin/assets/styles/bootstrap.min.css',
       '/Admin/assets/styles/bootstrap-icons.css',
@@ -13,7 +21,6 @@ const SuperAdminLogin = () => {
       '/Admin/assets/styles/style.css',
       '/Admin/assets/styles/superadmin.css',
     ]
-
     const links = cssFiles.map(href => {
       const link = document.createElement('link')
       link.rel = 'stylesheet'
@@ -21,17 +28,29 @@ const SuperAdminLogin = () => {
       document.head.appendChild(link)
       return link
     })
-
     return () => {
       document.body.classList.remove('body-login')
       links.forEach(link => document.head.removeChild(link))
     }
   }, [])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      await login(email, password);
+      navigate('/saadmin/sa-dashboard');
+    } catch (err: any) {
+      setError(err.response?.data || 'Email hoặc mật khẩu không đúng');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      {/* Particles */}
       <div className="particles" id="particles" />
-
       <div className="login-wrapper">
         <div className="login-card">
           {/* Brand */}
@@ -46,23 +65,23 @@ const SuperAdminLogin = () => {
             </span>
           </div>
 
-          {/* Step 1: Credentials */}
+          {/* Form */}
           <div id="step-credentials">
             <h1 className="login-heading">Welcome Back</h1>
             <p className="login-subtext">
               Sign in to access the system management console
             </p>
 
-            {/* Alert */}
-            <div className="alert-sa" id="login-alert" role="alert">
-              <i className="bi bi-exclamation-circle-fill" />
-              <span id="login-alert-text">
-                Invalid credentials. Please try again.
-              </span>
-            </div>
+            {/* Hiện lỗi nếu có */}
+            {error && (
+              <div className="alert-sa" role="alert">
+                <i className="bi bi-exclamation-circle-fill" />
+                <span>{error}</span>
+              </div>
+            )}
 
-            <form id="login-form" noValidate>
-              {/* Username */}
+            <form onSubmit={handleSubmit} noValidate>
+              {/* Email */}
               <div className="form-group">
                 <label className="form-label" htmlFor="admin-username">
                   Username or Email
@@ -70,10 +89,11 @@ const SuperAdminLogin = () => {
                 <div className="input-wrapper">
                   <input
                     id="admin-username"
-                    type="text"
+                    type="email"
                     className="form-control-sa"
                     placeholder="superadmin@sibmip.vn"
-                    autoComplete="username"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                   <i className="bi bi-person input-icon" />
@@ -88,104 +108,43 @@ const SuperAdminLogin = () => {
                 <div className="input-wrapper">
                   <input
                     id="admin-password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     className="form-control-sa"
                     placeholder="••••••••••••"
-                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                   <i className="bi bi-lock input-icon" />
                   <button
                     type="button"
                     className="toggle-password"
-                    id="toggle-pwd"
-                    title="Show/Hide Password"
-                    aria-label="Toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    <i className="bi bi-eye" id="toggle-pwd-icon" />
+                    <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`} />
                   </button>
                 </div>
               </div>
 
-              {/* Options */}
-              <div className="form-options">
-                <label className="form-check-custom">
-                  <input type="checkbox" id="remember-me" />
-                  <span>Keep me signed in</span>
-                </label>
-                <a href="#" className="forgot-link">
-                  Forgot password?
-                </a>
-              </div>
-
               {/* Submit */}
-              <button type="submit" className="btn-login" id="btn-login">
+              <button
+                type="submit"
+                className="btn-login"
+                disabled={loading}
+              >
                 <span className="btn-icon">
                   <i className="bi bi-box-arrow-in-right" />
                 </span>
-                <span className="btn-text">Sign In to Console</span>
-                <span className="spinner" />
+                <span className="btn-text">
+                  {loading ? 'Signing in...' : 'Sign In to Console'}
+                </span>
               </button>
             </form>
 
             <div className="security-note">
               <i className="bi bi-shield-check" />
-              <span>256-bit SSL encrypted · Session expires in 8h</span>
+              <span>256-bit SSL encrypted · Session expires in 24h</span>
             </div>
-          </div>
-
-          {/* Step 2: 2FA */}
-          <div className="twofa-section" id="step-2fa">
-            <div style={{ fontSize: "40px", marginBottom: "12px" }}>🔐</div>
-            <h2 className="login-heading">Two-Factor Authentication</h2>
-            <p className="login-subtext">
-              Enter the 6-digit code sent to your registered authenticator app.
-            </p>
-
-            <div className="otp-inputs">
-              {/* FIX: maxLength="1" (string) → maxLength={1} (number) — áp dụng cho cả 6 input */}
-              <input className="otp-input" id="otp1" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 1" />
-              <input className="otp-input" id="otp2" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 2" />
-              <input className="otp-input" id="otp3" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 3" />
-              <input className="otp-input" id="otp4" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 4" />
-              <input className="otp-input" id="otp5" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 5" />
-              <input className="otp-input" id="otp6" type="text" maxLength={1} inputMode="numeric" aria-label="OTP digit 6" />
-            </div>
-
-            <button
-              className="btn-login"
-              id="btn-verify"
-              style={{ marginBottom: "16px" }}
-            >
-              <span className="btn-icon">
-                <i className="bi bi-shield-check" />
-              </span>
-              <span className="btn-text">Verify & Enter</span>
-              <span className="spinner" />
-            </button>
-
-            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)" }}>
-              Didn't receive a code?{" "}
-              <a href="#" className="resend-link">
-                Resend
-              </a>
-            </p>
-
-            <button
-              type="button"
-              id="btn-back"
-              style={{
-                background: "none",
-                border: "none",
-                color: "rgba(255,255,255,0.4)",
-                fontSize: "13px",
-                cursor: "pointer",
-                marginTop: "8px",
-                fontFamily: "inherit",
-              }}
-            >
-              ← Back to sign in
-            </button>
           </div>
         </div>
 

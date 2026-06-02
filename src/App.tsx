@@ -1,3 +1,5 @@
+import PrivateRoute from './components/PrivateRoute'
+import { AuthProvider } from './context/AuthContext'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import MainLayout from './UI/components/Users/UserLayout'
 import HomePage from './UI/pages/Users/HomePage'
@@ -47,7 +49,6 @@ import IPACompanyManagement from './UI/pages/Admin/IPACompanyManagement'
 import IPAAccountManager from './UI/pages/Admin/IPAAccountManager'
 import IPAVerification from './UI/pages/Admin/IPAVerification'
 
-
 const router = createBrowserRouter([
   {
     path: '/',
@@ -83,11 +84,11 @@ const router = createBrowserRouter([
       { path: 'users-profile', element: <UserProfile /> },
       { path: 'approval-orders', element: <ApprovalOrders /> },
       { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
-      { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
       { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
       { path: 'seller-products', element: <SellerStaffProducts /> },
       { path: 'seller-product-upload', element: <SellerStaffProductsUpload /> },
       { path: 'seller-product-details', element: <SellerStaffProductDetail /> },
+      { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
       { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
       { path: 'return-orders', element: <ReturnOrder /> },
       { path: 'return-order-details', element: <ReturnOrderDetails /> }
@@ -96,13 +97,16 @@ const router = createBrowserRouter([
   // Super Admin  
   {
     path: '/saadmin',
-    element: <SAAdminLayout />,
+    element: (
+      <PrivateRoute roles={['SUPER_ADMIN']}>
+        <SAAdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       { path: 'sa-dashboard', element: <SuperAdminDashboard /> },
       { path: 'sa-accounts', element: < SuperAdminAccountManagement /> },
       { path: 'sa-catalog', element: <SuperAdminCatalog /> },
       { path: 'sa-catalog/:id/products', element: <SuperAdminIndustryProducts /> },
-      { path: 'sa-catalog', element: <SuperAdminCatalog /> },
     ],
   },
   {
@@ -129,7 +133,11 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  )
 }
 
 export default App
