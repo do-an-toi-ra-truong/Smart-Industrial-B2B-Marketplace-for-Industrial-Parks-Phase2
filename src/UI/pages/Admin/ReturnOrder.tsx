@@ -3,7 +3,7 @@ const ReturnOrder = () => {
         <>
             <div className="main-content page-tables-datatables">
                 {/* Page Header */}
-                <h1 className="page-title">
+                <h1 className="page-admin-order-title">
                     Disputes and Returns
                 </h1>
                 <div className="page-header">
@@ -17,8 +17,8 @@ const ReturnOrder = () => {
                     </nav>
                 </div>
                 {/* Order Management DataTable */}
-                <section className="section">
-                    <h5 className="section-title mb-3">
+                <div className="section-admin-order">
+                    <h5 className="section-admin-order-title mb-3">
                         Order Management DataTable
                     </h5>
                     <div className="row g-4">
@@ -139,7 +139,7 @@ const ReturnOrder = () => {
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
         </>
     )

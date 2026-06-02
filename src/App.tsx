@@ -36,7 +36,9 @@ import SuperAdminAccountManagement from './UI/pages/Admin/SuperAdminAccountManag
 import SuperAdminCatalog from './UI/pages/Admin/SuperAdminCatalog'
 import SuperAdminIndustryProducts from './UI/pages/Admin/SuperAdminIndustryProducts'
 import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
-import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
+import SellerStaffProductDetail from './UI/pages/Admin/SellerStaffProductDetail'
+import SellerStaffProducts from './UI/pages/Admin/SellerStaffProducts'
+import SellerStaffProductsUpload from './UI/pages/Admin/SellerStaffProductUpload'
 
 // Industrial Park Admin Imports
 import IPAdminLayout from './UI/components/Admin/IPAdminLayout'
@@ -81,8 +83,11 @@ const router = createBrowserRouter([
       { path: 'users-profile', element: <UserProfile /> },
       { path: 'approval-orders', element: <ApprovalOrders /> },
       { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
-      { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
       { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
+      { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
+      { path: 'seller-products', element: <SellerStaffProducts /> },
+      { path: 'seller-product-upload', element: <SellerStaffProductsUpload /> },
+      { path: 'seller-product-details', element: <SellerStaffProductDetail /> },
       { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
       { path: 'return-orders', element: <ReturnOrder /> },
       { path: 'return-order-details', element: <ReturnOrderDetails /> }
@@ -97,7 +102,7 @@ const router = createBrowserRouter([
       { path: 'sa-accounts', element: < SuperAdminAccountManagement /> },
       { path: 'sa-catalog', element: <SuperAdminCatalog /> },
       { path: 'sa-catalog/:id/products', element: <SuperAdminIndustryProducts /> },
-      { path: 'sa-catalog', element: <SuperAdminCatalog /> }, 
+      { path: 'sa-catalog', element: <SuperAdminCatalog /> },
     ],
   },
   {
