@@ -1,7 +1,8 @@
 
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 const SidebarSA = () => {
-
+    const { logout } = useAuth();
     const location = useLocation();
     const isActive = (path: string) => location.pathname === path;
     return (
@@ -67,9 +68,13 @@ const SidebarSA = () => {
                                 <a href="#" className="sidebar-account-action" title="Settings">
                                     <i className="bi bi-gear" />
                                 </a>
-                                <a href="super-admin-login.html" className="sidebar-account-action sidebar-account-logout" title="Logout">
+                                <button
+                                    onClick={() => { logout(); window.location.href = '/saadmin/sa-login'; }}
+                                    className="sidebar-account-action sidebar-account-logout"
+                                    title="Logout"
+                                >
                                     <i className="bi bi-box-arrow-right" />
-                                </a>
+                                </button>
                             </div>
                         </div>
                         <div className="sidebar-footer-links">

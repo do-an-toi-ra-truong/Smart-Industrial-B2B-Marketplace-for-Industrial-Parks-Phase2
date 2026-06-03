@@ -4,6 +4,7 @@ import { useAuth } from '../../../context/AuthContext'
 
 const IndustrialLogin = () => {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -48,7 +49,7 @@ const IndustrialLogin = () => {
 
     setLoading(true)
     try {
-      await login(email.trim(), password, 'IP_ADMIN')
+      await login(email.trim(), password)
       navigate('/ipadmin/dashboard')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed'

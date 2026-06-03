@@ -38,7 +38,8 @@
   import SuperAdminCatalog from './UI/pages/Admin/SuperAdminCatalog'
   import SuperAdminIndustryProducts from './UI/pages/Admin/SuperAdminIndustryProducts'
   import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
-
+  import IndustrialLogin from './UI/pages/Admin/IndustrialLogin'
+  import CompanyAdminLogin from './UI/pages/Admin/CompanyAdminLogin'
 
   // Industrial Park Admin Imports
   import IPAdminLayout from './UI/components/Admin/IPAdminLayout'
@@ -74,7 +75,11 @@
     },
     {
       path: '/admin',
-      element: <AdminLayout />,
+        element: (
+          <PrivateRoute roles={['COMPANY_ADMIN']}>
+            <AdminLayout />
+          </PrivateRoute>
+        ),
       children: [
         { path: 'dashboard', element: <CompanyAdminDashboard /> },
         { path: 'users-list', element: <UserList /> },
@@ -89,6 +94,11 @@
         { path: 'return-orders', element: <ReturnOrder /> },
         { path: 'return-order-details', element: <ReturnOrderDetails /> }
       ],
+      
+    },
+          {
+      path: '/admin/login',  
+      element: <CompanyAdminLogin />
     },
     // Super Admin  
     {
@@ -112,7 +122,11 @@
     // Industrial Park Admin
     {
       path: '/ipadmin',
-      element: <IPAdminLayout />,
+            element: (
+        <PrivateRoute roles={['IP_ADMIN']}>
+          <IPAdminLayout />
+        </PrivateRoute>
+      ),
       children: [
         { index: true, element: <Navigate to="/ipadmin/dashboard" replace /> },
         { path: 'dashboard', element: <IPADashboard /> },
@@ -122,10 +136,10 @@
 
       ],
     },
-    {
-      path: '/saadmin/sa-login',
-      element: <SuperAdminLogin />
-    }
+      {
+      path: '/ipadmin/ip-login',  
+      element: <IndustrialLogin />
+    },
   ])
 
   function App() {

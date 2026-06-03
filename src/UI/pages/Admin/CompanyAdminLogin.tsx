@@ -2,7 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext'
 
-const AdminLogin = () => {
+const CompanyAdminLogin = () => {
   const navigate = useNavigate()
   const { login } = useAuth()
   const [email, setEmail] = useState('')
@@ -49,7 +49,6 @@ const AdminLogin = () => {
 
     setLoading(true)
     try {
-      await login(email.trim(), password)
       await login(email.trim(), password)
       navigate('/admin/dashboard')
     } catch (err: unknown) {
@@ -237,4 +236,4 @@ const AdminLogin = () => {
   );
 };
 
-export default AdminLogin;
+export default CompanyAdminLogin;
