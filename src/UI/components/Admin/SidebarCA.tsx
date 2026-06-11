@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 
 const SidebarCA = () => {
+    const { logout } = useAuth();
     const location = useLocation();
     const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
         users: location.pathname.startsWith('/admin/users'),
-        orders: location.pathname.startsWith('/admin/approval') || location.pathname.startsWith('/admin/buyer') || location.pathname.startsWith('/admin/seller') || location.pathname.startsWith('/admin/return'),
+        products: location.pathname.startsWith('/admin/seller-product'),
+        orders: location.pathname.startsWith('/admin/approval') || location.pathname.startsWith('/admin/buyer') || location.pathname.startsWith('/admin/seller-staff') || location.pathname.startsWith('/admin/return'),
     });
 
     const toggleMenu = (menu: string) => {
@@ -57,6 +60,33 @@ const SidebarCA = () => {
                                         <Link className={`nav-link${isActive('/admin/users-profile') ? ' active' : ''}`} to="/admin/users-profile">
                                             <span className="nav-dot" />
                                             Profile
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li className={`nav-item has-submenu${openMenus.products ? ' open' : ''}`}>
+                                <a className="nav-link" href="#" aria-expanded={openMenus.products} onClick={(e) => { e.preventDefault(); toggleMenu('products'); }}>
+                                    <span className="nav-icon">
+                                        <i className="bi bi-box-seam" />
+                                    </span>
+                                    <span className="nav-text">
+                                        Product Management
+                                    </span>
+                                    <span className="nav-arrow">
+                                        <i className="bi bi-chevron-right" />
+                                    </span>
+                                </a>
+                                <ul className={`nav-submenu${openMenus.products ? ' show' : ''}`} style={openMenus.products ? { maxHeight: '500px', overflow: 'visible' } : {}}>
+                                    <li>
+                                        <Link className={`nav-link${isActive('/admin/seller-products') ? ' active' : ''}`} to="/admin/seller-products">
+                                            <span className="nav-dot" />
+                                            Product List
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link className={`nav-link${isActive('/admin/seller-product-upload') ? ' active' : ''}`} to="/admin/seller-product-upload">
+                                            <span className="nav-dot" />
+                                            Upload Product
                                         </Link>
                                     </li>
                                 </ul>
@@ -123,9 +153,13 @@ const SidebarCA = () => {
                                 <a href="settings.html" className="sidebar-account-action" title="Settings">
                                     <i className="bi bi-gear" />
                                 </a>
-                                <a href="auth-login.html" className="sidebar-account-action sidebar-account-logout" title="Logout">
+                                <button
+                                    onClick={() => { logout(); window.location.href = '/admin/login'; }}
+                                    className="sidebar-account-action sidebar-account-logout"
+                                    title="Logout"
+                                >
                                     <i className="bi bi-box-arrow-right" />
-                                </a>
+                                </button>
                             </div>
                         </div>
                         <div className="sidebar-footer-links">

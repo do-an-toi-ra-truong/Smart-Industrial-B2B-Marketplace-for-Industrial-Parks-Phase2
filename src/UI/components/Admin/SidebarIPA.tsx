@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
-
+import { useAuth } from '../../../context/AuthContext';
 const SideBarIPA = () => {
+    const { logout } = useAuth();
     const location = useLocation();
     const currentPath = location.pathname;
 
@@ -137,9 +138,13 @@ const SideBarIPA = () => {
                                 <a href="#" className="sidebar-account-action" title="Settings">
                                     <i className="bi bi-gear" />
                                 </a>
-                                <Link to="/ipadmin/login" className="sidebar-account-action sidebar-account-logout" title="Logout">
+                                <button 
+                                    onClick={() => { logout(); window.location.href = '/ipadmin/ip-login'; }} 
+                                    className="sidebar-account-action sidebar-account-logout" 
+                                    title="Logout"
+                                >
                                     <i className="bi bi-box-arrow-right" />
-                                </Link>
+                                </button>
                             </div>
                         </div>
                         <div className="sidebar-footer-links">

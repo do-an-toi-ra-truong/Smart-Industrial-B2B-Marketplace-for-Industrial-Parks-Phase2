@@ -1,3 +1,5 @@
+import PrivateRoute from './components/PrivateRoute'
+import { AuthProvider } from './context/AuthContext'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import MainLayout from './UI/components/Users/UserLayout'
 import HomePage from './UI/pages/Users/HomePage'
@@ -36,7 +38,9 @@ import SuperAdminAccountManagement from './UI/pages/Admin/SuperAdminAccountManag
 import SuperAdminCatalog from './UI/pages/Admin/SuperAdminCatalog'
 import SuperAdminIndustryProducts from './UI/pages/Admin/SuperAdminIndustryProducts'
 import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
-import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
+import SellerStaffProductDetail from './UI/pages/Admin/SellerStaffProductDetail'
+import SellerStaffProducts from './UI/pages/Admin/SellerStaffProducts'
+import SellerStaffProductsUpload from './UI/pages/Admin/SellerStaffProductUpload'
 
 // Industrial Park Admin Imports
 import IPAdminLayout from './UI/components/Admin/IPAdminLayout'
@@ -45,6 +49,9 @@ import IPACompanyManagement from './UI/pages/Admin/IPACompanyManagement'
 import IPAAccountManager from './UI/pages/Admin/IPAAccountManager'
 import IPAVerification from './UI/pages/Admin/IPAVerification'
 
+// Login pages
+import IndustrialLogin from './UI/pages/Admin/IndustrialLogin'
+import CompanyAdminLogin from './UI/pages/Admin/CompanyAdminLogin'
 
 const router = createBrowserRouter([
   {
@@ -72,7 +79,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: (
+      <PrivateRoute roles={['COMPANY_ADMIN']}>
+        <AdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       { path: 'dashboard', element: <CompanyAdminDashboard /> },
       { path: 'users-list', element: <UserList /> },
@@ -82,22 +93,33 @@ const router = createBrowserRouter([
       { path: 'approval-orders', element: <ApprovalOrders /> },
       { path: 'buyer-staff-orders', element: <BuyerStaffOrder /> },
       { path: 'seller-staff-orders', element: <SellerStaffOrder /> },
+      { path: 'seller-products', element: <SellerStaffProducts /> },
+      { path: 'seller-product-upload', element: <SellerStaffProductsUpload /> },
+      { path: 'seller-product-details', element: <SellerStaffProductDetail /> },
       { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
       { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
       { path: 'return-orders', element: <ReturnOrder /> },
       { path: 'return-order-details', element: <ReturnOrderDetails /> }
     ],
+
+  },
+  {
+    path: '/admin/login',
+    element: <CompanyAdminLogin />
   },
   // Super Admin  
   {
     path: '/saadmin',
-    element: <SAAdminLayout />,
+    element: (
+      <PrivateRoute roles={['SUPER_ADMIN']}>
+        <SAAdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       { path: 'sa-dashboard', element: <SuperAdminDashboard /> },
       { path: 'sa-accounts', element: < SuperAdminAccountManagement /> },
       { path: 'sa-catalog', element: <SuperAdminCatalog /> },
       { path: 'sa-catalog/:id/products', element: <SuperAdminIndustryProducts /> },
-      { path: 'sa-catalog', element: <SuperAdminCatalog /> }, 
     ],
   },
   {
@@ -107,7 +129,11 @@ const router = createBrowserRouter([
   // Industrial Park Admin
   {
     path: '/ipadmin',
-    element: <IPAdminLayout />,
+    element: (
+      <PrivateRoute roles={['IP_ADMIN']}>
+        <IPAdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       { index: true, element: <Navigate to="/ipadmin/dashboard" replace /> },
       { path: 'dashboard', element: <IPADashboard /> },
@@ -118,13 +144,17 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/saadmin/sa-login',
-    element: <SuperAdminLogin />
-  }
+    path: '/ipadmin/ip-login',
+    element: <IndustrialLogin />
+  },
 ])
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  )
 }
 
 export default App
