@@ -28,7 +28,7 @@ const menuConfig: MenuItem[] = [
         label: 'Users',
         path: '/admin/users',
         icon: 'ph-light ph-users-three',
-        allowedRoles: ['COMPANY_ADMIN'],
+        allowedRoles: ['COMPANY_ADMIN', 'SUPER_ADMIN', 'IP_ADMIN'],
         children: [
             { label: 'Users List', path: '/admin/users-list' },
             { label: 'Profile', path: '/admin/users-profile' },

@@ -3,6 +3,7 @@ import axiosInstance from './axiosInstance';
 // ── Types ──
 export interface UserResponse {
   id: number;
+  parentId?: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -43,6 +44,7 @@ export interface CreateUserRequest {
   password: string;
   confirmPassword?: string;
   role: string;
+  parentId?: number;
   phone?: string;
   dateOfBirth?: string;
   gender?: string;
@@ -73,6 +75,13 @@ export interface UpdateUserRequest {
   confirmPassword?: string;
 }
 
+// ── Role-aware base URL ──
+function getApiBase(role?: string): string {
+  if (role === 'SUPER_ADMIN') return '/api/sadmin/users';
+  if (role === 'IP_ADMIN') return '/api/ipadmin/users';
+  return '/api/admin/users';
+}
+
 // ── API Functions ──
 
 export async function fetchUsers(params?: {
@@ -81,26 +90,36 @@ export async function fetchUsers(params?: {
   status?: string;
   role?: string;
   search?: string;
-}): Promise<UserListResponse> {
-  const res = await axiosInstance.get('/api/admin/users', { params });
+}, callerRole?: string): Promise<UserListResponse> {
+  const base = getApiBase(callerRole);
+  const res = await axiosInstance.get(base, { params });
   return res.data;
 }
 
-export async function fetchUserById(id: number): Promise<UserResponse> {
-  const res = await axiosInstance.get(`/api/admin/users/${id}`);
+export async function fetchUserById(id: number, callerRole?: string): Promise<UserResponse> {
+  const base = getApiBase(callerRole);
+  const res = await axiosInstance.get(`${base}/${id}`);
   return res.data;
 }
 
-export async function createUser(data: CreateUserRequest): Promise<UserResponse> {
-  const res = await axiosInstance.post('/api/admin/users', data);
+export async function createUser(data: CreateUserRequest, callerRole?: string): Promise<UserResponse> {
+  const base = getApiBase(callerRole);
+  const res = await axiosInstance.post(base, data);
   return res.data;
 }
 
-export async function updateUser(id: number, data: UpdateUserRequest): Promise<UserResponse> {
-  const res = await axiosInstance.put(`/api/admin/users/${id}`, data);
+export async function updateUser(id: number, data: UpdateUserRequest, callerRole?: string): Promise<UserResponse> {
+  const base = getApiBase(callerRole);
+  const res = await axiosInstance.put(`${base}/${id}`, data);
   return res.data;
 }
 
-export async function deleteUser(id: number): Promise<void> {
-  await axiosInstance.delete(`/api/admin/users/${id}`);
+export async function deleteUser(id: number, callerRole?: string): Promise<void> {
+  const base = getApiBase(callerRole);
+  await axiosInstance.delete(`${base}/${id}`);
+}
+
+export async function softDeleteUser(id: number, callerRole?: string): Promise<void> {
+  const base = getApiBase(callerRole);
+  await axiosInstance.put(`${base}/${id}/deactivate`);
 }

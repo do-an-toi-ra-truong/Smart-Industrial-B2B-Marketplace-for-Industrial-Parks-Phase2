@@ -1,8 +1,42 @@
-import React from "react"
-import { NavLink } from "react-router-dom"
-import BlockItem from "../../components/Users/BlockItem"
+import React, { useState, useEffect } from "react"
+import { NavLink, Link } from "react-router-dom"
+import { fetchPublicIndustries } from "../../../api/publicCatalogApi"
+import type { IndustryCatalogResponse } from "../../../api/publicCatalogApi"
 
 const Category = () => {
+    const [industries, setIndustries] = useState<IndustryCatalogResponse[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedSector, setSelectedSector] = useState<string | null>(null);
+    const [selectedIndustries, setSelectedIndustries] = useState<number[]>([]);
+
+    useEffect(() => {
+        fetchPublicIndustries()
+            .then(data => {
+                setIndustries(data.filter(i => i.status === 'ACTIVE'));
+            })
+            .catch(err => console.error('Failed to load industries:', err))
+            .finally(() => setLoading(false));
+    }, []);
+
+    // Get unique sectors
+    const sectors = Array.from(new Set(industries.map(i => i.sector)));
+
+    // Filter industries by selected sector and search term
+    const filteredIndustries = industries.filter(ind => {
+        const matchesSector = !selectedSector || ind.sector === selectedSector;
+        const matchesSearch = !searchTerm || ind.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            ind.products?.some(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        const matchesSelected = selectedIndustries.length === 0 || selectedIndustries.includes(ind.id);
+        return matchesSector && matchesSearch && matchesSelected;
+    });
+
+    const toggleIndustry = (id: number) => {
+        setSelectedIndustries(prev =>
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
     return (
         <>
             <main className="main">
@@ -25,355 +59,163 @@ const Category = () => {
                     <div className="row h-100">
                         <div className="col-lg-3 sidebar h-100 pt-0">
                             <div className="widgets-container pt-0 mt-0">
+                                {/* Search */}
                                 <div className="search-widget widget-item mt-0">
-                                    <h3 className="widget-title mt-0">Tìm kiếm vật tư</h3>
+                                    <h3 className="widget-title mt-0">Search Products</h3>
                                     <div className="input-group mb-3">
-                                        <input type="text" className="form-control" placeholder="" aria-label="Recipient’s username" aria-describedby="button-addon2" />
-                                        <button className="btn btn-outline-secondary" type="button" id="button-addon2">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Search..."
+                                            value={searchTerm}
+                                            onChange={e => setSearchTerm(e.target.value)}
+                                        />
+                                        <button className="btn btn-outline-secondary" type="button">
                                             Search
                                         </button>
                                     </div>
                                 </div>
+
+                                {/* Sector Filter */}
                                 <div className="kcn-filter-widget widget-item">
-                                    <h3 className="widget-title">Chọn Khu Vực (KCN)</h3>
+                                    <h3 className="widget-title">Sector</h3>
                                     <div className="d-flex flex-column gap-2">
                                         <div className="form-check">
                                             <input
                                                 className="form-check-input"
-                                                type="checkbox"
-                                                id="kcn_vsip1"
-                                                defaultChecked
+                                                type="radio"
+                                                id="sector_all"
+                                                checked={!selectedSector}
+                                                onChange={() => setSelectedSector(null)}
                                             />
-                                            <label className="form-check-label" htmlFor="kcn_vsip1">
-                                                VSIP 1 (Thuận An)
+                                            <label className="form-check-label" htmlFor="sector_all">
+                                                All Sectors
                                             </label>
                                         </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="kcn_vsip2"
-                                            />
-                                            <label className="form-check-label" htmlFor="kcn_vsip2">
-                                                VSIP 2 / 2A (Tân Uyên)
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="kcn_mp"
-                                            />
-                                            <label className="form-check-label" htmlFor="kcn_mp">
-                                                KCN Mỹ Phước 1, 2, 3
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="kcn_songthan"
-                                            />
-                                            <label className="form-check-label" htmlFor="kcn_songthan">
-                                                KCN Sóng Thần
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="kcn_baubang"
-                                            />
-                                            <label className="form-check-label" htmlFor="kcn_baubang">
-                                                KCN Bàu Bàng
-                                            </label>
-                                        </div>
+                                        {sectors.map(sector => (
+                                            <div className="form-check" key={sector}>
+                                                <input
+                                                    className="form-check-input"
+                                                    type="radio"
+                                                    id={`sector_${sector}`}
+                                                    checked={selectedSector === sector}
+                                                    onChange={() => setSelectedSector(sector)}
+                                                />
+                                                <label className="form-check-label" htmlFor={`sector_${sector}`}>
+                                                    {sector}
+                                                </label>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
+
+                                {/* Industry Filter */}
                                 <div className="product-categories-widget widget-item">
-                                    <h3 className="widget-title">Ngành Hàng</h3>
+                                    <h3 className="widget-title">Industries</h3>
                                     <div className="d-flex flex-column gap-2">
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_raw_materials"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_raw_materials">
-                                                Raw Materials
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_electronics"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_electronics">
-                                                Electronics and Components
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_machinery"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_machinery">
-                                                Machinery and Equipments
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_chemicals"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_chemicals">
-                                                Chemicals
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_automotive"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_automotive">
-                                                Automotive
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_textiles"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_textiles">
-                                                Textiles and Fabrics
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_food_agri"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_food_agri">
-                                                Food and Agriculture
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="cat_packaging"
-                                            />
-                                            <label className="form-check-label" htmlFor="cat_packaging">
-                                                Packaging and Logistics
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="origin-filter-widget widget-item">
-                                    <h3 className="widget-title">Xuất xứ (Origin)</h3>
-                                    <div className="d-flex flex-column gap-2">
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="origin_de"
-                                            />
-                                            <label className="form-check-label" htmlFor="origin_de">
-                                                Đức
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="origin_jp"
-                                            />
-                                            <label className="form-check-label" htmlFor="origin_jp">
-                                                Nhật Bản
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="origin_cn"
-                                            />
-                                            <label className="form-check-label" htmlFor="origin_cn">
-                                                Trung Quốc
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input
-                                                className="form-check-input"
-                                                type="checkbox"
-                                                id="origin_vn"
-                                            />
-                                            <label className="form-check-label" htmlFor="origin_vn">
-                                                Việt Nam
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="brand-filter-widget widget-item">
-                                    <h3 className="widget-title">Thương hiệu</h3>
-                                    <div className="brand-filter-content">
-                                        <div className="brand-search mb-3">
-                                            <input
-                                                type="text"
-                                                className="form-control form-control-sm"
-                                                placeholder="Tìm hãng..."
-                                            />
-                                        </div>
-                                        <div
-                                            className="d-flex flex-column gap-2"
-                                            style={{ maxHeight: 200, overflowY: "auto" }}
-                                        >
-                                            <div className="form-check">
+                                        {industries.map(ind => (
+                                            <div className="form-check" key={ind.id}>
                                                 <input
                                                     className="form-check-input"
                                                     type="checkbox"
-                                                    id="brand_bosch"
+                                                    id={`cat_${ind.id}`}
+                                                    checked={selectedIndustries.includes(ind.id)}
+                                                    onChange={() => toggleIndustry(ind.id)}
                                                 />
-                                                <label className="form-check-label" htmlFor="brand_bosch">
-                                                    Bosch <span className="text-muted small">(45)</span>
+                                                <label className="form-check-label" htmlFor={`cat_${ind.id}`}>
+                                                    {ind.name} <span className="text-muted small">({ind.subCategories})</span>
                                                 </label>
                                             </div>
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id="brand_makita"
-                                                />
-                                                <label className="form-check-label" htmlFor="brand_makita">
-                                                    Makita <span className="text-muted small">(32)</span>
-                                                </label>
-                                            </div>
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id="brand_3m"
-                                                />
-                                                <label className="form-check-label" htmlFor="brand_3m">
-                                                    3M <span className="text-muted small">(15)</span>
-                                                </label>
-                                            </div>
-                                            <div className="form-check">
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id="brand_honeywell"
-                                                />
-                                                <label
-                                                    className="form-check-label"
-                                                    htmlFor="brand_honeywell"
-                                                >
-                                                    Honeywell <span className="text-muted small">(8)</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div className="mt-3">
-                                            <button className="btn btn-sm btn-primary w-100">
-                                                Áp dụng bộ lọc
-                                            </button>
-                                        </div>
+                                        ))}
+                                        {industries.length === 0 && !loading && (
+                                            <p className="text-muted small">No industries available</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-9 h-100">
-
-                            {/* Products */}
-                            <section
-                                id="category-product-list"
-                                className="category-product-list section"
-                            >
+                            {/* Industries Grid */}
+                            <section id="category-product-list" className="category-product-list section">
                                 <div>
-                                    <div className="row g-4">
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                        <BlockItem />
-                                    </div>
+                                    {loading ? (
+                                        <div className="text-center py-5">
+                                            <div className="spinner-border text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    ) : filteredIndustries.length === 0 ? (
+                                        <div className="text-center py-5 text-muted">
+                                            <i className="bi bi-inbox fs-1 d-block mb-2"></i>
+                                            <p>No industries found</p>
+                                        </div>
+                                    ) : (
+                                        <div className="row g-4">
+                                            {filteredIndustries.map(ind => (
+                                                <div className="col-lg-4 col-md-6" key={ind.id}>
+                                                    <div className="product-box border rounded shadow-sm h-100 bg-white">
+                                                        <div className="product-thumb position-relative overflow-hidden p-3 text-center"
+                                                            style={{
+                                                                backgroundColor: ind.iconBg || 'rgba(59,130,246,0.1)',
+                                                                minHeight: 120,
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center'
+                                                            }}>
+                                                            <span className="badge bg-success position-absolute top-0 start-0 m-3">
+                                                                {ind.status}
+                                                            </span>
+                                                            <i className={ind.icon || 'bi bi-box-fill'}
+                                                                style={{
+                                                                    fontSize: '3rem',
+                                                                    color: ind.iconColor || '#2563eb'
+                                                                }} />
+                                                        </div>
+                                                        <div className="product-content p-3 pt-2">
+                                                            <div className="mb-2">
+                                                                <span className="badge bg-light text-secondary border">
+                                                                    <i className="bi bi-grid me-1" />
+                                                                    {ind.sector}
+                                                                </span>
+                                                            </div>
+                                                            <h5 className="product-title mb-2">
+                                                                <span className="text-decoration-none fw-bold" style={{ color: "#353535" }}>
+                                                                    {ind.name}
+                                                                </span>
+                                                            </h5>
+                                                            {ind.description && (
+                                                                <p className="text-muted small mb-2" style={{
+                                                                    display: '-webkit-box',
+                                                                    WebkitLineClamp: 2,
+                                                                    WebkitBoxOrient: 'vertical',
+                                                                    overflow: 'hidden'
+                                                                }}>
+                                                                    {ind.description}
+                                                                </p>
+                                                            )}
+                                                            <div className="d-flex justify-content-between align-items-end border-top pt-3">
+                                                                <div>
+                                                                    <small className="text-muted d-block">
+                                                                        {ind.subCategories} products · {ind.enterprises} enterprises
+                                                                    </small>
+                                                                </div>
+                                                                <Link to={`/category`} className="btn btn-primary btn-sm rounded-pill px-3">
+                                                                    <i className="bi bi-arrow-right me-1" /> View
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </section>
-                            {/* Category Pagination Section */}
-                            <section
-                                id="category-pagination"
-                                className="category-pagination section"
-                            >
-                                <div className="container">
-                                    <nav
-                                        className="d-flex justify-content-center"
-                                        aria-label="Page navigation"
-                                    >
-                                        <ul>
-                                            <li>
-                                                <a href="#" aria-label="Previous page">
-                                                    <i className="bi bi-arrow-left" />
-                                                    <span className="d-none d-sm-inline">Previous</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" className="active">
-                                                    1
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">2</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">3</a>
-                                            </li>
-                                            <li className="ellipsis">...</li>
-                                            <li>
-                                                <a href="#">8</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">9</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">10</a>
-                                            </li>
-                                            <li>
-                                                <a href="#" aria-label="Next page">
-                                                    <span className="d-none d-sm-inline">Next</span>
-                                                    <i className="bi bi-arrow-right" />
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </section>
-                            {/* /Category Pagination Section */}
                         </div>
                     </div>
                 </div>
             </main>
         </>
-
     )
 }
 export default Category
