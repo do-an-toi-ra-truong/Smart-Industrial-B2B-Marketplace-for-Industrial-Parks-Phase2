@@ -1,34 +1,54 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { NavLink, Link } from "react-router-dom"
 import { fetchPublicIndustries } from "../../../api/publicCatalogApi"
+import { fetchPublicProducts } from "../../../api/productApi"
 import type { IndustryCatalogResponse } from "../../../api/publicCatalogApi"
+import type { ProductResponse } from "../../../api/productApi"
 
 const Category = () => {
     const [industries, setIndustries] = useState<IndustryCatalogResponse[]>([]);
+    const [products, setProducts] = useState<ProductResponse[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedSector, setSelectedSector] = useState<string | null>(null);
     const [selectedIndustries, setSelectedIndustries] = useState<number[]>([]);
 
     useEffect(() => {
-        fetchPublicIndustries()
-            .then(data => {
-                setIndustries(data.filter(i => i.status === 'ACTIVE'));
-            })
-            .catch(err => console.error('Failed to load industries:', err))
-            .finally(() => setLoading(false));
+        Promise.all([
+            fetchPublicIndustries(),
+            fetchPublicProducts(),
+        ]).then(([inds, prods]) => {
+            setIndustries(inds.filter(i => i.status === 'ACTIVE'));
+            setProducts(prods);
+        }).catch(err => console.error('Failed to load data:', err))
+          .finally(() => setLoading(false));
     }, []);
 
     // Get unique sectors
     const sectors = Array.from(new Set(industries.map(i => i.sector)));
 
-    // Filter industries by selected sector and search term
-    const filteredIndustries = industries.filter(ind => {
-        const matchesSector = !selectedSector || ind.sector === selectedSector;
-        const matchesSearch = !searchTerm || ind.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            ind.products?.some(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
-        const matchesSelected = selectedIndustries.length === 0 || selectedIndustries.includes(ind.id);
-        return matchesSector && matchesSearch && matchesSelected;
+    // Filter products
+    const filteredProducts = products.filter(prod => {
+        // Sector filter
+        if (selectedSector) {
+            const industryInSector = industries
+                .filter(i => i.sector === selectedSector)
+                .map(i => i.id);
+            if (!prod.industryId || !industryInSector.includes(prod.industryId)) return false;
+        }
+        // Industry filter
+        if (selectedIndustries.length > 0) {
+            if (!prod.industryId || !selectedIndustries.includes(prod.industryId)) return false;
+        }
+        // Search filter
+        if (searchTerm) {
+            const q = searchTerm.toLowerCase();
+            const matchesName = prod.name.toLowerCase().includes(q);
+            const matchesDesc = prod.description?.toLowerCase().includes(q);
+            const matchesIndustry = prod.industryName?.toLowerCase().includes(q);
+            if (!matchesName && !matchesDesc && !matchesIndustry) return false;
+        }
+        return true;
     });
 
     const toggleIndustry = (id: number) => {
@@ -135,7 +155,7 @@ const Category = () => {
                             </div>
                         </div>
                         <div className="col-lg-9 h-100">
-                            {/* Industries Grid */}
+                            {/* Products Grid */}
                             <section id="category-product-list" className="category-product-list section">
                                 <div>
                                     {loading ? (
@@ -144,62 +164,74 @@ const Category = () => {
                                                 <span className="visually-hidden">Loading...</span>
                                             </div>
                                         </div>
-                                    ) : filteredIndustries.length === 0 ? (
+                                    ) : filteredProducts.length === 0 ? (
                                         <div className="text-center py-5 text-muted">
                                             <i className="bi bi-inbox fs-1 d-block mb-2"></i>
-                                            <p>No industries found</p>
+                                            <p>No products found</p>
                                         </div>
                                     ) : (
                                         <div className="row g-4">
-                                            {filteredIndustries.map(ind => (
-                                                <div className="col-lg-4 col-md-6" key={ind.id}>
+                                            {filteredProducts.map(product => (
+                                                <div className="col-lg-4 col-md-6" key={product.id}>
                                                     <div className="product-box border rounded shadow-sm h-100 bg-white">
                                                         <div className="product-thumb position-relative overflow-hidden p-3 text-center"
                                                             style={{
-                                                                backgroundColor: ind.iconBg || 'rgba(59,130,246,0.1)',
+                                                                backgroundColor: 'rgba(59,130,246,0.08)',
                                                                 minHeight: 120,
                                                                 display: 'flex',
                                                                 alignItems: 'center',
                                                                 justifyContent: 'center'
                                                             }}>
                                                             <span className="badge bg-success position-absolute top-0 start-0 m-3">
-                                                                {ind.status}
+                                                                {product.status}
                                                             </span>
-                                                            <i className={ind.icon || 'bi bi-box-fill'}
+                                                            {product.quantity > 0 && (
+                                                                <span className="badge bg-primary position-absolute top-0 end-0 m-3">
+                                                                    Qty: {product.quantity}
+                                                                </span>
+                                                            )}
+                                                            <i className="bi bi-box-seam-fill"
                                                                 style={{
                                                                     fontSize: '3rem',
-                                                                    color: ind.iconColor || '#2563eb'
+                                                                    color: '#2563eb'
                                                                 }} />
                                                         </div>
                                                         <div className="product-content p-3 pt-2">
                                                             <div className="mb-2">
                                                                 <span className="badge bg-light text-secondary border">
-                                                                    <i className="bi bi-grid me-1" />
-                                                                    {ind.sector}
+                                                                    <i className="bi bi-building me-1" />
+                                                                    {product.industryName || 'Uncategorized'}
                                                                 </span>
+                                                                {product.industrySector && (
+                                                                    <span className="badge bg-light text-secondary border ms-1">
+                                                                        {product.industrySector}
+                                                                    </span>
+                                                                )}
                                                             </div>
                                                             <h5 className="product-title mb-2">
-                                                                <span className="text-decoration-none fw-bold" style={{ color: "#353535" }}>
-                                                                    {ind.name}
-                                                                </span>
+                                                                <Link to={`/product-details?id=${product.id}`}
+                                                                    className="text-decoration-none fw-bold"
+                                                                    style={{ color: "#353535" }}>
+                                                                    {product.name}
+                                                                </Link>
                                                             </h5>
-                                                            {ind.description && (
+                                                            {product.description && (
                                                                 <p className="text-muted small mb-2" style={{
                                                                     display: '-webkit-box',
                                                                     WebkitLineClamp: 2,
                                                                     WebkitBoxOrient: 'vertical',
                                                                     overflow: 'hidden'
                                                                 }}>
-                                                                    {ind.description}
+                                                                    {product.description}
                                                                 </p>
                                                             )}
                                                             <div className="d-flex justify-content-between align-items-end border-top pt-3">
                                                                 <div>
                                                                     <small className="text-muted d-block">
-                                                                        {ind.subCategories} products · {ind.enterprises} enterprises
+                                                                        In stock: {product.quantity}
                                                                     </small>
                                                                 </div>
-                                                                <Link to={`/category`} className="btn btn-primary btn-sm rounded-pill px-3">
+                                                                <Link to={`/product-details?id=${product.id}`} className="btn btn-primary btn-sm rounded-pill px-3">
                                                                     <i className="bi bi-arrow-right me-1" /> View
                                                                 </Link>
                                                             </div>

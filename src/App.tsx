@@ -39,6 +39,8 @@ import SuperAdminIndustryProducts from './UI/pages/Admin/SuperAdminIndustryProdu
 import SellerStaffProductDetail from './UI/pages/Admin/SellerStaffProductDetail'
 import SellerStaffProducts from './UI/pages/Admin/SellerStaffProducts'
 import SellerStaffProductsUpload from './UI/pages/Admin/SellerStaffProductUpload'
+import ProductList from './UI/pages/Admin/ProductList'
+import ProductEdit from './UI/pages/Admin/ProductEdit'
 
 // Industrial Park Admin page imports
 import IPADashboard from './UI/pages/Admin/IPADashboard'
@@ -83,7 +85,7 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     element: (
-      <PrivateRoute roles={['COMPANY_ADMIN', 'IP_ADMIN', 'SUPER_ADMIN']}>
+      <PrivateRoute roles={['COMPANY_ADMIN', 'IP_ADMIN', 'SUPER_ADMIN', 'SELLER_STAFF', 'BUYER_STAFF']}>
         <AdminLayout />
       </PrivateRoute>
     ),
@@ -104,6 +106,11 @@ const router = createBrowserRouter([
       { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
       { path: 'return-orders', element: <ReturnOrder /> },
       { path: 'return-order-details', element: <ReturnOrderDetails /> },
+
+      // ── Product Management pages ──
+      { path: 'products-list', element: <ProductList /> },
+      { path: 'products-add', element: <ProductList /> },
+      { path: 'products-edit/:id', element: <ProductEdit /> },
 
       // ── Super Admin pages ──
       { path: 'sa-dashboard', element: <SuperAdminDashboard /> },

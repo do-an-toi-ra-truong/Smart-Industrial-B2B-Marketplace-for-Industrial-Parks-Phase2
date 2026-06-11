@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 
-type Role = 'COMPANY_ADMIN' | 'IP_ADMIN' | 'SUPER_ADMIN';
+type Role = 'COMPANY_ADMIN' | 'IP_ADMIN' | 'SUPER_ADMIN' | 'SELLER_STAFF' | 'BUYER_STAFF';
 
 interface MenuItem {
     label: string;
@@ -36,12 +36,12 @@ const menuConfig: MenuItem[] = [
     },
     {
         label: 'Product Management',
-        path: '/admin/seller-product',
+        path: '/admin/products',
         icon: 'bi bi-box-seam',
-        allowedRoles: ['COMPANY_ADMIN'],
+        allowedRoles: ['COMPANY_ADMIN', 'SELLER_STAFF'],
         children: [
-            { label: 'Product List', path: '/admin/seller-products' },
-            { label: 'Upload Product', path: '/admin/seller-product-upload' },
+            { label: 'Product List', path: '/admin/products-list' },
+            { label: 'Add Product', path: '/admin/products-add' },
         ],
     },
     {
@@ -111,6 +111,8 @@ const roleTitles: Record<Role, { title: string; chip?: string }> = {
     COMPANY_ADMIN: { title: 'Company Admin' },
     IP_ADMIN: { title: 'IP Management Board' },
     SUPER_ADMIN: { title: 'SIBMIP System Manager', chip: 'Super Admin' },
+    SELLER_STAFF: { title: 'Seller Staff' },
+    BUYER_STAFF: { title: 'Buyer Staff' },
 };
 
 const UnifiedSidebar = () => {
