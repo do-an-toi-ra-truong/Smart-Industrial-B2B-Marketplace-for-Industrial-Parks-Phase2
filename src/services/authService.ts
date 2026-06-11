@@ -9,6 +9,8 @@ export interface AuthResponse {
   token: string;
   email: string;
   role: string;
+  firstName: string;
+  lastName: string;
 }
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {

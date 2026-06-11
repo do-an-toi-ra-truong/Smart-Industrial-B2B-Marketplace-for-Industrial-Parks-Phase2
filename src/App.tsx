@@ -32,26 +32,23 @@ import InvoiceOfSellerOrder from './UI/pages/Admin/InvoiceOfSellerOrder'
 import ReturnOrder from './UI/pages/Admin/ReturnOrder'
 import ReturnOrderDetails from './UI/pages/Admin/ReturnOrderDetails'
 import UserView from './UI/pages/Admin/UserView'
-import SAAdminLayout from './UI/components/Admin/SAAdminLayout'
 import SuperAdminDashboard from './UI/pages/Admin/SuperAdminDashboard'
 import SuperAdminAccountManagement from './UI/pages/Admin/SuperAdminAccountManagement'
 import SuperAdminCatalog from './UI/pages/Admin/SuperAdminCatalog'
 import SuperAdminIndustryProducts from './UI/pages/Admin/SuperAdminIndustryProducts'
-import SuperAdminLogin from './UI/pages/Admin/SuperAdminLogin'
 import SellerStaffProductDetail from './UI/pages/Admin/SellerStaffProductDetail'
 import SellerStaffProducts from './UI/pages/Admin/SellerStaffProducts'
 import SellerStaffProductsUpload from './UI/pages/Admin/SellerStaffProductUpload'
 
-// Industrial Park Admin Imports
-import IPAdminLayout from './UI/components/Admin/IPAdminLayout'
+// Industrial Park Admin page imports
 import IPADashboard from './UI/pages/Admin/IPADashboard'
 import IPACompanyManagement from './UI/pages/Admin/IPACompanyManagement'
 import IPAAccountManager from './UI/pages/Admin/IPAAccountManager'
 import IPAVerification from './UI/pages/Admin/IPAVerification'
 
-// Login pages
-import IndustrialLogin from './UI/pages/Admin/IndustrialLogin'
-import CompanyAdminLogin from './UI/pages/Admin/CompanyAdminLogin'
+// Unified admin login
+import AdminLogin from './UI/pages/Admin/CompanyAdminLogin'
+import IPAStatistics from './UI/pages/Admin/IPAStatistics'
 
 const router = createBrowserRouter([
   {
@@ -77,14 +74,21 @@ const router = createBrowserRouter([
       { path: 'terms', element: <TermOfService /> },
     ],
   },
+  // Unified admin login — public
+  {
+    path: '/admin/login',
+    element: <AdminLogin />,
+  },
+  // All admin routes — protected, all 3 roles allowed
   {
     path: '/admin',
     element: (
-      <PrivateRoute roles={['COMPANY_ADMIN']}>
+      <PrivateRoute roles={['COMPANY_ADMIN', 'IP_ADMIN', 'SUPER_ADMIN']}>
         <AdminLayout />
       </PrivateRoute>
     ),
     children: [
+      // ── Company Admin pages ──
       { path: 'dashboard', element: <CompanyAdminDashboard /> },
       { path: 'users-list', element: <UserList /> },
       { path: 'users-view/:id', element: <UserView /> },
@@ -99,53 +103,21 @@ const router = createBrowserRouter([
       { path: 'buyer-staff-order-details', element: <BuyerStaffOrderDetails /> },
       { path: 'invoice-of-seller-order', element: <InvoiceOfSellerOrder /> },
       { path: 'return-orders', element: <ReturnOrder /> },
-      { path: 'return-order-details', element: <ReturnOrderDetails /> }
-    ],
+      { path: 'return-order-details', element: <ReturnOrderDetails /> },
 
-  },
-  {
-    path: '/admin/login',
-    element: <CompanyAdminLogin />
-  },
-  // Super Admin  
-  {
-    path: '/saadmin',
-    element: (
-      <PrivateRoute roles={['SUPER_ADMIN']}>
-        <SAAdminLayout />
-      </PrivateRoute>
-    ),
-    children: [
+      // ── Super Admin pages ──
       { path: 'sa-dashboard', element: <SuperAdminDashboard /> },
-      { path: 'sa-accounts', element: < SuperAdminAccountManagement /> },
+      { path: 'sa-accounts', element: <SuperAdminAccountManagement /> },
       { path: 'sa-catalog', element: <SuperAdminCatalog /> },
       { path: 'sa-catalog/:id/products', element: <SuperAdminIndustryProducts /> },
-    ],
-  },
-  {
-    path: '/saadmin/sa-login',
-    element: <SuperAdminLogin />
-  },
-  // Industrial Park Admin
-  {
-    path: '/ipadmin',
-    element: (
-      <PrivateRoute roles={['IP_ADMIN']}>
-        <IPAdminLayout />
-      </PrivateRoute>
-    ),
-    children: [
-      { index: true, element: <Navigate to="/ipadmin/dashboard" replace /> },
-      { path: 'dashboard', element: <IPADashboard /> },
-      { path: 'companies', element: <IPACompanyManagement /> },
-      { path: 'accounts', element: <IPAAccountManager /> },
-      { path: 'verification', element: <IPAVerification /> },
 
+      // ── IP Admin pages ──
+      { path: 'ip-dashboard', element: <IPADashboard /> },
+      { path: 'ip-companies', element: <IPACompanyManagement /> },
+      { path: 'ip-accounts', element: <IPAAccountManager /> },
+      { path: 'ip-verification', element: <IPAVerification /> },
+      { path: 'ip-statistics', element: <IPAStatistics /> },
     ],
-  },
-  {
-    path: '/ipadmin/ip-login',
-    element: <IndustrialLogin />
   },
 ])
 

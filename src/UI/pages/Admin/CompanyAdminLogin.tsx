@@ -50,7 +50,21 @@ const CompanyAdminLogin = () => {
     setLoading(true)
     try {
       await login(email.trim(), password)
-      navigate('/admin/dashboard')
+
+      // Route to the correct dashboard based on the user's role
+      const saved = JSON.parse(localStorage.getItem('user') || '{}')
+      switch (saved.role) {
+        case 'SUPER_ADMIN':
+          navigate('/admin/sa-dashboard')
+          break
+        case 'IP_ADMIN':
+          navigate('/admin/ip-dashboard')
+          break
+        case 'COMPANY_ADMIN':
+        default:
+          navigate('/admin/dashboard')
+          break
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed'
       setError(message)
@@ -73,7 +87,7 @@ const CompanyAdminLogin = () => {
             </div>
             <div className="login-brand-title">SIBMIP</div>
             <span className="login-brand-badge">
-              <i className="bi bi-briefcase-fill" />
+              <i className="bi bi-shield-lock-fill" />
               Admin Portal
             </span>
           </div>
@@ -82,7 +96,7 @@ const CompanyAdminLogin = () => {
           <div id="step-credentials">
             <h1 className="login-heading">Welcome Back</h1>
             <p className="login-subtext">
-              Sign in to access your company management panel
+              Sign in to access the administration panel
             </p>
 
             {/* Alert */}

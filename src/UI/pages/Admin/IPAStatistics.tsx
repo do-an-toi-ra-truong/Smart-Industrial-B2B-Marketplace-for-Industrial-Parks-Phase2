@@ -10,7 +10,7 @@ const IPAStatistics = () => {
                         Statistics & Reports
                     </h1>
                     <div className="page-breadcrumb">
-                        <Link to="/ipadmin/dashboard">
+                        <Link to="/admin/ip-dashboard">
                             Dashboard
                         </Link>
                         <i className="bi bi-chevron-right" />

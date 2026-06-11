@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://localhost:8081',
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -17,7 +17,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.clear();
-      window.location.href = '/saadmin/sa-login';
+      window.location.href = '/admin/login';
     }
     return Promise.reject(error);
   }

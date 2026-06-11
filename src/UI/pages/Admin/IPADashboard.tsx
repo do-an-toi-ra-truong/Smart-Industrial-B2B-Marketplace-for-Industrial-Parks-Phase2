@@ -10,7 +10,7 @@ const IPADashboard = () => {
                         Industrial Park Management
                     </h1>
                     <div className="page-breadcrumb">
-                        <Link to="/ipadmin/dashboard">
+                        <Link to="/admin/ip-dashboard">
                             Dashboard
                         </Link>
                         <i className="bi bi-chevron-right" />
@@ -74,7 +74,7 @@ const IPADashboard = () => {
 
             {/* Stats Row */}
             <div className="stat-grid" style={{ marginBottom: '16px' }}>
-                <Link to="/ipadmin/companies" style={{ textDecoration: 'none' }}>
+                <Link to="/admin/ip-companies" style={{ textDecoration: 'none' }}>
                     <div className="stat-card teal" style={{ padding: '14px 18px' }}>
                         <div className="stat-icon teal" style={{ width: '40px', height: '40px', fontSize: '18px' }}>
                             <i className="bi bi-building-fill" />
@@ -89,7 +89,7 @@ const IPADashboard = () => {
                         </div>
                     </div>
                 </Link>
-                <Link to="/ipadmin/companies" style={{ textDecoration: 'none' }}>
+                <Link to="/admin/ip-companies" style={{ textDecoration: 'none' }}>
                     <div className="stat-card success" style={{ padding: '14px 18px' }}>
                         <div className="stat-icon success" style={{ width: '40px', height: '40px', fontSize: '18px' }}>
                             <i className="bi bi-check-circle-fill" />
@@ -104,7 +104,7 @@ const IPADashboard = () => {
                         </div>
                     </div>
                 </Link>
-                <Link to="/ipadmin/verification" style={{ textDecoration: 'none' }}>
+                <Link to="/admin/ip-verification" style={{ textDecoration: 'none' }}>
                     <div className="stat-card warning" style={{ padding: '14px 18px' }}>
                         <div className="stat-icon warning" style={{ width: '40px', height: '40px', fontSize: '18px' }}>
                             <i className="bi bi-hourglass-split" />
@@ -119,7 +119,7 @@ const IPADashboard = () => {
                         </div>
                     </div>
                 </Link>
-                <Link to="/ipadmin/accounts" style={{ textDecoration: 'none' }}>
+                <Link to="/admin/ip-accounts" style={{ textDecoration: 'none' }}>
                     <div className="stat-card info" style={{ padding: '14px 18px' }}>
                         <div className="stat-icon info" style={{ width: '40px', height: '40px', fontSize: '18px' }}>
                             <i className="bi bi-person-fill-gear" />
@@ -134,7 +134,7 @@ const IPADashboard = () => {
                         </div>
                     </div>
                 </Link>
-                <Link to="/ipadmin/verification" style={{ textDecoration: 'none' }}>
+                <Link to="/admin/ip-verification" style={{ textDecoration: 'none' }}>
                     <div className="stat-card danger" style={{ padding: '14px 18px' }}>
                         <div className="stat-icon danger" style={{ width: '40px', height: '40px', fontSize: '18px' }}>
                             <i className="bi bi-shield-exclamation" />
@@ -181,7 +181,7 @@ const IPADashboard = () => {
                             <td><span style={{ fontSize: '12.5px', color: 'var(--text-muted)' }}>Manage companies, approve registrations, and control permissions</span></td>
                             <td><span className="badge-status pending">4 pending</span></td>
                             <td>
-                                <Link to="/ipadmin/companies" className="btn-ia-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
+                                <Link to="/admin/ip-companies" className="btn-ia-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
                                     <i className="bi bi-arrow-right" /> Open
                                 </Link>
                             </td>
@@ -198,7 +198,7 @@ const IPADashboard = () => {
                             <td><span style={{ fontSize: '12.5px', color: 'var(--text-muted)' }}>Verify Tax IDs, business licenses, and environmental certificates</span></td>
                             <td><span className="badge-status pending">5 documents</span></td>
                             <td>
-                                <Link to="/ipadmin/verification" className="btn-ia-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
+                                <Link to="/admin/ip-verification" className="btn-ia-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
                                     <i className="bi bi-arrow-right" /> Open
                                 </Link>
                             </td>
@@ -215,7 +215,7 @@ const IPADashboard = () => {
                             <td><span style={{ fontSize: '12.5px', color: 'var(--text-muted)' }}>Manage company admin accounts, permissions, and access control</span></td>
                             <td><span className="badge-status active">12 admins</span></td>
                             <td>
-                                <Link to="/ipadmin/accounts" className="btn-ia-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
+                                <Link to="/admin/ip-accounts" className="btn-ia-primary" style={{ fontSize: '12px', padding: '5px 12px' }}>
                                     <i className="bi bi-arrow-right" /> Open
                                 </Link>
                             </td>

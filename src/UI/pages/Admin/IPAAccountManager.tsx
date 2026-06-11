@@ -8,7 +8,7 @@ const IPAAccountManager = () => {
                 <div>
                     <h1 className="page-title">Account Manager</h1>
                     <div className="page-breadcrumb">
-                        <Link to="/ipadmin/dashboard">Dashboard</Link>
+                        <Link to="/admin/ip-dashboard">Dashboard</Link>
                         <i className="bi bi-chevron-right" />
                         <span>Account Manager</span>
                     </div>
