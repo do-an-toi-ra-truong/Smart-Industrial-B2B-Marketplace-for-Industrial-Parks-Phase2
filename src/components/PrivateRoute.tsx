@@ -1,17 +1,26 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
   roles?: string[];
-  redirectTo?: string;
 }
 
-export default function PrivateRoute({ children, roles, redirectTo }: PrivateRouteProps) {
+export default function PrivateRoute({ children, roles }: PrivateRouteProps) {
   const { user } = useAuth();
+  const location = useLocation();
 
   if (!user) {
-    return <Navigate to={redirectTo || '/saadmin/sa-login'} replace />;
+    if (location.pathname.startsWith('/ipadmin')) {
+      return <Navigate to="/ipadmin/ip-login" replace />;
+    }
+    if (location.pathname.startsWith('/saadmin')) {
+      return <Navigate to="/saadmin/sa-login" replace />;
+    }
+    if (location.pathname.startsWith('/admin')) {
+      return <Navigate to="/admin/login" replace />;
+    }
+    return <Navigate to="/" replace />;
   }
 
   if (roles && !roles.includes(user.role)) {

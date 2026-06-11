@@ -49,6 +49,10 @@ import IPACompanyManagement from './UI/pages/Admin/IPACompanyManagement'
 import IPAAccountManager from './UI/pages/Admin/IPAAccountManager'
 import IPAVerification from './UI/pages/Admin/IPAVerification'
 
+// Login pages
+import IndustrialLogin from './UI/pages/Admin/IndustrialLogin'
+import CompanyAdminLogin from './UI/pages/Admin/CompanyAdminLogin'
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -75,7 +79,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: (
+      <PrivateRoute roles={['COMPANY_ADMIN']}>
+        <AdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       { path: 'dashboard', element: <CompanyAdminDashboard /> },
       { path: 'users-list', element: <UserList /> },
@@ -93,6 +101,11 @@ const router = createBrowserRouter([
       { path: 'return-orders', element: <ReturnOrder /> },
       { path: 'return-order-details', element: <ReturnOrderDetails /> }
     ],
+
+  },
+  {
+    path: '/admin/login',
+    element: <CompanyAdminLogin />
   },
   // Super Admin  
   {
@@ -116,7 +129,11 @@ const router = createBrowserRouter([
   // Industrial Park Admin
   {
     path: '/ipadmin',
-    element: <IPAdminLayout />,
+    element: (
+      <PrivateRoute roles={['IP_ADMIN']}>
+        <IPAdminLayout />
+      </PrivateRoute>
+    ),
     children: [
       { index: true, element: <Navigate to="/ipadmin/dashboard" replace /> },
       { path: 'dashboard', element: <IPADashboard /> },
@@ -127,9 +144,9 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/saadmin/sa-login',
-    element: <SuperAdminLogin />
-  }
+    path: '/ipadmin/ip-login',
+    element: <IndustrialLogin />
+  },
 ])
 
 function App() {

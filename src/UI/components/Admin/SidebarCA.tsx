@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 
 const SidebarCA = () => {
+    const { logout } = useAuth();
     const location = useLocation();
     const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({
         users: location.pathname.startsWith('/admin/users'),
@@ -151,9 +153,13 @@ const SidebarCA = () => {
                                 <a href="settings.html" className="sidebar-account-action" title="Settings">
                                     <i className="bi bi-gear" />
                                 </a>
-                                <a href="auth-login.html" className="sidebar-account-action sidebar-account-logout" title="Logout">
+                                <button
+                                    onClick={() => { logout(); window.location.href = '/admin/login'; }}
+                                    className="sidebar-account-action sidebar-account-logout"
+                                    title="Logout"
+                                >
                                     <i className="bi bi-box-arrow-right" />
-                                </a>
+                                </button>
                             </div>
                         </div>
                         <div className="sidebar-footer-links">
