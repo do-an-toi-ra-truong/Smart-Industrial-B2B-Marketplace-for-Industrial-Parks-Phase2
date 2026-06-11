@@ -1,10 +1,21 @@
-import { useState } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { fetchPublicIndustries } from '../../../api/publicCatalogApi'
+import type { IndustryCatalogResponse } from '../../../api/publicCatalogApi'
+
 const UserHeader = () => {
-    const [activeMegaCat, setActiveMegaCat] = useState('electronics');
+    const [activeMegaCat, setActiveMegaCat] = useState('');
+    const [industries, setIndustries] = useState<IndustryCatalogResponse[]>([]);
     const switchMegaCat = (category: string) => {
         setActiveMegaCat(category);
     }
+
+    useEffect(() => {
+        fetchPublicIndustries().then(data => {
+            setIndustries(data.filter(i => i.status === 'ACTIVE'));
+            if (data.length > 0) setActiveMegaCat(data[0].name);
+        }).catch(() => {});
+    }, []);
     return (
         <>
             <header id="header" className="header position-relative">
@@ -132,7 +143,7 @@ const UserHeader = () => {
                                                             Wireless Headphones
                                                         </h6>
                                                         <div className="cart-item-meta">
-                                                            1 × $89.99
+                                                            1 Ã— $89.99
                                                         </div>
                                                     </div>
                                                     <button className="cart-item-remove">
@@ -149,7 +160,7 @@ const UserHeader = () => {
                                                             Smart Watch
                                                         </h6>
                                                         <div className="cart-item-meta">
-                                                            1 × $129.99
+                                                            1 Ã— $129.99
                                                         </div>
                                                     </div>
                                                     <button className="cart-item-remove">
@@ -166,7 +177,7 @@ const UserHeader = () => {
                                                             Bluetooth Speaker
                                                         </h6>
                                                         <div className="cart-item-meta">
-                                                            1 × $59.99
+                                                            1 Ã— $59.99
                                                         </div>
                                                     </div>
                                                     <button className="cart-item-remove">
@@ -227,693 +238,59 @@ const UserHeader = () => {
                                     {/* Mega Panel */}
                                     <div className="category-megapanel" id="categoryMegaPanel">
                                         <div className="megapanel-inner">
-                                            {/* LEFT: Category sidebar */}
+                                            {/* LEFT: Category sidebar â€” dynamic from API */}
                                             <div className="megapanel-sidebar">
-                                                <div className={`mgs-item${activeMegaCat === 'electronics' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="electronics" onMouseEnter={() => switchMegaCat('electronics')}>
-                                                    <i className="bi bi-cpu-fill" />
-                                                    <span className="text-truncate">
-                                                        Electronics & Components
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
-
-                                                <div className={`mgs-item${activeMegaCat === 'raw-materials' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="raw-materials" onMouseEnter={() => switchMegaCat('raw-materials')}>
-                                                    <i className="bi bi-layers-fill" />
-                                                    <span className="text-truncate">
-                                                        Raw Materials
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
-
-                                                <div className={`mgs-item${activeMegaCat === 'chemicals' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="chemicals" onMouseEnter={() => switchMegaCat('chemicals')}>
-                                                    <i className="bi bi-droplet-fill" />
-                                                    <span className="text-truncate">
-                                                        Chemicals
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
-
-                                                <div className={`mgs-item${activeMegaCat === 'machinery' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="machinery" onMouseEnter={() => switchMegaCat('machinery')}>
-                                                    <i className="bi bi-gear-wide-connected" />
-                                                    <span className="text-truncate">
-                                                        Machinery & Equipment
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
-
-                                                <div className={`mgs-item${activeMegaCat === 'automotive' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="automotive" onMouseEnter={() => switchMegaCat('automotive')}>
-                                                    <i className="bi bi-car-front-fill" />
-                                                    <span className="text-truncate">
-                                                        Automotive
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
-
-                                                <div className={`mgs-item${activeMegaCat === 'textiles' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="textiles" onMouseEnter={() => switchMegaCat('textiles')}>
-                                                    <i className="bi bi-scissors" />
-                                                    <span className="text-truncate">
-                                                        Textiles & Fabrics
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
-
-                                                <div className={`mgs-item${activeMegaCat === 'food-agri' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="food-agri" onMouseEnter={() => switchMegaCat('food-agri')}>
-                                                    <i className="bi bi-basket-fill" />
-                                                    <span className="text-truncate">
-                                                        Food & Agriculture
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
-
-                                                <div className={`mgs-item${activeMegaCat === 'packaging' ? ' active' : ''} d-flex align-items-center gap-2`} data-cat="packaging" onMouseEnter={() => switchMegaCat('packaging')}>
-                                                    <i className="bi bi-box-fill" />
-                                                    <span className="text-truncate">
-                                                        Packaging & Logistics
-                                                    </span>
-                                                    <i className="bi bi-chevron-right ms-auto" />
-                                                </div>
+                                                {industries.map(ind => (
+                                                    <div
+                                                        key={ind.id}
+                                                        className={`mgs-item${activeMegaCat === ind.name ? ' active' : ''} d-flex align-items-center gap-2`}
+                                                        onMouseEnter={() => switchMegaCat(ind.name)}
+                                                    >
+                                                        <i className={ind.icon || 'bi bi-box-fill'} />
+                                                        <span className="text-truncate">{ind.name}</span>
+                                                        <i className="bi bi-chevron-right ms-auto" />
+                                                    </div>
+                                                ))}
+                                                {industries.length === 0 && (
+                                                    <div className="text-muted p-3">No categories available</div>
+                                                )}
                                             </div>
-                                            {/* RIGHT: Sub-content panels */}
+                                            {/* RIGHT: Sub-content panels â€” dynamic from API */}
                                             <div className="megapanel-content">
-                                                {/* Electronics Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'electronics' ? ' active' : ''}`} data-panel="electronics">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Loại sản phẩm
+                                                {industries.map(ind => (
+                                                    <div
+                                                        key={ind.id}
+                                                        className={`mgc-panel${activeMegaCat === ind.name ? ' active' : ''}`}
+                                                    >
+                                                        <div className="mgc-group">
+                                                            <div className="mgc-group-title">
+                                                                {ind.name} â€” Products
+                                                            </div>
+                                                            <div className="mgc-links">
+                                                                {ind.products && ind.products.length > 0 ? (
+                                                                    ind.products.map(p => (
+                                                                        <Link key={p.id} to="/category">
+                                                                            <i className="bi bi-dot" />
+                                                                            {p.name}
+                                                                        </Link>
+                                                                    ))
+                                                                ) : (
+                                                                    <span className="text-muted small">No products yet</span>
+                                                                )}
+                                                            </div>
                                                         </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-phone" />
-                                                                Smartphones & Tablets
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-laptop" />
-                                                                Laptops & Computers
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-headphones" />
-                                                                Audio & Wearables
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-camera" />
-                                                                Cameras & Optics
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-house-gear" />
-                                                                Smart Home Devices
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-plug" />
-                                                                Power Supplies & UPS
-                                                            </Link>
-                                                        </div>
+                                                        {ind.description && (
+                                                            <div className="mgc-group">
+                                                                <div className="mgc-group-title">Description</div>
+                                                                <p className="small text-muted px-2">{ind.description}</p>
+                                                            </div>
+                                                        )}
+                                                        <NavLink to="/category" className="mgc-view-all">
+                                                            View all {ind.name}
+                                                            <i className="bi bi-arrow-right" />
+                                                        </NavLink>
                                                     </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Linh kiện điện tử
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-cpu" />
-                                                                IC & Microcontrollers
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-broadcast" />
-                                                                Sensors & Modules
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-lightning-charge" />
-                                                                Capacitors & Resistors
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-usb-drive" />
-                                                                Connectors & Cables
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-motherboard" />
-                                                                PCB & Assemblies
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Thương hiệu phổ biến
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                Siemens
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                ABB
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Schneider
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Mitsubishi
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Omron
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Samsung
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Electronics
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
-                                                {/* Raw Materials Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'raw-materials' ? ' active' : ''}`} data-panel="raw-materials">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Kim loại
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-layers" />
-                                                                Thép & Sắt
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-brightness-high" />
-                                                                Nhôm & Hợp kim
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-gem" />
-                                                                Đồng & Inox
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-circle-half" />
-                                                                Kim loại màu
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Phi kim loại
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-circle-half" />
-                                                                Nhựa & Polymer
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-tree" />
-                                                                Gỗ & Giấy
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-droplet" />
-                                                                Cao su & Silicone
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-gem" />
-                                                                Khoáng sản & Quặng
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-moisture" />
-                                                                Sợi Carbon & Composite
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Tiêu chuẩn phổ biến
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                ASTM A36
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                SUS304
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                6061-T6
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                SS400
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                JIS G3101
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Raw Materials
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
-                                                {/* Chemicals Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'chemicals' ? ' active' : ''}`} data-panel="chemicals">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Hóa chất CN
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-moisture" />
-                                                                Hóa chất công nghiệp
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-cup-hot" />
-                                                                Sơn & Keo dán
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-recycle" />
-                                                                Dung môi & Tẩy rửa
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-shield-check" />
-                                                                Hóa chất an toàn
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Chuyên ngành
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-flower1" />
-                                                                Nông hóa phẩm
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-capsule" />
-                                                                Hóa chất đặc biệt
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-droplet-half" />
-                                                                Chất xúc tác
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-thermometer" />
-                                                                Chất bôi trơn
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Chứng nhận
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                ISO 9001
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                REACH
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                FDA
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                RoHS
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                GHS
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Chemicals
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
-                                                {/* Machinery Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'machinery' ? ' active' : ''}`} data-panel="machinery">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Máy gia công
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-gear" />
-                                                                Máy CNC
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-robot" />
-                                                                Robot công nghiệp
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-tools" />
-                                                                Thiết bị gia công kim loại
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-wrench" />
-                                                                Dụng cụ bảo trì
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Thiết bị năng lượng
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-lightning-charge" />
-                                                                Máy phát điện
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-wind" />
-                                                                Bơm & Máy nén khí
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-fan" />
-                                                                Hệ thống HVAC
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-water" />
-                                                                Máy bơm thủy lực
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Thương hiệu
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                Fanuc
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Yaskawa
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                KUKA
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Haas
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Grundfos
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Machinery
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
-                                                {/* Automotive Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'automotive' ? ' active' : ''}`} data-panel="automotive">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Phụ tùng xe
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-gear-wide" />
-                                                                Phụ tùng & Linh kiện
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-car-front" />
-                                                                Phụ kiện xe hơi
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-fuel-pump" />
-                                                                Động cơ & Hộp số
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-cone-striped" />
-                                                                Lốp & Cao su
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Xe điện (EV)
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-battery-charging" />
-                                                                Pin & BMS
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-lightning" />
-                                                                Motor điện
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-ev-station" />
-                                                                Sạc EV
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-cpu" />
-                                                                ECU & điều khiển
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Thương hiệu
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                Bosch
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Denso
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Continental
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                ZF
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                NGK
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Automotive
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
-                                                {/* Textiles Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'textiles' ? ' active' : ''}`} data-panel="textiles">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Sợi & Vải
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-threads" />
-                                                                Sợi & Chỉ
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-grid-3x3-gap" />
-                                                                Vải dệt & đan
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-scissors" />
-                                                                Quần áo may mặc
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-bag-fill" />
-                                                                Vải kỹ thuật
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Vải chuyên dụng
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-shield" />
-                                                                Vải bảo hộ
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-stars" />
-                                                                Vải kỹ thuật cao
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-water" />
-                                                                Vải chống thấm
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-thermometer-half" />
-                                                                Vải chịu nhiệt
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Nguyên liệu
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                Cotton
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Polyester
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Nylon
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Viscose
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Spandex
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Textiles
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
-                                                {/* Food & Agri Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'food-agri' ? ' active' : ''}`} data-panel="food-agri">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Thực phẩm
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-basket" />
-                                                                Lúa gạo & Ngũ cốc
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-flower2" />
-                                                                Rau củ quả tươi
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-egg-fried" />
-                                                                Thực phẩm chế biến
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-water" />
-                                                                Thủy hải sản
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Nông nghiệp
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-bug" />
-                                                                Vật tư nông nghiệp
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-tree" />
-                                                                Cây giống & Hạt giống
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-droplet" />
-                                                                Phân bón & Thuốc BVTV
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-gear" />
-                                                                Máy nông nghiệp
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Chứng nhận
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                HACCP
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                VietGAP
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                GlobalGAP
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Organic
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Halal
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Food & Agri
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
-                                                {/* Packaging Panel */}
-                                                <div className={`mgc-panel${activeMegaCat === 'packaging' ? ' active' : ''}`} data-panel="packaging">
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Bao bì cứng
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-box-seam" />
-                                                                Thùng & Hộp carton
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-cup" />
-                                                                Chai & Lọ nhựa
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-grid" />
-                                                                Pallet & Khung gỗ
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-shield" />
-                                                                Bảo vệ & Chèn lót
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Bao bì mềm
-                                                        </div>
-                                                        <div className="mgc-links">
-                                                            <Link to="/category">
-                                                                <i className="bi bi-bag" />
-                                                                Túi & Bao linh hoạt
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-tag" />
-                                                                Nhãn & In ấn
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-layers" />
-                                                                Màng & Cuộn co
-                                                            </Link>
-                                                            <Link to="/category">
-                                                                <i className="bi bi-recycle" />
-                                                                Bao bì thân thiện MT
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                    <div className="mgc-group">
-                                                        <div className="mgc-group-title">
-                                                            Vật liệu
-                                                        </div>
-                                                        <div className="mgc-brands">
-                                                            <span className="brand-tag">
-                                                                PE/PP
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                PET
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Kraft
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Corrugated
-                                                            </span>
-                                                            <span className="brand-tag">
-                                                                Biodegradable
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <NavLink to="/category" className="mgc-view-all">
-                                                        Xem tất cả Packaging
-                                                        <i className="bi bi-arrow-right" />
-                                                    </NavLink>
-                                                </div>
+                                                ))}
                                             </div>
                                             {/* end megapanel-content */}
                                         </div>

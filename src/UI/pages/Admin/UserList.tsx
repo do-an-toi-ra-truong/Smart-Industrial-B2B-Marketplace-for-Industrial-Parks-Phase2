@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchUsers, createUser, deleteUser } from '../../../api/userApi'
+import { fetchUsers, createUser, deleteUser, softDeleteUser } from '../../../api/userApi'
 import type { UserResponse, UserListResponse, CreateUserRequest } from '../../../api/userApi'
+import { useAuth } from '../../../context/AuthContext'
 
 const UserList = () => {
+    const { user: currentUser } = useAuth();
+    const callerRole = currentUser?.role;
     // ── State ──
     const [data, setData] = useState<UserListResponse | null>(null)
     const [loading, setLoading] = useState(true)
@@ -43,7 +46,7 @@ const UserList = () => {
                 status: statusFilter || undefined,
                 role: roleFilter || undefined,
                 search: searchQuery || undefined,
-            })
+            }, callerRole)
             setData(result)
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : 'Failed to load users')
@@ -107,7 +110,7 @@ const UserList = () => {
         }
         setAddLoading(true)
         try {
-            await createUser(addForm)
+            await createUser(addForm, callerRole)
             setShowAddModal(false)
             setAddForm({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '', role: '' })
             showToast('User created successfully', 'success')
@@ -119,15 +122,22 @@ const UserList = () => {
         }
     }
 
-    // ── Delete User ──
+    // ── Delete / Deactivate User ──
     const handleDeleteUser = async (user: UserResponse) => {
-        if (!window.confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) return
+        const isSoftDelete = callerRole === 'SUPER_ADMIN' || callerRole === 'IP_ADMIN'
+        const action = isSoftDelete ? 'deactivate' : 'delete'
+        if (!window.confirm(`Are you sure you want to ${action} ${user.firstName} ${user.lastName}?`)) return
         try {
-            await deleteUser(user.id)
-            showToast('User deleted successfully', 'success')
+            if (isSoftDelete) {
+                await softDeleteUser(user.id, callerRole)
+                showToast('User deactivated successfully', 'success')
+            } else {
+                await deleteUser(user.id, callerRole)
+                showToast('User deleted successfully', 'success')
+            }
             loadUsers()
         } catch (err: unknown) {
-            showToast(err instanceof Error ? err.message : 'Failed to delete user', 'error')
+            showToast(err instanceof Error ? err.message : `Failed to ${action} user`, 'error')
         }
     }
 
@@ -158,14 +168,20 @@ const UserList = () => {
     // ── Role badge class ──
     const getRoleClass = (role: string) => {
         switch (role.toUpperCase()) {
-            case 'BUYER_STAFF': return 'manager'
-            case 'SELLER_STAFF': return 'admin'
+            case 'SUPER_ADMIN': return 'admin'
+            case 'IP_ADMIN': return 'manager'
+            case 'COMPANY_ADMIN': return 'manager'
+            case 'BUYER_STAFF': return 'user'
+            case 'SELLER_STAFF': return 'user'
             default: return 'user'
         }
     }
 
     const getRoleIcon = (role: string) => {
         switch (role.toUpperCase()) {
+            case 'SUPER_ADMIN': return 'bi bi-shield-fill-check'
+            case 'IP_ADMIN': return 'bi bi-building-fill-gear'
+            case 'COMPANY_ADMIN': return 'bi bi-person-fill-gear'
             case 'BUYER_STAFF': return 'bi bi-cart-check'
             case 'SELLER_STAFF': return 'bi bi-shop'
             default: return 'bi bi-person'
@@ -174,6 +190,9 @@ const UserList = () => {
 
     const formatRole = (role: string) => {
         switch (role.toUpperCase()) {
+            case 'SUPER_ADMIN': return 'Super Admin'
+            case 'IP_ADMIN': return 'IP Admin'
+            case 'COMPANY_ADMIN': return 'Company Admin'
             case 'BUYER_STAFF': return 'Buyer Staff'
             case 'SELLER_STAFF': return 'Seller Staff'
             default: return role
@@ -314,6 +333,15 @@ const UserList = () => {
                                             </button>
                                             <ul className="dropdown-menu dropdown-menu-end">
                                                 <li><a className="dropdown-item" href="#" onClick={e => { e.preventDefault(); handleRoleFilter(null) }}>All Roles</a></li>
+                                                {callerRole === 'SUPER_ADMIN' && (
+                                                    <>
+                                                        <li><a className="dropdown-item" href="#" onClick={e => { e.preventDefault(); handleRoleFilter('SUPER_ADMIN') }}>Super Admin</a></li>
+                                                        <li><a className="dropdown-item" href="#" onClick={e => { e.preventDefault(); handleRoleFilter('IP_ADMIN') }}>IP Admin</a></li>
+                                                    </>
+                                                )}
+                                                {(callerRole === 'SUPER_ADMIN' || callerRole === 'IP_ADMIN') && (
+                                                    <li><a className="dropdown-item" href="#" onClick={e => { e.preventDefault(); handleRoleFilter('COMPANY_ADMIN') }}>Company Admin</a></li>
+                                                )}
                                                 <li><a className="dropdown-item" href="#" onClick={e => { e.preventDefault(); handleRoleFilter('BUYER_STAFF') }}>Buyer Staff</a></li>
                                                 <li><a className="dropdown-item" href="#" onClick={e => { e.preventDefault(); handleRoleFilter('SELLER_STAFF') }}>Seller Staff</a></li>
                                             </ul>
@@ -431,7 +459,8 @@ const UserList = () => {
                                                                         <li>
                                                                             <a className="dropdown-item text-danger" href="#"
                                                                                 onClick={e => { e.preventDefault(); handleDeleteUser(user) }}>
-                                                                                <i className="bi bi-trash me-2" />Delete
+                                                                                <i className={`bi ${(callerRole === 'SUPER_ADMIN' || callerRole === 'IP_ADMIN') ? 'bi-person-slash' : 'bi-trash'} me-2`} />
+                                                                                {(callerRole === 'SUPER_ADMIN' || callerRole === 'IP_ADMIN') ? 'Deactivate' : 'Delete'}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -510,8 +539,18 @@ const UserList = () => {
                                                         onChange={e => setAddForm({ ...addForm, role: e.target.value })}
                                                     >
                                                         <option value="">Select role...</option>
-                                                        <option value="BUYER_STAFF">Buyer Staff</option>
-                                                        <option value="SELLER_STAFF">Seller Staff</option>
+                                                        {callerRole === 'SUPER_ADMIN' && (
+                                                            <option value="IP_ADMIN">IP Admin</option>
+                                                        )}
+                                                        {callerRole === 'IP_ADMIN' && (
+                                                            <option value="COMPANY_ADMIN">Company Admin</option>
+                                                        )}
+                                                        {callerRole === 'COMPANY_ADMIN' && (
+                                                            <>
+                                                                <option value="BUYER_STAFF">Buyer Staff</option>
+                                                                <option value="SELLER_STAFF">Seller Staff</option>
+                                                            </>
+                                                        )}
                                                     </select>
                                                 </div>
                                                 <div className="col-sm-6">
