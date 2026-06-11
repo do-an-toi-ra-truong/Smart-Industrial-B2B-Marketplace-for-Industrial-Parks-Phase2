@@ -106,17 +106,21 @@ const menuConfig: MenuItem[] = [
     },
 ];
 
-// Role display labels
-const roleLabels: Record<Role, { name: string; title: string; chip?: string }> = {
-    COMPANY_ADMIN: { name: 'John Doe', title: 'Company Admin' },
-    IP_ADMIN: { name: 'Tran Minh Khoa', title: 'IP Management Board' },
-    SUPER_ADMIN: { name: 'Nguyen Thanh Tung', title: 'SIBMIP System Manager', chip: 'Super Admin' },
+// Role display titles (only the role label, not the name — name comes from DB)
+const roleTitles: Record<Role, { title: string; chip?: string }> = {
+    COMPANY_ADMIN: { title: 'Company Admin' },
+    IP_ADMIN: { title: 'IP Management Board' },
+    SUPER_ADMIN: { title: 'SIBMIP System Manager', chip: 'Super Admin' },
 };
 
 const UnifiedSidebar = () => {
     const { user, logout } = useAuth();
     const location = useLocation();
     const userRole = (user?.role || 'COMPANY_ADMIN') as Role;
+
+    // Real name from database via AuthContext
+    const displayName = user ? `${user.firstName} ${user.lastName}` : 'Admin';
+    const roleInfo = roleTitles[userRole];
 
     // Filter menu items based on the current user's role
     const visibleMenus = menuConfig.filter(item => item.allowedRoles.includes(userRole));
@@ -142,8 +146,6 @@ const UnifiedSidebar = () => {
 
     const isActive = (path: string) =>
         location.pathname === path || location.pathname.startsWith(path + '/');
-
-    const roleInfo = roleLabels[userRole];
 
     return (
         <>
@@ -237,7 +239,7 @@ const UnifiedSidebar = () => {
                                 />
                                 <div className="sidebar-account-meta">
                                     <div className="sidebar-account-name">
-                                        {roleInfo.name}
+                                        {displayName}
                                     </div>
                                     <div className="sidebar-account-role">
                                         {roleInfo.title}
