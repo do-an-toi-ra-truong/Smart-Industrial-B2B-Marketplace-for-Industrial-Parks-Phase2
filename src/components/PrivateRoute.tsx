@@ -11,12 +11,6 @@ export default function PrivateRoute({ children, roles }: PrivateRouteProps) {
   const location = useLocation();
 
   if (!user) {
-    if (location.pathname.startsWith('/ipadmin')) {
-      return <Navigate to="/ipadmin/ip-login" replace />;
-    }
-    if (location.pathname.startsWith('/saadmin')) {
-      return <Navigate to="/saadmin/sa-login" replace />;
-    }
     if (location.pathname.startsWith('/admin')) {
       return <Navigate to="/admin/login" replace />;
     }

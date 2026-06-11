@@ -136,7 +136,7 @@ const SuperAdminIndustryProducts = () => {
           <button
             className="btn-sa-primary"
             style={{ marginTop: "12px" }}
-            onClick={() => navigate('/saadmin/sa-catalog')}
+            onClick={() => navigate('/admin/sa-catalog')}
           >
             <i className="bi bi-arrow-left" /> Back to Catalog
           </button>
@@ -177,9 +177,9 @@ const SuperAdminIndustryProducts = () => {
         <div>
           <h1 className="page-title">Manage Products: {industry.name}</h1>
           <div className="page-breadcrumb">
-            <a href="/saadmin/sa-dashboard">Dashboard</a>
+            <a href="/admin/sa-dashboard">Dashboard</a>
             <i className="bi bi-chevron-right" />
-            <a href="/saadmin/sa-catalog">System Catalog</a>
+            <a href="/admin/sa-catalog">System Catalog</a>
             <i className="bi bi-chevron-right" />
             <span>Products</span>
           </div>
@@ -187,7 +187,7 @@ const SuperAdminIndustryProducts = () => {
         <button
           className="btn-sa-primary"
           style={{ background: "transparent", color: "var(--heading-color)", border: "1.5px solid var(--border-color)" }}
-          onClick={() => navigate('/saadmin/sa-catalog')}
+          onClick={() => navigate('/admin/sa-catalog')}
         >
           <i className="bi bi-arrow-left" /> Back
         </button>

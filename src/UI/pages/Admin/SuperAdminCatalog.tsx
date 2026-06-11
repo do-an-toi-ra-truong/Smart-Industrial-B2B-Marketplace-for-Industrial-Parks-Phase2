@@ -258,7 +258,7 @@ const SuperAdminCatalog = () => {
         <div>
           <h1 className="page-title">System Catalog & Statistics</h1>
           <div className="page-breadcrumb">
-            <a href="/saadmin/sa-dashboard">Dashboard</a>
+            <a href="/admin/sa-dashboard">Dashboard</a>
             <i className="bi bi-chevron-right" />
             <span>System Catalog</span>
           </div>
@@ -387,7 +387,7 @@ const SuperAdminCatalog = () => {
                             <button
                               className="catalog-action-btn"
                               title="Manage Products"
-                              onClick={() => navigate(`/saadmin/sa-catalog/${ind.id}/products`)}
+                              onClick={() => navigate(`/admin/sa-catalog/${ind.id}/products`)}
                             >
                               <i className="bi bi-box-seam" />
                             </button>
