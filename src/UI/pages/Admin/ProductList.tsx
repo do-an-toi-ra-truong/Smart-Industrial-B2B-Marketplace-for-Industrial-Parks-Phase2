@@ -52,7 +52,7 @@ const ProductList = () => {
 
     // ── Load industries for dropdown ──
     useEffect(() => {
-        fetchPublicIndustries().then(setIndustries).catch(() => {})
+        fetchPublicIndustries().then(setIndustries).catch(() => { })
     }, [])
 
     useEffect(() => {

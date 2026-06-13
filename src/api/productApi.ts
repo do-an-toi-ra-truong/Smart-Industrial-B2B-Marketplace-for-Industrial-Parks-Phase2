@@ -14,6 +14,10 @@ export interface ProductResponse {
   industryId?: number;
   industryName?: string;
   industrySector?: string;
+  imagePath?: string;
+  category?: string;
+  badge?: string;
+  isFeatured?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -24,6 +28,9 @@ export interface CreateProductRequest {
   quantity?: number;
   status?: string;
   industryId: number;
+  category?: string;
+  badge?: string;
+  isFeatured?: boolean;
 }
 
 export interface UpdateProductRequest {
@@ -32,6 +39,9 @@ export interface UpdateProductRequest {
   quantity?: number;
   status?: string;
   industryId?: number;
+  category?: string;
+  badge?: string;
+  isFeatured?: boolean;
 }
 
 // ── Admin API (requires auth) ──
@@ -64,6 +74,19 @@ export async function deleteProduct(id: number): Promise<void> {
   await axiosInstance.delete(`${ADMIN_API}/${id}`);
 }
 
+export async function uploadProductImage(id: number, file: File): Promise<ProductResponse> {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await axiosInstance.post(`${ADMIN_API}/${id}/image`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return res.data;
+}
+
+export async function deleteProductImage(id: number): Promise<void> {
+  await axiosInstance.delete(`${ADMIN_API}/${id}/image`);
+}
+
 // ── Public API (no auth) ──
 
 export async function fetchPublicProducts(params?: {
@@ -76,5 +99,15 @@ export async function fetchPublicProducts(params?: {
 
 export async function fetchPublicProductById(id: number): Promise<ProductResponse> {
   const res = await axiosInstance.get(`${PUBLIC_API}/${id}`);
+  return res.data;
+}
+
+export async function fetchNewProducts(): Promise<ProductResponse[]> {
+  const res = await axiosInstance.get(`${PUBLIC_API}/new`);
+  return res.data;
+}
+
+export async function fetchFeaturedProducts(): Promise<ProductResponse[]> {
+  const res = await axiosInstance.get(`${PUBLIC_API}/featured`);
   return res.data;
 }
