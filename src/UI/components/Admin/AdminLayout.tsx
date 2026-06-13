@@ -33,7 +33,6 @@ const AdminLayout = () => {
 
         // JS — union of all 3 old layouts, loaded sequentially
         const jsFiles = [
-            '/Admin/assets/libs/js/email-decode.min.js',
             '/Admin/assets/libs/js/bootstrap.bundle.min.js',
             '/Admin/assets/libs/js/apexcharts.min.js',
             '/Admin/assets/libs/js/chart.umd.js',

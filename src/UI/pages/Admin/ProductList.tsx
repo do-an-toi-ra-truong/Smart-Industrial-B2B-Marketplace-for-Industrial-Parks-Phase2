@@ -52,7 +52,7 @@ const ProductList = () => {
 
     // ── Load industries for dropdown ──
     useEffect(() => {
-        fetchPublicIndustries().then(setIndustries).catch(() => {})
+        fetchPublicIndustries().then(setIndustries).catch(() => { })
     }, [])
 
     useEffect(() => {
@@ -266,8 +266,10 @@ const ProductList = () => {
                                                             />
                                                         </div>
                                                     </th>
+                                                    <th>Image</th>
                                                     <th>Product</th>
                                                     <th>Industry</th>
+                                                    <th>Category</th>
                                                     <th>Quantity</th>
                                                     <th>Status</th>
                                                     <th>Created</th>
@@ -288,21 +290,32 @@ const ProductList = () => {
                                                             </div>
                                                         </td>
                                                         <td>
+                                                            <div style={{ width: 40, height: 40, borderRadius: 8, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f3f4f6', border: '1px solid #e5e7eb' }}>
+                                                                {product.imagePath ? (
+                                                                    <img src={product.imagePath.startsWith('http') ? product.imagePath : `/${product.imagePath}`} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                                ) : (
+                                                                    <i className="bi bi-box-seam text-muted" style={{ fontSize: 18 }} />
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                        <td>
                                                             <div className="users-user">
-                                                                <div className="users-avatar-wrap">
-                                                                    <div className="users-avatar" style={{
-                                                                        width: 36, height: 36, borderRadius: 8,
-                                                                        background: '#dbeafe', display: 'flex',
-                                                                        alignItems: 'center', justifyContent: 'center',
-                                                                        fontWeight: 600, fontSize: 14, color: '#2563eb'
-                                                                    }}>
-                                                                        <i className="bi bi-box-seam" />
-                                                                    </div>
-                                                                </div>
                                                                 <div className="users-user-info">
-                                                                    <Link to={`/admin/products-edit/${product.id}`} className="users-user-name">
-                                                                        {product.name}
-                                                                    </Link>
+                                                                    <div className="d-flex align-items-center gap-2">
+                                                                        <Link to={`/admin/products-edit/${product.id}`} className="users-user-name">
+                                                                            {product.name}
+                                                                        </Link>
+                                                                        {product.badge && (
+                                                                            <span className={`badge bg-${
+                                                                                product.badge.toLowerCase() === 'hot' ? 'danger' :
+                                                                                product.badge.toLowerCase() === 'new' ? 'success' :
+                                                                                product.badge.toLowerCase() === 'top' ? 'primary' :
+                                                                                'secondary'
+                                                                            } text-uppercase`} style={{ fontSize: '10px', padding: '3px 6px' }}>
+                                                                                {product.badge}
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
                                                                     <span className="users-user-email">
                                                                         {product.description ? product.description.substring(0, 50) + (product.description.length > 50 ? '...' : '') : 'No description'}
                                                                     </span>
@@ -313,6 +326,11 @@ const ProductList = () => {
                                                             <span className="users-role manager">
                                                                 <i className="bi bi-building" />
                                                                 {product.industryName || '—'}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span className="text-capitalize fw-medium" style={{ fontSize: '14px', color: '#4b5563' }}>
+                                                                {product.category || '—'}
                                                             </span>
                                                         </td>
                                                         <td>
@@ -344,13 +362,13 @@ const ProductList = () => {
                                                                             </a>
                                                                         </li>
                                                                     </ul>
-                                                                </div>
+                                                                 </div>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 )) : (
                                                     <tr>
-                                                        <td colSpan={7} style={{ textAlign: 'center', padding: '40px 0', color: '#9ca3af' }}>
+                                                        <td colSpan={9} style={{ textAlign: 'center', padding: '40px 0', color: '#9ca3af' }}>
                                                             <i className="bi bi-box-seam" style={{ fontSize: 32, display: 'block', marginBottom: 8 }} />
                                                             No products found
                                                         </td>

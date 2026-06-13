@@ -15,6 +15,7 @@
   function toggleScrolled() {
     const selectBody = document.querySelector('body');
     const selectHeader = document.querySelector('#header');
+    if (!selectHeader) return;
     if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
     window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
   }
@@ -99,13 +100,15 @@
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
     }
   }
-  scrollTop.addEventListener('click', (e) => {
-    e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
+  if (scrollTop) {
+    scrollTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
-  });
+  }
 
   window.addEventListener('load', toggleScrollTop);
   document.addEventListener('scroll', toggleScrollTop);
@@ -1103,57 +1106,7 @@
       }
     }
 
-    // 2. Initialize Hero Slider (Top)
-    if (document.querySelector('.hero-swiper')) {
-      new Swiper('.hero-swiper', {
-        loop: true,
-        speed: 1000,
-        effect: 'fade',
-        fadeEffect: {
-          crossFade: true
-        },
-        autoplay: {
-          delay: 5000,
-          disableOnInteraction: false,
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
-    }
-
-    // 3. Initialize Brand Carousel (Bottom)
-    if (document.querySelector('.brand-swiper')) {
-      new Swiper('.brand-swiper', {
-        loop: true,
-        speed: 600,
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false,
-        },
-        slidesPerView: 2,
-        spaceBetween: 30,
-        breakpoints: {
-          576: {
-            slidesPerView: 3,
-            spaceBetween: 40,
-          },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 50,
-          },
-          992: {
-            slidesPerView: 6,
-            spaceBetween: 60,
-          },
-        },
-      });
-    }
+    // Hero and Brand sliders are now managed natively in React (HomePage.tsx), so Swiper JS initializations are removed.
   });
 
 })();

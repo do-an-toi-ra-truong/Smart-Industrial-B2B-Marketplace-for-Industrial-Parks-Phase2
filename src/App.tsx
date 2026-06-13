@@ -41,6 +41,8 @@ import SellerStaffProducts from './UI/pages/Admin/SellerStaffProducts'
 import SellerStaffProductsUpload from './UI/pages/Admin/SellerStaffProductUpload'
 import ProductList from './UI/pages/Admin/ProductList'
 import ProductEdit from './UI/pages/Admin/ProductEdit'
+import ShowcaseManager from './UI/pages/Admin/ShowcaseManager'
+import CompanyProfile from './UI/pages/Admin/CompanyProfile'
 
 // Industrial Park Admin page imports
 import IPADashboard from './UI/pages/Admin/IPADashboard'
@@ -92,6 +94,7 @@ const router = createBrowserRouter([
     children: [
       // ── Company Admin pages ──
       { path: 'dashboard', element: <CompanyAdminDashboard /> },
+      { path: 'company-profile', element: <CompanyProfile /> },
       { path: 'users-list', element: <UserList /> },
       { path: 'users-view/:id', element: <UserView /> },
       { path: 'users-edit/:id', element: <UserEdit /> },
@@ -120,6 +123,7 @@ const router = createBrowserRouter([
 
       // ── IP Admin pages ──
       { path: 'ip-dashboard', element: <IPADashboard /> },
+      { path: 'ip-showcase', element: <ShowcaseManager /> },
       { path: 'ip-companies', element: <IPACompanyManagement /> },
       { path: 'ip-accounts', element: <IPAAccountManager /> },
       { path: 'ip-verification', element: <IPAVerification /> },

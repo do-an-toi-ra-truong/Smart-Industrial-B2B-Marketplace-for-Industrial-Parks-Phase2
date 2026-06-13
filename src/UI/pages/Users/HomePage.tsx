@@ -1,7 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchNewProducts, fetchFeaturedProducts } from '../../../api/productApi';
+import type { ProductResponse } from '../../../api/productApi';
+import { fetchZoneCards, fetchCompanyCards } from '../../../api/metadataApi';
+import type { MetadataResponse } from '../../../api/metadataApi';
 
 const HomePage = () => {
+  // ── API States ──
+  const [newProducts, setNewProducts] = useState<ProductResponse[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<ProductResponse[]>([]);
+  const [zoneCards, setZoneCards] = useState<MetadataResponse[]>([]);
+  const [companyCards, setCompanyCards] = useState<MetadataResponse[]>([]);
+
+  // ── Fetch Data ──
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [newProds, featProds, zones, companies] = await Promise.all([
+          fetchNewProducts(),
+          fetchFeaturedProducts(),
+          fetchZoneCards(),
+          fetchCompanyCards()
+        ]);
+        setNewProducts(newProds || []);
+        setFeaturedProducts(featProds || []);
+        setZoneCards(zones || []);
+        setCompanyCards(companies || []);
+      } catch (err) {
+        console.error("Error loading HomePage data:", err);
+      }
+    };
+    loadData();
+  }, []);
+
   // ── Hero Slider ──
   const [heroIndex, setHeroIndex] = useState(0);
   const heroSlides = 2; // total slides
@@ -108,15 +139,12 @@ const HomePage = () => {
             </div>
           </div>
         </section >
-        {/* ===== Top Buy Products ===== */}
+        {/* ===== New Products ===== */}
         < section id="top-buy-products" className="tbp-section" >
           <div className="container">
-            {/* Section Header */}
             <div className="tbp-header">
               <div className="tbp-header-left">
-                <h2 className="tbp-title">
-                  New Products
-                </h2>
+                <h2 className="tbp-title">New Products</h2>
               </div>
               <div className="tbp-header-right">
                 <div className="tbp-filter-tabs" id="tbpFilterTabs">
@@ -128,263 +156,48 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            {/* Products Grid */}
             <div className="tbp-grid" id="tbpGridNew">
-              {/* Card 1 */}
-              <div className="tbp-card" data-cat="electronics" style={{ display: newProdFilter === 'all' || newProdFilter === 'electronics' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-1.webp" alt="Siemens S7-1200 PLC" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--hot">
-                    <i className="bi bi-fire" />
-                    Hot
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
+              {newProducts
+                .filter(p => newProdFilter === 'all' || p.category === newProdFilter)
+                .map(p => (
+                <div className="tbp-card" key={p.id} data-cat={p.category}>
+                  <div className="tbp-card-img-wrap">
+                    <img src={p.imagePath || 'assets/images/product-1.webp'} alt={p.name} className="tbp-card-img" loading="lazy" />
+                    {p.badge && (
+                      <span className={`tbp-badge tbp-badge--${p.badge}`}>
+                        <i className={`bi ${p.badge === 'hot' ? 'bi-fire' : p.badge === 'top' ? 'bi-trophy' : 'bi-stars'}`} />
+                        {p.badge.charAt(0).toUpperCase() + p.badge.slice(1)}
+                      </span>
+                    )}
+                    <div className="tbp-card-actions">
+                      <button className="tbp-action-btn" title="Quick view"><i className="bi bi-eye" /></button>
+                      <button className="tbp-action-btn" title="Add to cart"><i className="bi bi-cart-plus" /></button>
+                    </div>
+                  </div>
+                  <div className="tbp-card-body">
+                    <div className="tbp-card-cat">{p.industryName || p.category || 'Product'}</div>
+                    <h3 className="tbp-card-name">{p.name}</h3>
+                    <div className="tbp-card-footer">
+                      <Link to="/product-details" className="tbp-btn-view">View</Link>
+                    </div>
                   </div>
                 </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Electronics & Components
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Siemens S7-1200 PLC Module
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 2 */}
-              <div className="tbp-card" data-cat="machinery" style={{ display: newProdFilter === 'all' || newProdFilter === 'machinery' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-2.webp" alt="Grundfos Industrial Pump" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--top">
-                    <i className="bi bi-trophy" />
-                    Top
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Machinery & Equipment
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Grundfos CM5-5 Industrial Pump
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="tbp-card" data-cat="electronics" style={{ display: newProdFilter === 'all' || newProdFilter === 'electronics' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-3.webp" alt="ABB VFD Drive" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Electronics & Components
-                  </div>
-                  <h3 className="tbp-card-name">
-                    ABB ACS580 Variable Frequency Drive
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 4 */}
-              <div className="tbp-card" data-cat="raw-materials" style={{ display: newProdFilter === 'all' || newProdFilter === 'raw-materials' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-4.webp" alt="Stainless Steel Pipe" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Raw Materials
-                  </div>
-                  <h3 className="tbp-card-name">
-                    SUS304 Stainless Steel Pipe 3" – 6m
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 5 */}
-              <div className="tbp-card" data-cat="chemicals" style={{ display: newProdFilter === 'all' || newProdFilter === 'chemicals' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1616628188859-7a11abb6fcc9?auto=format&fit=crop&q=80&w=600" alt="Industrial Lubricant" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--new">
-                    <i className="bi bi-stars" />
-                    New
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Chemicals
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Shell Omala S4 GX 220 Industrial Gear Oil
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 6 */}
-              <div className="tbp-card" data-cat="electronics" style={{ display: newProdFilter === 'all' || newProdFilter === 'electronics' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=600" alt="Schneider Breaker" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Electronics & Components
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Schneider iC60N MCB Circuit Breaker
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 7 */}
-              <div className="tbp-card" data-cat="machinery" style={{ display: newProdFilter === 'all' || newProdFilter === 'machinery' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=600" alt="Omron Sensor" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--hot">
-                    <i className="bi bi-fire" />
-                    Hot
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Machinery & Equipment
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Omron E2E Proximity Sensor NPN
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 8 */}
-              <div className="tbp-card" data-cat="raw-materials" style={{ display: newProdFilter === 'all' || newProdFilter === 'raw-materials' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600" alt="Aluminium Profile" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Raw Materials
-                  </div>
-                  <h3 className="tbp-card-name">
-                    6061-T6 Aluminium Profile 40×40mm
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
-            {/* /tbp-grid */}
             <div className="tbp-footer-cta">
               <Link to="/category" className="tbp-cta-link">
-                Browse Full Catalog
-                <i className="bi bi-arrow-right ms-1" />
+                Browse Full Catalog <i className="bi bi-arrow-right ms-1" />
               </Link>
             </div>
           </div>
         </section >
-        {/* /Top Buy Products */}
-        < section id="top-buy-products" className="tbp-section" >
+        {/* ===== Most Buy Products ===== */}
+        < section id="most-buy-products" className="tbp-section" >
           <div className="container">
-            {/* Section Header */}
             <div className="tbp-header">
               <div className="tbp-header-left">
-                <span className="tbp-eyebrow">
-                  <i className="bi bi-fire me-1" />
-                  Trending Now
-                </span>
-                <h2 className="tbp-title">
-                  Most Buy Products
-                </h2>
+                <span className="tbp-eyebrow"><i className="bi bi-fire me-1" /> Trending Now</span>
+                <h2 className="tbp-title">Most Buy Products</h2>
               </div>
               <div className="tbp-header-right">
                 <div className="tbp-filter-tabs" id="tbpFilterTabsMostBuy">
@@ -396,246 +209,37 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            {/* Products Grid */}
             <div className="tbp-grid" id="tbpGridMostBuy">
-              {/* Card 1 */}
-              <div className="tbp-card" data-cat="electronics" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'electronics' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-1.webp" alt="Siemens S7-1200 PLC" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--hot">
-                    <i className="bi bi-fire" />
-                    Hot
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
+              {featuredProducts
+                .filter(p => mostBuyFilter === 'all' || p.category === mostBuyFilter)
+                .map(p => (
+                <div className="tbp-card" key={p.id} data-cat={p.category}>
+                  <div className="tbp-card-img-wrap">
+                    <img src={p.imagePath || 'assets/images/product-1.webp'} alt={p.name} className="tbp-card-img" loading="lazy" />
+                    {p.badge && (
+                      <span className={`tbp-badge tbp-badge--${p.badge}`}>
+                        <i className={`bi ${p.badge === 'hot' ? 'bi-fire' : p.badge === 'top' ? 'bi-trophy' : 'bi-stars'}`} />
+                        {p.badge.charAt(0).toUpperCase() + p.badge.slice(1)}
+                      </span>
+                    )}
+                    <div className="tbp-card-actions">
+                      <button className="tbp-action-btn" title="Quick view"><i className="bi bi-eye" /></button>
+                      <button className="tbp-action-btn" title="Add to cart"><i className="bi bi-cart-plus" /></button>
+                    </div>
+                  </div>
+                  <div className="tbp-card-body">
+                    <div className="tbp-card-cat">{p.industryName || p.category || 'Product'}</div>
+                    <h3 className="tbp-card-name">{p.name}</h3>
+                    <div className="tbp-card-footer">
+                      <Link to="/product-details" className="tbp-btn-view">View</Link>
+                    </div>
                   </div>
                 </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Electronics & Components
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Siemens S7-1200 PLC Module
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 2 */}
-              <div className="tbp-card" data-cat="machinery" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'machinery' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-2.webp" alt="Grundfos Industrial Pump" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--top">
-                    <i className="bi bi-trophy" />
-                    Top
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Machinery & Equipment
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Grundfos CM5-5 Industrial Pump
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 3 */}
-              <div className="tbp-card" data-cat="electronics" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'electronics' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-3.webp" alt="ABB VFD Drive" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Electronics & Components
-                  </div>
-                  <h3 className="tbp-card-name">
-                    ABB ACS580 Variable Frequency Drive
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 4 */}
-              <div className="tbp-card" data-cat="raw-materials" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'raw-materials' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="assets/images/product-4.webp" alt="Stainless Steel Pipe" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Raw Materials
-                  </div>
-                  <h3 className="tbp-card-name">
-                    SUS304 Stainless Steel Pipe 3" – 6m
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 5 */}
-              <div className="tbp-card" data-cat="chemicals" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'chemicals' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1616628188859-7a11abb6fcc9?auto=format&fit=crop&q=80&w=600" alt="Industrial Lubricant" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--new">
-                    <i className="bi bi-stars" />
-                    New
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Chemicals
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Shell Omala S4 GX 220 Industrial Gear Oil
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 6 */}
-              <div className="tbp-card" data-cat="electronics" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'electronics' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=600" alt="Schneider Breaker" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Electronics & Components
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Schneider iC60N MCB Circuit Breaker
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 7 */}
-              <div className="tbp-card" data-cat="machinery" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'machinery' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=600" alt="Omron Sensor" className="tbp-card-img" loading="lazy" />
-                  <span className="tbp-badge tbp-badge--hot">
-                    <i className="bi bi-fire" />
-                    Hot
-                  </span>
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Machinery & Equipment
-                  </div>
-                  <h3 className="tbp-card-name">
-                    Omron E2E Proximity Sensor NPN
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
-              {/* Card 8 */}
-              <div className="tbp-card" data-cat="raw-materials" style={{ display: mostBuyFilter === 'all' || mostBuyFilter === 'raw-materials' ? '' : 'none' }}>
-                <div className="tbp-card-img-wrap">
-                  <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600" alt="Aluminium Profile" className="tbp-card-img" loading="lazy" />
-                  <div className="tbp-card-actions">
-                    <button className="tbp-action-btn" title="Quick view">
-                      <i className="bi bi-eye" />
-                    </button>
-                    <button className="tbp-action-btn" title="Add to cart">
-                      <i className="bi bi-cart-plus" />
-                    </button>
-                  </div>
-                </div>
-                <div className="tbp-card-body">
-                  <div className="tbp-card-cat">
-                    Raw Materials
-                  </div>
-                  <h3 className="tbp-card-name">
-                    6061-T6 Aluminium Profile 40×40mm
-                  </h3>
-                  <div className="tbp-card-footer">
-                    <Link to="/product-details" className="tbp-btn-view">
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
-            {/* /tbp-grid */}
             <div className="tbp-footer-cta">
               <Link to="/category" className="tbp-cta-link">
-                Browse Full Catalog
-                <i className="bi bi-arrow-right ms-1" />
+                Browse Full Catalog <i className="bi bi-arrow-right ms-1" />
               </Link>
             </div>
           </div>
@@ -652,184 +256,24 @@ const HomePage = () => {
               </p>
             </div>
             <div className="row g-4 justify-content-center">
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnVsipBD.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        VSIP I & II
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Binh Duong
-                      </small>
+              {zoneCards.map(z => (
+                <div className="col-lg-3 col-md-6" key={z.id}>
+                  <div className="card h-80 shadow-sm zone-filter-card" style={{ cursor: 'default' }}>
+                    <div className="position-relative zone-btn" onClick={() => { setZoneFilter(`.zone-${z.zone}`); document.getElementById('company-results')?.scrollIntoView({ behavior: 'smooth' }); }} style={{ height: '240px', overflow: 'hidden', cursor: 'pointer' }}>
+                      <img src={z.imagePath || 'assets/images/kcnVsipBD.png'} className="card-img-top w-100 h-100" style={{ objectFit: 'cover' }} alt={z.name} />
+                      <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
+                        <h3 className="text-white fw-bold mb-0">{z.name}</h3>
+                        <small className="text-white-50"><i className="bi bi-geo-alt" /> {z.address}</small>
+                      </div>
+                    </div>
+                    <div className="card-body text-center">
+                      <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => { setZoneFilter(`.zone-${z.zone}`); document.getElementById('company-results')?.scrollIntoView({ behavior: 'smooth' }); }}>
+                        View Companies
+                      </button>
                     </div>
                   </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip">
-                      View
-                      Companies
-                    </button>
-                  </div>
                 </div>
-              </div>
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnMyPhuoc.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="My Phuoc" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        KCN My Phuoc
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Ben Cat
-                      </small>
-                    </div>
-                  </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc">
-                      View
-                      Companies
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnAmataCity.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="Amata" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        Amata City
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Dong Nai
-                      </small>
-                    </div>
-                  </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata">
-                      View
-                      Companies
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnVsipHP.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        VSIP Hai Phong
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Hai Phong
-                      </small>
-                    </div>
-                  </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp">
-                      View
-                      Companies
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row g-4 justify-content-center mt-3" style={{ marginTop: '1.5rem' }}>
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnVsipBD.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        VSIP I & II
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Binh Duong
-                      </small>
-                    </div>
-                  </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-vsip')} data-filter=".zone-vsip">
-                      View
-                      Companies
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnMyPhuoc.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="My Phuoc" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        KCN My Phuoc
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Ben Cat
-                      </small>
-                    </div>
-                  </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-myphuoc')} data-filter=".zone-myphuoc">
-                      View
-                      Companies
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnAmataCity.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="Amata" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        Amata City
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Dong Nai
-                      </small>
-                    </div>
-                  </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-amata')} data-filter=".zone-amata">
-                      View
-                      Companies
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6">
-                <div className="card h-80 shadow-sm zone-filter-card" style={{ 'cursor': 'default' }}>
-                  <div className="position-relative zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp" style={{ 'height': '240px', 'overflow': 'hidden', 'cursor': 'pointer' }}>
-                    <img src="assets/images/kcnVsipHP.png" className="card-img-top w-100 h-100" style={{ 'objectFit': 'cover' }} alt="VSIP" />
-                    <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ 'background': 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-                      <h3 className="text-white fw-bold mb-0">
-                        VSIP Hai Phong
-                      </h3>
-                      <small className="text-white-50">
-                        <i className="bi bi-geo-alt" />
-                        Hai Phong
-                      </small>
-                    </div>
-                  </div>
-                  <div className="card-body text-center">
-                    <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter('.zone-hp')} data-filter=".zone-hp">
-                      View
-                      Companies
-                    </button>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section >
@@ -837,508 +281,51 @@ const HomePage = () => {
           <div className="container">
             <div className="d-flex align-items-center justify-content-between mb-4">
               <div>
-                <h2 className="h3 fw-bold text-dark mb-1">
-                  Công ty theo Cụm KCN
-                </h2>
-                <p className="text-muted mb-0">
-                  Doanh nghiệp uy tín được xác thực
-                </p>
+                <h2 className="h3 fw-bold text-dark mb-1">Companies by Industrial Zone</h2>
+                <p className="text-muted mb-0">Verified and trusted enterprises</p>
               </div>
             </div>
-            {/* Sorting */}
             <div className="product-filters isotope-filters mb-5">
               <ul className="d-flex flex-wrap gap-2 list-unstyled align-items-center">
-                <li onClick={() => setZoneFilter('*')} data-filter="*" className={`${zoneFilter === '*' ? 'filter-active' : ''} btn btn-light rounded-3 px-3 border`} style={{ cursor: 'pointer' }}>
-                  All
-                </li>
+                <li onClick={() => setZoneFilter('*')} className={`${zoneFilter === '*' ? 'filter-active' : ''} btn btn-light rounded-3 px-3 border`} style={{ cursor: 'pointer' }}>All</li>
+                {zoneCards.map(z => (
+                  <li key={z.id} onClick={() => setZoneFilter(`.zone-${z.zone}`)} className={`${zoneFilter === `.zone-${z.zone}` ? 'filter-active' : ''} btn btn-light rounded-3 px-3 border`} style={{ cursor: 'pointer' }}>{z.name}</li>
+                ))}
               </ul>
             </div>
-            <div className="row g-4 isotope-container" id="company-grid">
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1655876726270-2caec425d0cd?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Precision" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Cơ khí Precision
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      VSIP I, Binh Duong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.8 (124)
+            <div className="row g-4" id="company-grid-react">
+              {companyCards
+                .filter(c => zoneFilter === '*' || zoneFilter === `.zone-${c.zone}`)
+                .map(c => (
+                <div className={`col-md-6 col-lg-3 zone-${c.zone}`} key={c.id}>
+                  <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
+                    <div className="position-relative overflow-hidden rounded-top" style={{ height: '180px' }}>
+                      <img src={c.imagePath || 'https://images.unsplash.com/photo-1655876726270-2caec425d0cd?auto=format&fit=crop&q=80&w=400'} className="card-img-top w-100 h-100 object-fit-cover" alt={c.name} />
+                      <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
+                        <i className="bi bi-check-circle-fill" /> Verified
                       </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
+                    </div>
+                    <div className="card-body p-3">
+                      <h6 className="card-title fw-bold text-dark mb-1">{c.name}</h6>
+                      <div className="text-muted small mb-2">
+                        <i className="bi bi-geo-alt" /> {c.address}
+                      </div>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <div className="small text-warning fw-bold">
+                          <i className="bi bi-star-fill" /> {c.rating} ({c.reviewCount})
+                        </div>
+                        <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
+                          Details <i className="bi bi-arrow-right" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Chemicals" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Vietnam Parkerizing
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      VSIP I, Binh Duong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.5 (89)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Estec" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Estec Vina
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      VSIP II, Binh Duong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.9 (210)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-vsip" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-vsip' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Esquel" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Esquel Garment
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      VSIP I, Binh Duong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.7 (156)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="TechVina" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      TechVina Electronics
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      My Phuoc 3
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.9 (256)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1595246140625-573b715d11dc?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Kumho" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Kumho Tire
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      My Phuoc 3
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.6 (300)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1580983218765-f663bec07b37?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Tatung" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Tatung Vietnam
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      My Phuoc 2
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.5 (112)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-myphuoc" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-myphuoc' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Orion" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Orion Food Vina
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      My Phuoc 2
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.9 (500)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Steel" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Thép Công nghiệp Việt
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      KCN Đồng Nai
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.6 (178)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Schaeffler" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Schaeffler Vietnam
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      Amata, Dong Nai
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.8 (210)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Toshiba" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Toshiba Industrial
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      Amata, Dong Nai
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.7 (190)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-amata" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-amata' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Hyosung" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Hyosung Vietnam
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      Nhon Trach 5
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.8 (310)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1574689211272-bc14e289e223?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Chemicals" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Hóa chất Đông Nam Á
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      VSIP Hai Phong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.7 (89)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="LG" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      LG Electronics
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      Trang Due, Hai Phong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.9 (500)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1558486012-817176f84c6d?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Bridgestone" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Bridgestone Tire
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      Dinh Vu, Hai Phong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.8 (220)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-3 isotope-item zone-hp" style={{ display: zoneFilter === '*' || zoneFilter === '.zone-hp' ? '' : 'none' }}>
-                <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
-                  <div className="position-relative overflow-hidden rounded-top" style={{ 'height': '180px' }}>
-                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400" className="card-img-top w-100 h-100 object-fit-cover" alt="Regina" />
-                    <div className="position-absolute top-0 end-0 m-2 px-2 py-1 bg-success text-white rounded small fw-bold">
-                      <i className="bi bi-check-circle-fill" />
-                      Verified
-                    </div>
-                  </div>
-                  <div className="card-body p-3">
-                    <h6 className="card-title fw-bold text-dark mb-1">
-                      Regina Miracle
-                    </h6>
-                    <div className="text-muted small mb-2">
-                      <i className="bi bi-geo-alt" />
-                      VSIP Hai Phong
-                    </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                      <div className="small text-warning fw-bold">
-                        <i className="bi bi-star-fill" />
-                        4.6 (150)
-                      </div>
-                      <Link to="/company-detail" className="text-primary small fw-bold text-decoration-none">
-                        Chi tiết
-                        <i className="bi bi-arrow-right" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
             <div className="mt-4 d-md-none">
               <button className="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
-                Xem tất cả
-                <i className="bi bi-arrow-right" />
+                View All <i className="bi bi-arrow-right" />
               </button>
             </div>
           </div>
