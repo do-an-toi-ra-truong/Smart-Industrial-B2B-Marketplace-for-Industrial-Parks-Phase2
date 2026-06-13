@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
-import { fetchProductById, updateProduct, deleteProduct } from '../../../api/productApi'
+import { fetchProductById, updateProduct, deleteProduct, uploadProductImage, deleteProductImage } from '../../../api/productApi'
 import { fetchPublicIndustries } from '../../../api/publicCatalogApi'
 import type { ProductResponse, UpdateProductRequest } from '../../../api/productApi'
 import type { IndustryCatalogResponse } from '../../../api/publicCatalogApi'
@@ -16,10 +16,18 @@ const ProductEdit = () => {
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState('')
     const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
+    const [dragActive, setDragActive] = useState(false)
 
     // ── Form State ──
     const [form, setForm] = useState({
-        name: '', description: '', quantity: 0, status: 'ACTIVE', industryId: 0,
+        name: '',
+        description: '',
+        quantity: 0,
+        status: 'ACTIVE',
+        industryId: 0,
+        category: 'electronics',
+        badge: '',
+        isFeatured: false
     })
 
     // ── Load product data ──
@@ -39,6 +47,9 @@ const ProductEdit = () => {
                 quantity: p.quantity || 0,
                 status: p.status || 'ACTIVE',
                 industryId: p.industryId || 0,
+                category: p.category || 'electronics',
+                badge: p.badge || '',
+                isFeatured: p.isFeatured || false
             })
         }).catch(err => {
             setError(err instanceof Error ? err.message : 'Failed to load product')
@@ -56,6 +67,9 @@ const ProductEdit = () => {
                 quantity: form.quantity,
                 status: form.status,
                 industryId: form.industryId,
+                category: form.category,
+                badge: form.badge || undefined,
+                isFeatured: form.isFeatured
             }
             const updated = await updateProduct(Number(id), updates)
             setProduct(updated)
@@ -64,6 +78,56 @@ const ProductEdit = () => {
             showToast(err instanceof Error ? err.message : 'Failed to update product', 'error')
         } finally {
             setSaving(false)
+        }
+    }
+
+    // ── Drag & Drop Helpers ──
+    const handleDrag = (e: React.DragEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (e.type === "dragenter" || e.type === "dragover") {
+            setDragActive(true)
+        } else if (e.type === "dragleave") {
+            setDragActive(false)
+        }
+    }
+
+    const handleDrop = async (e: React.DragEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setDragActive(false)
+        if (e.dataTransfer.files && e.dataTransfer.files[0] && id) {
+            const file = e.dataTransfer.files[0]
+            await uploadProductImageFile(file)
+        }
+    }
+
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0] && id) {
+            const file = e.target.files[0]
+            await uploadProductImageFile(file)
+        }
+    }
+
+    const uploadProductImageFile = async (file: File) => {
+        if (!id) return
+        try {
+            const updated = await uploadProductImage(Number(id), file)
+            setProduct(updated)
+            showToast('Image uploaded successfully', 'success')
+        } catch (err: unknown) {
+            showToast(err instanceof Error ? err.message : 'Failed to upload image', 'error')
+        }
+    }
+
+    const handleRemoveImage = async () => {
+        if (!id || !window.confirm('Are you sure you want to remove this image?')) return
+        try {
+            await deleteProductImage(Number(id))
+            setProduct(product ? { ...product, imagePath: undefined } : null)
+            showToast('Image removed successfully', 'success')
+        } catch (err: unknown) {
+            showToast(err instanceof Error ? err.message : 'Failed to remove image', 'error')
         }
     }
 
@@ -213,6 +277,95 @@ const ProductEdit = () => {
                                             value={form.quantity}
                                             onChange={e => setForm({ ...form, quantity: Number(e.target.value) })}
                                         />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-medium">Category</label>
+                                        <select className="form-select"
+                                            value={form.category}
+                                            onChange={e => setForm({ ...form, category: e.target.value })}
+                                        >
+                                            <option value="electronics">Electronics</option>
+                                            <option value="machinery">Machinery</option>
+                                            <option value="raw-materials">Raw Materials</option>
+                                            <option value="chemicals">Chemicals</option>
+                                        </select>
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label fw-medium">Badge</label>
+                                        <select className="form-select"
+                                            value={form.badge}
+                                            onChange={e => setForm({ ...form, badge: e.target.value })}
+                                        >
+                                            <option value="">None</option>
+                                            <option value="hot">Hot</option>
+                                            <option value="top">Top</option>
+                                            <option value="new">New</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-check form-switch mb-2">
+                                        <input className="form-check-input" type="checkbox" role="switch" id="isFeaturedSwitch"
+                                            checked={form.isFeatured}
+                                            onChange={e => setForm({ ...form, isFeatured: e.target.checked })}
+                                        />
+                                        <label className="form-check-label fw-medium" htmlFor="isFeaturedSwitch">Featured Product</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Product Image Card */}
+                            <div className="card mb-3" style={{ borderRadius: 12, border: '1px solid #e5e7eb' }}>
+                                <div className="card-body p-4">
+                                    <h5 className="mb-3" style={{ fontWeight: 600 }}>
+                                        <i className="bi bi-image me-2 text-primary" />
+                                        Product Image
+                                    </h5>
+                                    <div
+                                        className={`upload-zone text-center p-3 border border-2 border-dashed rounded-3 ${dragActive ? 'border-primary bg-light' : 'border-muted'}`}
+                                        onDragEnter={handleDrag}
+                                        onDragLeave={handleDrag}
+                                        onDragOver={handleDrag}
+                                        onDrop={handleDrop}
+                                        style={{ cursor: 'pointer', transition: 'all 0.3s' }}
+                                    >
+                                        {product?.imagePath ? (
+                                            <div className="image-preview">
+                                                <img
+                                                    src={product.imagePath.startsWith('http') ? product.imagePath : `/${product.imagePath}`}
+                                                    alt="Product"
+                                                    className="img-thumbnail mb-2"
+                                                    style={{ maxHeight: '120px', objectFit: 'cover' }}
+                                                />
+                                                <div>
+                                                    <button
+                                                        type="button"
+                                                        className="btn btn-sm btn-outline-danger me-2"
+                                                        onClick={handleRemoveImage}
+                                                    >
+                                                        <i className="bi bi-trash" /> Remove
+                                                    </button>
+                                                    <label className="btn btn-sm btn-primary mb-0">
+                                                        <i className="bi bi-arrow-repeat" /> Change
+                                                        <input
+                                                            type="file"
+                                                            className="d-none"
+                                                            accept="image/*"
+                                                            onChange={handleFileChange}
+                                                        />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <label className="mb-0 w-100 py-2" style={{ cursor: 'pointer' }}>
+                                                <i className="bi bi-cloud-arrow-up text-primary" style={{ fontSize: '2rem' }} />
+                                                <p className="mt-2 mb-1 fw-medium" style={{ fontSize: 13 }}>Drag & Drop or click to browse</p>
+                                                <input
+                                                    type="file"
+                                                    className="d-none"
+                                                    accept="image/*"
+                                                    onChange={handleFileChange}
+                                                />
+                                            </label>
+                                        )}
                                     </div>
                                 </div>
                             </div>

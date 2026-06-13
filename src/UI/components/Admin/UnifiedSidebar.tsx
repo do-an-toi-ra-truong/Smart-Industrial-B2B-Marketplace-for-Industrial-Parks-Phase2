@@ -25,6 +25,12 @@ const menuConfig: MenuItem[] = [
         allowedRoles: ['COMPANY_ADMIN'],
     },
     {
+        label: 'Company Profile',
+        path: '/admin/company-profile',
+        icon: 'bi bi-card-text',
+        allowedRoles: ['COMPANY_ADMIN'],
+    },
+    {
         label: 'Users',
         path: '/admin/users',
         icon: 'ph-light ph-users-three',
@@ -63,6 +69,12 @@ const menuConfig: MenuItem[] = [
         label: 'Dashboard',
         path: '/admin/ip-dashboard',
         icon: 'ph-light ph-squares-four',
+        allowedRoles: ['IP_ADMIN'],
+    },
+    {
+        label: 'My Industrial Zone',
+        path: '/admin/ip-showcase',
+        icon: 'bi bi-grid-3x3-gap-fill',
         allowedRoles: ['IP_ADMIN'],
     },
     {

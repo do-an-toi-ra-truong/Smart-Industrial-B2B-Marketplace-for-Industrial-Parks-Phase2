@@ -1,10 +1,23 @@
-
+(() => {
     // ── Open modals ──
-    document.getElementById('btn-add-company').onclick = () => document.getElementById('add-company-modal').classList.add('show');
-    document.getElementById('btn-export').onclick = () => showToast('success', 'Export report generated.');
+    const btnAddCompany = document.getElementById('btn-add-company');
+    if (btnAddCompany) {
+      btnAddCompany.onclick = () => {
+        const modal = document.getElementById('add-company-modal');
+        if (modal) modal.classList.add('show');
+      };
+    }
+
+    const btnExport = document.getElementById('btn-export');
+    if (btnExport) {
+      btnExport.onclick = () => showToast('success', 'Export report generated.');
+    }
 
     // ── Close modals ──
-    function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+    function closeModal(id) { 
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('show'); 
+    }
     document.querySelectorAll('.ia-modal-overlay').forEach(overlay => {
       overlay.addEventListener('click', function (e) {
         if (e.target === this) this.classList.remove('show');
@@ -16,7 +29,8 @@
       document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.main-panel').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById(panelId).classList.add('active');
+      const panel = document.getElementById(panelId);
+      if (panel) panel.classList.add('active');
       // Re-render charts when statistics panel is shown
       if (panelId === 'panel-statistics') {
         setTimeout(() => {
@@ -32,7 +46,8 @@
 
     // ── Company table filter ──
     function filterCompanyTable(query) {
-      const status = document.getElementById('filter-status').value.toLowerCase();
+      const filterStatus = document.getElementById('filter-status');
+      const status = filterStatus ? filterStatus.value.toLowerCase() : '';
       const q = query.toLowerCase();
       document.querySelectorAll('#company-tbody tr').forEach(row => {
         const name = (row.dataset.name || '').toLowerCase();
@@ -45,63 +60,85 @@
     // ── Approval actions ──
     function approveItem(id, name) {
       const el = document.getElementById(id);
-      el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
-      el.style.transition = 'all 0.3s ease';
-      setTimeout(() => el.remove(), 300);
+      if (el) {
+        el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
+        el.style.transition = 'all 0.3s ease';
+        setTimeout(() => el.remove(), 300);
+      }
       showToast('success', `✓ ${name} has been approved & granted operating permission.`);
     }
     function rejectItem(id, name) {
       const el = document.getElementById(id);
-      el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
-      el.style.transition = 'all 0.3s ease';
-      setTimeout(() => el.remove(), 300);
+      if (el) {
+        el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
+        el.style.transition = 'all 0.3s ease';
+        setTimeout(() => el.remove(), 300);
+      }
       showToast('danger', `✗ ${name} has been rejected.`);
     }
 
     // ── Verify modal ──
     function openVerifyModal(company, taxId, licenseId, admin, email) {
-      document.getElementById('v-company').textContent = company;
-      document.getElementById('v-taxid').textContent = taxId;
-      document.getElementById('v-license-id').textContent = licenseId;
-      document.getElementById('v-admin').textContent = admin;
-      document.getElementById('v-email').textContent = email;
-      document.getElementById('verify-modal').classList.add('show');
+      const vc = document.getElementById('v-company');
+      const vt = document.getElementById('v-taxid');
+      const vl = document.getElementById('v-license-id');
+      const va = document.getElementById('v-admin');
+      const ve = document.getElementById('v-email');
+      const vm = document.getElementById('verify-modal');
+      if (vc) vc.textContent = company;
+      if (vt) vt.textContent = taxId;
+      if (vl) vl.textContent = licenseId;
+      if (va) va.textContent = admin;
+      if (ve) ve.textContent = email;
+      if (vm) vm.classList.add('show');
     }
 
     // ── Permission modal ──
     function openPermModal(companyName) {
-      document.getElementById('perm-company-name').value = companyName;
-      document.getElementById('perm-modal').classList.add('show');
+      const input = document.getElementById('perm-company-name');
+      const modal = document.getElementById('perm-modal');
+      if (input) input.value = companyName;
+      if (modal) modal.classList.add('show');
     }
 
     // ── Edit Admin modal ──
     function openEditAdminModal(name, email, company, role) {
-      document.getElementById('edit-admin-name').value = name;
-      document.getElementById('edit-admin-email').value = email;
-      document.getElementById('edit-admin-company').value = company;
-      document.getElementById('edit-admin-role').value = role;
-      document.getElementById('edit-admin-modal').classList.add('show');
+      const ean = document.getElementById('edit-admin-name');
+      const eae = document.getElementById('edit-admin-email');
+      const eac = document.getElementById('edit-admin-company');
+      const ear = document.getElementById('edit-admin-role');
+      const eam = document.getElementById('edit-admin-modal');
+      if (ean) ean.value = name;
+      if (eae) eae.value = email;
+      if (eac) eac.value = company;
+      if (ear) ear.value = role;
+      if (eam) eam.classList.add('show');
     }
 
     // ── Admin approval actions ──
     function approveAdminReq(id, name) {
       const el = document.getElementById(id);
-      el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
-      el.style.transition = 'all 0.3s ease';
-      setTimeout(() => el.remove(), 300);
+      if (el) {
+        el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
+        el.style.transition = 'all 0.3s ease';
+        setTimeout(() => el.remove(), 300);
+      }
       showToast('success', `✓ ${name} approved as Company Admin & permissions granted.`);
     }
     function rejectAdminReq(id, name) {
       const el = document.getElementById(id);
-      el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
-      el.style.transition = 'all 0.3s ease';
-      setTimeout(() => el.remove(), 300);
+      if (el) {
+        el.style.opacity = '0'; el.style.transform = 'scale(0.9)';
+        el.style.transition = 'all 0.3s ease';
+        setTimeout(() => el.remove(), 300);
+      }
       showToast('danger', `✗ ${name} admin request rejected.`);
     }
 
     // ── Admin table filter ──
     function filterAdminTable(query) {
-      const status = document.getElementById('filter-admin-status').value.toLowerCase();
+      const filterStatus = document.getElementById('filter-admin-status');
+      const status = filterStatus ? filterStatus.value.toLowerCase() : '';
       const q = query.toLowerCase();
       document.querySelectorAll('#admin-tbody tr').forEach(row => {
         const name = (row.dataset.name || '').toLowerCase();
@@ -115,12 +152,16 @@
     let toastTimer;
     function showToast(type, text) {
       const toast = document.getElementById('ia-toast');
+      if (!toast) return;
       const icon = toast.querySelector('.ia-toast-icon');
       toast.className = `ia-toast ${type}`;
-      document.getElementById('ia-toast-text').textContent = text;
-      icon.className = type === 'success'
-        ? 'bi bi-check-circle-fill ia-toast-icon'
-        : 'bi bi-x-circle-fill ia-toast-icon';
+      const toastText = document.getElementById('ia-toast-text');
+      if (toastText) toastText.textContent = text;
+      if (icon) {
+        icon.className = type === 'success'
+          ? 'bi bi-check-circle-fill ia-toast-icon'
+          : 'bi bi-x-circle-fill ia-toast-icon';
+      }
       toast.classList.add('show');
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
@@ -151,6 +192,8 @@
 
     let txnChartInstance;
     function renderTxnChart(data) {
+      const chartEl = document.getElementById('txn-chart');
+      if (!chartEl || typeof ApexCharts === 'undefined') return;
       const opts = {
         series: [
           { name: 'Inbound', data: data.inbound },
@@ -192,7 +235,7 @@
         tooltip: { y: { formatter: v => '₫' + v.toFixed(2) + 'B' } }
       };
       if (txnChartInstance) txnChartInstance.destroy();
-      txnChartInstance = new ApexCharts(document.getElementById('txn-chart'), opts);
+      txnChartInstance = new ApexCharts(chartEl, opts);
       txnChartInstance.render();
     }
 
@@ -211,7 +254,9 @@
     ];
 
     function initPieChart() {
-      const pieCtx = document.getElementById('industry-pie').getContext('2d');
+      const pieEl = document.getElementById('industry-pie');
+      if (!pieEl || typeof Chart === 'undefined') return;
+      const pieCtx = pieEl.getContext('2d');
       new Chart(pieCtx, {
         type: 'doughnut',
         data: {
@@ -231,22 +276,26 @@
       });
 
       const legend = document.getElementById('pie-legend');
-      legend.innerHTML = '';
-      pieData.forEach(d => {
-        const row = document.createElement('div');
-        row.style.cssText = 'display:flex;align-items:center;gap:8px;';
-        row.innerHTML = `
-          <span class="legend-dot" style="background:${d.color}"></span>
-          <span style="flex:1;font-size:12.5px;font-weight:600;color:var(--heading-color);">${d.label}</span>
-          <span style="font-size:13px;font-weight:700;color:var(--heading-color);">${d.value}%</span>
-        `;
-        legend.appendChild(row);
-      });
+      if (legend) {
+        legend.innerHTML = '';
+        pieData.forEach(d => {
+          const row = document.createElement('div');
+          row.style.cssText = 'display:flex;align-items:center;gap:8px;';
+          row.innerHTML = `
+            <span class="legend-dot" style="background:${d.color}"></span>
+            <span style="flex:1;font-size:12.5px;font-weight:600;color:var(--heading-color);">${d.label}</span>
+            <span style="font-size:13px;font-weight:700;color:var(--heading-color);">${d.value}%</span>
+          `;
+          legend.appendChild(row);
+        });
+      }
     }
 
     // ── Goods Flow Bar (Chart.js) ──
     function initGoodsChart() {
-      const goodsCtx = document.getElementById('goods-bar').getContext('2d');
+      const goodsEl = document.getElementById('goods-bar');
+      if (!goodsEl || typeof Chart === 'undefined') return;
+      const goodsCtx = goodsEl.getContext('2d');
       new Chart(goodsCtx, {
         type: 'bar',
         data: {
@@ -288,6 +337,8 @@
 
     // ── Revenue Trend Line (ApexCharts Area) ──
     function initRevenueTrend() {
+      const trendEl = document.getElementById('revenue-trend-chart');
+      if (!trendEl || typeof ApexCharts === 'undefined') return;
       const opts = {
         series: [{
           name: 'Revenue',
@@ -312,23 +363,42 @@
         legend: { position: 'top', horizontalAlign: 'right', labels: { colors: textColor() } },
         tooltip: { y: { formatter: v => '₫' + v.toFixed(1) + 'B' } }
       };
-      new ApexCharts(document.getElementById('revenue-trend-chart'), opts).render();
+      new ApexCharts(trendEl, opts).render();
     }
     let chartsInitialized = false;
 
     // Observer to detect when statistics panel becomes visible
     const statsPanel = document.getElementById('panel-statistics');
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.target.classList.contains('active') && !chartsInitialized) {
-          chartsInitialized = true;
-          setTimeout(() => {
-            renderTxnChart(txnMonthly);
-            initPieChart();
-            initGoodsChart();
-            initRevenueTrend();
-          }, 50);
-        }
+    if (statsPanel) {
+      const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+          if (mutation.target.classList.contains('active') && !chartsInitialized) {
+            chartsInitialized = true;
+            setTimeout(() => {
+              renderTxnChart(txnMonthly);
+              initPieChart();
+              initGoodsChart();
+              initRevenueTrend();
+            }, 50);
+          }
+        });
       });
-    });
-    observer.observe(statsPanel, { attributes: true, attributeFilter: ['class'] });
+      observer.observe(statsPanel, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    // Expose functions to window
+    window.closeModal = closeModal;
+    window.switchMainTab = switchMainTab;
+    window.toggleAllChecks = toggleAllChecks;
+    window.filterCompanyTable = filterCompanyTable;
+    window.approveItem = approveItem;
+    window.rejectItem = rejectItem;
+    window.openVerifyModal = openVerifyModal;
+    window.openPermModal = openPermModal;
+    window.openEditAdminModal = openEditAdminModal;
+    window.approveAdminReq = approveAdminReq;
+    window.rejectAdminReq = rejectAdminReq;
+    window.filterAdminTable = filterAdminTable;
+    window.showToast = showToast;
+    window.updateTxnChart = updateTxnChart;
+})();

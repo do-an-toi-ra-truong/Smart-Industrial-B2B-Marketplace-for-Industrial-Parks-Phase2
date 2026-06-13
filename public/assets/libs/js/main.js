@@ -1107,8 +1107,9 @@
     }
 
     // 2. Initialize Hero Slider (Top)
-    if (document.querySelector('.hero-swiper')) {
-      new Swiper('.hero-swiper', {
+    const heroSwiperEl = document.querySelector('.hero-swiper');
+    if (heroSwiperEl && typeof Swiper !== 'undefined') {
+      const swiperConfig = {
         loop: true,
         speed: 1000,
         effect: 'fade',
@@ -1118,44 +1119,58 @@
         autoplay: {
           delay: 5000,
           disableOnInteraction: false,
-        },
-        pagination: {
-          el: '.swiper-pagination',
+        }
+      };
+      if (heroSwiperEl.querySelector('.swiper-pagination')) {
+        swiperConfig.pagination = {
+          el: heroSwiperEl.querySelector('.swiper-pagination'),
           clickable: true,
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
+        };
+      }
+      if (heroSwiperEl.querySelector('.swiper-button-next') && heroSwiperEl.querySelector('.swiper-button-prev')) {
+        swiperConfig.navigation = {
+          nextEl: heroSwiperEl.querySelector('.swiper-button-next'),
+          prevEl: heroSwiperEl.querySelector('.swiper-button-prev'),
+        };
+      }
+      try {
+        new Swiper(heroSwiperEl, swiperConfig);
+      } catch (e) {
+        console.warn('Swiper initialization failed for .hero-swiper:', e);
+      }
     }
 
     // 3. Initialize Brand Carousel (Bottom)
-    if (document.querySelector('.brand-swiper')) {
-      new Swiper('.brand-swiper', {
-        loop: true,
-        speed: 600,
-        autoplay: {
-          delay: 2500,
-          disableOnInteraction: false,
-        },
-        slidesPerView: 2,
-        spaceBetween: 30,
-        breakpoints: {
-          576: {
-            slidesPerView: 3,
-            spaceBetween: 40,
+    const brandSwiperEl = document.querySelector('.brand-swiper');
+    if (brandSwiperEl && typeof Swiper !== 'undefined') {
+      try {
+        new Swiper(brandSwiperEl, {
+          loop: true,
+          speed: 600,
+          autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
           },
-          768: {
-            slidesPerView: 4,
-            spaceBetween: 50,
+          slidesPerView: 2,
+          spaceBetween: 30,
+          breakpoints: {
+            576: {
+              slidesPerView: 3,
+              spaceBetween: 40,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 50,
+            },
+            992: {
+              slidesPerView: 6,
+              spaceBetween: 60,
+            },
           },
-          992: {
-            slidesPerView: 6,
-            spaceBetween: 60,
-          },
-        },
-      });
+        });
+      } catch (e) {
+        console.warn('Swiper initialization failed for .brand-swiper:', e);
+      }
     }
   });
 

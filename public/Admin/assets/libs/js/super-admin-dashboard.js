@@ -1,9 +1,11 @@
+(() => {
+    function setRange(el) { 
+      document.querySelectorAll('.chart-range .range-btn, .section-card-header .range-btn').forEach(b => b.classList.remove('active')); 
+      el.classList.add('active'); 
+    }
 
-    function setRange(el) { document.querySelectorAll('.chart-range .range-btn, .section-card-header .range-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
-
-    // Transaction volume chart
     const txCtx = document.getElementById('transaction-chart');
-    if (txCtx) {
+    if (txCtx && typeof Chart !== 'undefined') {
       new Chart(txCtx, {
         type: 'line',
         data: {
@@ -22,22 +24,27 @@
       });
     }
 
-    // Industry pie
     const pieCtx = document.getElementById('industry-pie');
     const pieColors = ['#4f46e5', '#10b981', '#f59e0b', '#3b82f6', '#ef4444', '#6b7280'];
     const pieLabels = ['Mechanical', 'Electronics', 'Chemicals', 'Logistics', 'Construction', 'Other'];
     const pieData = [38, 29, 16, 11, 4, 2];
-    if (pieCtx) {
+    if (pieCtx && typeof Chart !== 'undefined') {
       new Chart(pieCtx, {
         type: 'doughnut',
         data: { labels: pieLabels, datasets: [{ data: pieData, backgroundColor: pieColors, borderWidth: 2, borderColor: 'var(--card-bg)' }] },
         options: { responsive: false, cutout: '68%', plugins: { legend: { display: false } } }
       });
       const legend = document.getElementById('pie-legend');
-      pieLabels.forEach((l, i) => {
-        legend.innerHTML += `<div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px;">
-          <div style="display:flex;align-items:center;gap:7px;"><span style="width:10px;height:10px;border-radius:50%;background:${pieColors[i]};display:inline-block;flex-shrink:0;"></span>${l}</div>
-          <strong style="color:var(--heading-color);">${pieData[i]}%</strong>
-        </div>`;
-      });
+      if (legend) {
+        legend.innerHTML = '';
+        pieLabels.forEach((l, i) => {
+          legend.innerHTML += `<div style="display:flex;align-items:center;justify-content:space-between;font-size:12.5px;">
+            <div style="display:flex;align-items:center;gap:7px;"><span style="width:10px;height:10px;border-radius:50%;background:${pieColors[i]};display:inline-block;flex-shrink:0;"></span>${l}</div>
+            <strong style="color:var(--heading-color);">${pieData[i]}%</strong>
+          </div>`;
+        });
+      }
     }
+
+    window.setRange = setRange;
+})();
