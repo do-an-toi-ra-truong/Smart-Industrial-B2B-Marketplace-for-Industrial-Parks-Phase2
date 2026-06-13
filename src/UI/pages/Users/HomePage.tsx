@@ -259,7 +259,7 @@ const HomePage = () => {
               {zoneCards.map(z => (
                 <div className="col-lg-3 col-md-6" key={z.id}>
                   <div className="card h-80 shadow-sm zone-filter-card" style={{ cursor: 'default' }}>
-                    <div className="position-relative zone-btn" onClick={() => setZoneFilter(`.zone-${z.zone}`)} style={{ height: '240px', overflow: 'hidden', cursor: 'pointer' }}>
+                    <div className="position-relative zone-btn" onClick={() => { setZoneFilter(`.zone-${z.zone}`); document.getElementById('company-results')?.scrollIntoView({ behavior: 'smooth' }); }} style={{ height: '240px', overflow: 'hidden', cursor: 'pointer' }}>
                       <img src={z.imagePath || 'assets/images/kcnVsipBD.png'} className="card-img-top w-100 h-100" style={{ objectFit: 'cover' }} alt={z.name} />
                       <div className="position-absolute bottom-0 start-0 w-100 p-3" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
                         <h3 className="text-white fw-bold mb-0">{z.name}</h3>
@@ -267,7 +267,7 @@ const HomePage = () => {
                       </div>
                     </div>
                     <div className="card-body text-center">
-                      <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => setZoneFilter(`.zone-${z.zone}`)}>
+                      <button className="btn btn-outline-primary rounded-pill px-4 zone-btn" onClick={() => { setZoneFilter(`.zone-${z.zone}`); document.getElementById('company-results')?.scrollIntoView({ behavior: 'smooth' }); }}>
                         View Companies
                       </button>
                     </div>
@@ -293,11 +293,11 @@ const HomePage = () => {
                 ))}
               </ul>
             </div>
-            <div className="row g-4 isotope-container" id="company-grid">
+            <div className="row g-4" id="company-grid-react">
               {companyCards
                 .filter(c => zoneFilter === '*' || zoneFilter === `.zone-${c.zone}`)
                 .map(c => (
-                <div className={`col-md-6 col-lg-3 isotope-item zone-${c.zone}`} key={c.id}>
+                <div className={`col-md-6 col-lg-3 zone-${c.zone}`} key={c.id}>
                   <div className="card h-100 border rounded-3 shadow-sm hover-lift group">
                     <div className="position-relative overflow-hidden rounded-top" style={{ height: '180px' }}>
                       <img src={c.imagePath || 'https://images.unsplash.com/photo-1655876726270-2caec425d0cd?auto=format&fit=crop&q=80&w=400'} className="card-img-top w-100 h-100 object-fit-cover" alt={c.name} />
