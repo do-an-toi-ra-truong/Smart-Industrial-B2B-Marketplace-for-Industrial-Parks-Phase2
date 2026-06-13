@@ -1,7 +1,38 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchNewProducts, fetchFeaturedProducts } from '../../../api/productApi';
+import type { ProductResponse } from '../../../api/productApi';
+import { fetchZoneCards, fetchCompanyCards } from '../../../api/metadataApi';
+import type { MetadataResponse } from '../../../api/metadataApi';
 
 const HomePage = () => {
+  // ── API States ──
+  const [newProducts, setNewProducts] = useState<ProductResponse[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<ProductResponse[]>([]);
+  const [zoneCards, setZoneCards] = useState<MetadataResponse[]>([]);
+  const [companyCards, setCompanyCards] = useState<MetadataResponse[]>([]);
+
+  // ── Fetch Data ──
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [newProds, featProds, zones, companies] = await Promise.all([
+          fetchNewProducts(),
+          fetchFeaturedProducts(),
+          fetchZoneCards(),
+          fetchCompanyCards()
+        ]);
+        setNewProducts(newProds || []);
+        setFeaturedProducts(featProds || []);
+        setZoneCards(zones || []);
+        setCompanyCards(companies || []);
+      } catch (err) {
+        console.error("Error loading HomePage data:", err);
+      }
+    };
+    loadData();
+  }, []);
+
   // ── Hero Slider ──
   const [heroIndex, setHeroIndex] = useState(0);
   const heroSlides = 2; // total slides
